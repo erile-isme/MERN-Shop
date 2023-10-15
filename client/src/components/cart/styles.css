@@ -1,0 +1,11 @@
+.cart {
+  margin-top: 5rem;
+}
+
+/**************** MEDIA QUERIES (MEDIUM DEVICES - TABLETS) ************** */
+@media screen and (max-width: 1024px) {
+}
+
+/**************** MEDIA QUERIES (SMALL DEVICES - PHONES) ************** */
+@media screen and (max-width: 600px) {
+}

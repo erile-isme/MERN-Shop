@@ -1,0 +1,90 @@
+.navbar-container {
+  height: 4rem;
+  width: 100%;
+  top: 0;
+  display: grid;
+  grid-template-columns: 33% 34% 33%;
+  position: fixed;
+  background-color: white;
+  z-index: 100; /* make navbar stays above all content */
+}
+.navbar-right {
+  align-items: center;
+  cursor: pointer;
+  z-index: 999;
+  transition: var(--transition);
+}
+.navbar-right.active {
+  transform: translate(165px, 0);
+  transition: var(--transition);
+}
+.navbar-close.active {
+  transform: translate(165px, 0);
+  transition: var(--transition);
+  animation: 2s fadeIn;
+}
+.navbar-menu {
+  background-color: var(--color-secondary);
+  width: 15%;
+  height: 100vh;
+  position: fixed;
+  top: 0;
+  left: -100%;
+  z-index: 998;
+  transition: var(--transition);
+}
+.navbar-menu.active {
+  transition: var(--transition);
+  left: 0;
+}
+.navbar-link {
+  display: flex;
+  margin-top: 2rem;
+  margin-left: 2rem;
+}
+.navbar-menulist {
+  line-height: 2;
+  font-size: 20px;
+}
+.navbar-search {
+  display: flex;
+}
+.navbar-text {
+  justify-content: center;
+  align-items: center;
+}
+.brandname {
+  font-size: 30px;
+  font-weight: 900;
+  padding-top: 0.25rem;
+  align-items: center;
+  text-align: center;
+  cursor: pointer;
+}
+.navbar-left {
+  padding: 1rem;
+  display: flex;
+  gap: 1rem;
+  justify-content: flex-end;
+  cursor: pointer;
+}
+.sidebar-link {
+  color: rgb(74, 74, 74);
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  transition: var(--transition);
+}
+.sidebar-link:hover {
+  font-size: 23px;
+  font-weight: 600;
+  transition: var(--transition);
+}
+
+/**************** MEDIA QUERIES (MEDIUM DEVICES - TABLETS) ************** */
+@media screen and (max-width: 1024px) {
+}
+
+/**************** MEDIA QUERIES (SMALL DEVICES - PHONES) ************** */
+@media screen and (max-width: 600px) {
+}

@@ -1,0 +1,45 @@
+* {
+  margin: 0;
+  border: 0;
+  padding: 0;
+  outline: 0;
+  box-sizing: border-box;
+  list-style: none;
+  text-decoration: none;
+  font-family: 'Yrsa', serif;
+}
+
+:root {
+  --color-bg: rgb(225, 228, 221);
+  --color-white: #fff;
+  --color-black: #000;
+  --color-secondary: rgb(222, 222, 222);
+  --color-card: rgb(153, 223, 245);
+  --color-small: rgb(167, 167, 167);
+
+  --transition: all 400ms ease;
+
+  --standard-width: 100%;
+  --container-width-lg: 100%;
+  --container-width-med: 100%;
+  --container-width-sm: 100%;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+::-webkit-scrollbar {
+  display: none; /* no scrollbar */
+}
+
+body {
+  line-height: 1.7;
+}
+
+.hyperlink-item a {
+  color: black;
+}
+.hyperlink-item:hover {
+  text-decoration: underline;
+}

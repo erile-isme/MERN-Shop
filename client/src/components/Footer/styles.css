@@ -1,0 +1,46 @@
+.footer-container {
+  height: 60vh;
+  display: flex;
+  font-size: 25px;
+  margin-left: 3rem;
+  margin-right: 3rem;
+  justify-content: center;
+  padding-top: 8rem;
+  gap: 3rem;
+}
+.footer-info {
+  width: 36%;
+}
+.footer-links {
+  width: 37%;
+}
+.footer-contacts {
+  width: 27%;
+}
+.useful-links {
+  flex: 1;
+  display: flex;
+  gap: 1rem;
+}
+.account {
+  flex: 1;
+}
+.links {
+  flex: 1;
+}
+.footer-contact {
+  display: flex;
+  gap: 1rem;
+  align-items: center;
+}
+.footer-title {
+  font-weight: 800;
+  font-size: 40px;
+}
+.footer-social {
+  margin-top: 1rem;
+  display: flex;
+  gap: 1rem;
+}
+
+

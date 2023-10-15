@@ -1,0 +1,89 @@
+import React, { useState, useEffect } from 'react';
+import NavigateBeforeRoundedIcon from '@material-ui/icons/NavigateBeforeRounded';
+import NavigateNextRoundedIcon from '@material-ui/icons/NavigateNextRounded';
+import './styles.css';
+import { useSelector } from 'react-redux';
+
+const Slider = () => {
+  const [currState, setCurrState] = useState(0);
+  const productLists = useSelector((state) => state.products);
+  const productFeature = productLists.filter((p) => p.isSlider === true);
+  const product = productFeature.filter((p) => p === productFeature[currState]);
+  const length = productFeature.length - 1;
+
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      if (currState === length) {
+        setCurrState(0);
+      } else {
+        setCurrState(currState + 1);
+      }
+    }, 5000);
+
+    return () => clearTimeout(timer);
+  }, [currState, length]);
+
+  const onClickNext = () => {
+    if (currState === length) {
+      setCurrState(0);
+    } else {
+      setCurrState(currState + 1);
+    }
+  };
+  const onClickBack = () => {
+    if (currState === 0) {
+      setCurrState(length);
+    } else {
+      setCurrState(currState - 1);
+    }
+  };
+
+  return (
+    <div>
+      <div className='slider-container'>
+        <div
+          className='slider-arrow left'
+          onClick={() => {
+            onClickBack(currState);
+          }}
+        >
+          <NavigateBeforeRoundedIcon />
+        </div>
+        {product.map((p) => (
+          <div key={p._id}>
+            <div className='slider-detail'>
+              <div className='slider-image'>
+                <img src={p.img} alt={p.description} />
+              </div>
+              <div className='slider-info'>
+                <h1 className='slider-title'>{p.name}</h1>
+                <div className='slider-description'>{p.description}</div>
+                <button>ENJOY NOW</button>
+              </div>
+            </div>
+            <div className='carousel-boult'>
+              {productFeature.map((p, index) => (
+                <span
+                  className={`slider-span ${
+                    currState === index ? 'active' : ''
+                  }`}
+                  key={index}
+                ></span>
+              ))}
+            </div>
+          </div>
+        ))}
+        <div
+          className='slider-arrow right'
+          onClick={() => {
+            onClickNext(currState);
+          }}
+        >
+          <NavigateNextRoundedIcon />
+        </div>
+      </div>
+    </div>
+  );
+};
+
+export default Slider;

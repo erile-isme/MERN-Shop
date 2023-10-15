@@ -1,0 +1,88 @@
+.category-container {
+  margin: 2rem;
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+  position: relative;
+  overflow: hidden;
+}
+.category-item {
+  display: flex;
+  justify-content: center;
+  object-fit: cover;
+}
+.category-body {
+  position: absolute;
+  text-align: center;
+  bottom: 0;
+  width: 450px;
+  height: 250px;
+  background-color: black;
+  opacity: 40%;
+  padding-top: 3.5rem;
+  transition: var(--transition);
+}
+.category-title {
+  font-size: 40px;
+  font-weight: 900;
+  color: var(--color-white);
+  transition: var(--transition);
+}
+.category-description {
+  font-size: 20px;
+  font-weight: 600;
+  color: var(--color-white);
+  transition: var(--transition);
+}
+.category-link {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.category-button {
+  background-color: transparent;
+  color: var(--color-white);
+  border: solid 2px var(--color-white);
+  border-radius: 5px;
+  margin-top: 0.5rem;
+  padding: 10px;
+  font-size: 22px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: var(--transition);
+}
+.category-button:hover {
+  color: var(--color-white);
+  border-color: var(--color-white);
+  font-size: 27px;
+  transition: var(--transition);
+}
+.category-body > .category-description {
+  visibility: hidden;
+  margin-top: -1rem;
+}
+.category-body > .category-button {
+  margin-top: -1rem;
+}
+.category-item img {
+  width: 450px;
+  height: 600px;
+}
+.category-body:hover {
+  opacity: 80%;
+  height: 400px;
+  padding-top: 8rem;
+}
+.category-body:hover > .category-title {
+  font-size: 50px;
+  transition: var(--transition);
+}
+.category-body:hover > .category-description {
+  visibility: visible;
+  margin-top: 0;
+  transition: var(--transition);
+}
+.category-body:hover > .category-button {
+  margin-top: 0;
+  transition: var(--transition);
+}

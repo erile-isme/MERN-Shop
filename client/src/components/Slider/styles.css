@@ -1,0 +1,103 @@
+.slider-container {
+  margin: auto;
+  margin-top: 5rem;
+  background-color: var(--color-secondary);
+  display: flex;
+  width: 80%;
+  height: 80vh;
+  padding: 3rem 7rem;
+  border-radius: 1rem;
+}
+.slider-arrow {
+  background-color: aliceblue;
+  opacity: 70%;
+  border-radius: 50%;
+  width: 3rem;
+  height: 3rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  margin: auto;
+  position: absolute;
+  top: 44vh;
+  transition: var(--transition);
+}
+.slider-arrow.left {
+  top: 50%;
+  left: 12%;
+  cursor: pointer;
+}
+.slider-arrow.right {
+  top: 50%;
+  right: 12%;
+  cursor: pointer;
+}
+.slider-arrow.left:hover,
+.slider-arrow.right:hover {
+  transform: scale(1.3);
+  transition: var(--transition);
+}
+.slider-detail {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 10rem;
+}
+.slider-image {
+  flex: 1;
+  object-fit: cover;
+}
+.slider-info {
+  flex: 1;
+}
+.slider-image img {
+  width: 550px;
+  height: 450px;
+  border-radius: 10px;
+  filter: drop-shadow(0 0 0.75rem grey);
+}
+.slider-title {
+  margin-bottom: 5%;
+  font-size: 40px;
+  font-weight: 700;
+}
+.slider-description {
+  font-size: 18px;
+  font-weight: 400;
+}
+.slider-info button {
+  background-color: transparent;
+  border: solid 2px black;
+  margin-top: 7%;
+  padding: 10px;
+  font-size: 20px;
+  font-weight: 600;
+  cursor: pointer;
+  border-radius: 5px;
+  transition: var(--transition);
+}
+.slider-info button:hover {
+  color: white;
+  background-color: black;
+  border: solid 2px black;
+  font-size: 22px;
+  font-weight: 700;
+  transition: var(--transition);
+}
+.carousel-boult {
+  display: flex;
+  /* align-items: center; */
+  justify-content: center;
+}
+.slider-span {
+  width: 40px;
+  height: 8px;
+  background-color: aliceblue;
+  border-radius: 5px;
+  margin-top: 2%;
+  margin-left: 1rem; /* gap between each carousel */
+}
+.slider-span.active {
+  background-color: rgb(237, 205, 119);
+}
