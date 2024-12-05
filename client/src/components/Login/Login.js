@@ -6,8 +6,8 @@ import {
   Grid,
   Typography,
   Container,
-} from '@material-ui/core';
-import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
+} from '@mui/material';
+import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 // import { GoogleLogin } from 'react-google-login';
 // import { gapi } from 'gapi-script';
 // import { useDispatch } from 'react-redux';

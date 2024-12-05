@@ -1,0 +1,72 @@
+.info-container {
+  margin: 5rem 0 0 3rem;
+}
+.ui.grid.info {
+  margin: 0;
+}
+.ten.wide.column.info-left {
+  display: flex;
+  flex-direction: column;
+  gap: 3rem;
+}
+.info-left img {
+  width: 50%;
+}
+.description p {
+  font-size: 18px;
+}
+.reviews {
+  margin-top: 2rem;
+}
+
+.six.wide.column.info-product {
+  padding-left: 2rem;
+  min-height: max-content;
+  display: flex;
+  flex-direction: column;
+  position: fixed;
+  top: 7rem;
+  right: 0;
+  flex-direction: column;
+  gap: 2rem;
+}
+.title-container {
+  display: flex;
+  justify-content: space-between;
+}
+.rating {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 14px;
+}
+.title {
+  font-size: 36px;
+  font-weight: 700;
+}
+.title-icons {
+  margin-top: 0.5rem;
+  font-size: 20px;
+  display: flex;
+  gap: 1rem;
+}
+
+.volumn {
+  background-color: var(--color-secondary);
+  border: solid 1px var(--color-secondary);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 120px;
+  border-radius: 50px;
+  padding: 0.5rem 1rem 0.5rem 1rem;
+  margin-top: 1rem;
+  cursor: pointer;
+}
+.volumn p {
+  font-size: 20px;
+  margin: 0;
+}
+.volumn-icon:hover {
+  color: var(--color-small);
+}

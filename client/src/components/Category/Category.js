@@ -1,22 +1,20 @@
 import React from 'react';
-import { useSelector } from 'react-redux';
-// import { useDispatch, useSelector } from 'react-redux';
-import './styles.css';
-import CategoryItem from './CategoryItem';
+import { useSelector } from "react-redux";
+import CategoryItem from "./CategoryItem";
+import "./Category.css";
 
 const Category = () => {
-  // const dispatch = useDispatch();
-  const categories = useSelector((state) => state?.categories);
+	const categories = useSelector(state => state?.categories);
 
-  console.log('CATEGORIES:', categories);
+	console.log("CATEGORIES:", categories);
 
-  return (
-    <div className='category-container'>
-      {categories.map((prod) => (
-        <CategoryItem product={prod} />
-      ))}
-    </div>
-  );
+	return (
+		<div className="category-container">
+			{categories.map(category => (
+				<CategoryItem key={category._id} category={category} />
+			))}
+		</div>
+	);
 };
 
 export default Category;

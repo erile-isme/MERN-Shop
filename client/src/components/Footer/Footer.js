@@ -1,7 +1,7 @@
 import React from 'react';
-import LocationOnRoundedIcon from '@material-ui/icons/LocationOnRounded';
-import LocalPhoneRoundedIcon from '@material-ui/icons/LocalPhoneRounded';
-import EmailRoundedIcon from '@material-ui/icons/EmailRounded';
+import LocationOnRoundedIcon from '@mui/icons-material/LocationOnRounded';
+import LocalPhoneRoundedIcon from '@mui/icons-material/LocalPhoneRounded';
+import EmailRoundedIcon from '@mui/icons-material/EmailRounded';
 import LinkItem from './HyperlinkItem';
 import './styles.css';
 

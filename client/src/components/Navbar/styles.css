@@ -6,7 +6,7 @@
   grid-template-columns: 33% 34% 33%;
   position: fixed;
   background-color: white;
-  z-index: 100; /* make navbar stays above all content */
+  z-index: 100;
 }
 .navbar-right {
   align-items: center;
@@ -76,7 +76,6 @@
   transition: var(--transition);
 }
 .sidebar-link:hover {
-  font-size: 23px;
   font-weight: 600;
   transition: var(--transition);
 }

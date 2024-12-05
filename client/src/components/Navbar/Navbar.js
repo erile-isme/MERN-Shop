@@ -1,13 +1,13 @@
 import React, { useState } from 'react';
 import { Twirl as Hamburger } from 'hamburger-react';
 import { Link } from 'react-router-dom';
-import SearchOutlinedIcon from '@material-ui/icons/SearchOutlined';
-import ShoppingCartOutlinedIcon from '@material-ui/icons/ShoppingCartOutlined';
-import PersonOutlineOutlinedIcon from '@material-ui/icons/PersonOutlineOutlined';
-import Badge from '@material-ui/core/Badge';
-import './styles.css';
-import Search from '../Search/Search';
-import Sidebar from '../Sidebar/Sidebar';
+import SearchOutlinedIcon from "@mui/icons-material/SearchOutlined";
+import ShoppingCartOutlinedIcon from "@mui/icons-material/ShoppingCartOutlined";
+import PersonOutlineOutlinedIcon from "@mui/icons-material/PersonOutlineOutlined";
+import Badge from "@mui/material/Badge";
+import Search from "../Search/Search";
+import Sidebar from "./Sidebar";
+import "./styles.css";
 
 const Navbar = () => {
   const [search, setSearch] = useState(false);

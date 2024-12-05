@@ -1,0 +1,23 @@
+.prodcate-container {
+    margin: 5rem 6rem;
+    display: flex;
+    flex-direction: column;
+}
+.ui.pointing.secondary.menu.prodcate {
+    font-size: 20px;
+    justify-content: space-evenly;
+    text-align: center;
+}
+.ui.grid.prodcate {
+    gap: 1rem;
+    margin: 0 auto;
+	justify-content: center;
+}
+.ui.card:first-child, .ui.card:last-child {
+    margin-top: auto;
+    margin-bottom: auto;
+}
+
+.extra.content.prodcate {
+    color: var(--color-black);
+}
