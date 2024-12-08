@@ -1,25 +1,31 @@
 import React, { useState, useEffect } from "react";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
+import { fetchSlider } from "../../actions/productAction";
 import NavigateBeforeRoundedIcon from "@mui/icons-material/NavigateBeforeRounded";
 import NavigateNextRoundedIcon from "@mui/icons-material/NavigateNextRounded";
 import "./Slider.css";
 
 const CarouselSlider = () => {
+	const dispatch = useDispatch();
 	const [currState, setCurrState] = useState(0);
-	const productLists = useSelector(state => state.products);
-	const productFeature = productLists.filter(p => p.isSlider === true);
-	const product = productFeature.filter(p => p === productFeature[currState]);
-	const length = productFeature.length - 1;
 
 	useEffect(() => {
-		// const timer = setTimeout(() => {
-		// 	if (currState === length) {
-		// 		setCurrState(0);
-		// 	} else {
-		// 		setCurrState(currState + 1);
-		// 	}
-		// }, 5000);
-		// return () => clearTimeout(timer);
+		dispatch(fetchSlider());
+	}, [dispatch]);
+
+	const productList = useSelector(state => state.products.slider);
+	const product = productList.filter(p => p === productList[currState]);
+	const length = productList.length - 1;
+
+	useEffect(() => {
+		const timer = setTimeout(() => {
+			if (currState === length) {
+				setCurrState(0);
+			} else {
+				setCurrState(currState + 1);
+			}
+		}, 5000);
+		return () => clearTimeout(timer);
 	}, [currState, length]);
 
 	const onClickNext = () => {
@@ -60,7 +66,7 @@ const CarouselSlider = () => {
 						</div>
 					</div>
 					<div className="carousel-boult">
-						{productFeature.map((p, index) => (
+						{productList.map((p, index) => (
 							<span
 								className={`slider-span ${currState === index ? "active" : ""}`}
 								key={index}
@@ -78,7 +84,6 @@ const CarouselSlider = () => {
 				<NavigateNextRoundedIcon />
 			</div>
 		</div>
-		// </div>
 	);
 };
 

@@ -1,15 +1,25 @@
-import { FETCH_ALL, CREATEPROD, GETPROD } from '../constants/actionTypes';
+import {
+	FETCH_ALL,
+	CREATEPROD,
+	GETPROD,
+	GETPROD_CATE,
+	FETCH_SLIDER,
+} from "../constants/actionTypes";
 
-const products = (products = [], action) => {
+const products = (state = { products: [], slider: [] }, action) => {
 	switch (action.type) {
 		case FETCH_ALL:
-			return action.payload;
+			return { ...state, products: action.payload };
+		case FETCH_SLIDER:
+			return { ...state, slider: action.payload };
 		case CREATEPROD:
-			return [...products, action.payload];
+			return { ...state, products: [...state.products, action.payload] };
 		case GETPROD:
-			return products.filter(prod => prod._id === action.payload._id);
+			return { ...state, product: action.payload };
+		case GETPROD_CATE:
+			return { ...state, products: action.payload };
 		default:
-			return products;
+			return state;
 	}
 };
 

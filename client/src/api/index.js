@@ -1,13 +1,20 @@
 import axios from 'axios';
 
-const API = axios.create({ baseURL: 'http://localhost:5000/' });
+const API = axios.create({ baseURL: "http://localhost:5000" });
 
-export const fetchProd = () => API.get('/products');
+//Products API
+export const fetchProd = () => API.get("/products");
+export const fetchSlider = () => API.get("/products/slider");
+export const createProd = product => API.post("/products/uploads", product);
+export const getProduct = id => API.get(`/products/${id}`);
+export const getProductsInCategory = cateId =>
+	API.get(`/products/categories/${cateId}`);
 
-export const createProd = (product) => API.post('/products', product);
+//Category API
+export const fetchCates = () => API.get("/categories");
+export const createCate = product => API.post("/categories", product);
 
-export const fetchCates = () => API.get(`/categories`);
-
-export const createCate = product => API.post(`/categories`, product);
-
-export const getProduct = (id) => API.get(`/products/:${id}`);
+//Cart API
+export const fetchCart = () => API.get("/cart");
+export const addItemToCart = cartItem => API.post("/cart", cartItem);
+export const removeItemFromCart = id => API.get(`/cart/${id}`);

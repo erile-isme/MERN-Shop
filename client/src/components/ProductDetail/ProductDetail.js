@@ -1,5 +1,5 @@
-import React, { useState } from "react";
-import { useSelector } from "react-redux";
+import React, { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
 import { FaPlus, FaMinus } from "react-icons/fa6";
 import { IoShareOutline, IoHeartOutline } from "react-icons/io5";
@@ -10,22 +10,24 @@ import {
 	FormControl,
 	Select,
 } from "@mui/material";
+import { getProduct } from "../../actions/productAction";
+import { addItemToCart } from "../../actions/cartAction";
 import "./ProductDetail.css";
 
 const ProductDetail = () => {
+	const dispatch = useDispatch();
 	const [size, setSize] = useState("");
-	const [volumn, setVolumn] = useState(1);
+	const [quantity, setQuantity] = useState(1);
 
 	const handleChange = event => {
 		setSize(event.target.value);
 	};
+	const { productId } = useParams();
+	const product = useSelector(state => state.products.product);
 
-	const { category, productId } = useParams();
-	const product = useSelector(state => state.products).filter(
-		prod => prod._id === productId
-	)[0];
-
-	console.log("PRODUCT: ", product);
+	useEffect(() => {
+		dispatch(getProduct(productId));
+	}, [dispatch, productId]);
 
 	return (
 		<div>
@@ -35,14 +37,15 @@ const ProductDetail = () => {
 						<a className="section" href="/">
 							Home
 						</a>
-						<i class="right chevron icon divider"></i>
-						<div className="active section">{category}</div>
+						<i className="right chevron icon divider"></i>
+						<div className="active section">{product.category.name}</div>
 					</div>
 					<div className="ui grid info">
 						<div className="ten wide column info-left">
 							<div className="img">
 								{product.img.map((img, index) => (
 									<img
+										key={index}
 										src={`http://localhost:5000/uploads/${img.replace(
 											"resources\\",
 											""
@@ -53,13 +56,13 @@ const ProductDetail = () => {
 							</div>
 							<div className="description">
 								<h2>Decription</h2>
-								<div class="ui divider"></div>
+								<div className="ui divider"></div>
 								<h3>Features</h3>
 								<p>{product.description.features}</p>
-								<div class="ui divider"></div>
+								<div className="ui divider"></div>
 								<h3>Details</h3>
 								<p>{product.description.details}</p>
-								<div class="ui divider"></div>
+								<div className="ui divider"></div>
 								<h3>Materials</h3>
 								<p>{product.description.materials}</p>
 							</div>
@@ -78,9 +81,9 @@ const ProductDetail = () => {
 										{` (${product.reviews.length})`}
 									</span>
 								</div>
-								<div class="ui divider"></div>
-								{product.reviews.map(review => (
-									<div className="review">
+								<div className="ui divider"></div>
+								{product.reviews.map((review, index) => (
+									<div key={index} className="review">
 										<div className="user-review">
 											{review.user ? review.user : ""}
 										</div>
@@ -176,7 +179,7 @@ const ProductDetail = () => {
 												onChange={handleChange}
 											>
 												{product.size.map((size, index) => (
-													<MenuItem className="size" value={index}>
+													<MenuItem key={index} className="size" value={index}>
 														{size}
 													</MenuItem>
 												))}
@@ -189,24 +192,24 @@ const ProductDetail = () => {
 							<div className="price-container">
 								<h2 className="price">CAD ${product.price}</h2>
 							</div>
-							<div className="volumn-container">
-								<div className="volumn">
+							<div className="quantity-container">
+								<div className="quantity">
 									<FaMinus
-										className="volumn-icon"
+										className="quantity-icon"
 										onClick={() => {
-											if (volumn > 0) {
-												let numVolumn = volumn;
-												setVolumn(--numVolumn);
+											if (quantity > 0) {
+												let numVolumn = quantity;
+												setQuantity(--numVolumn);
 											}
 										}}
 									/>
-									<p>{volumn}</p>
+									<p>{quantity}</p>
 									<FaPlus
-										className="volumn-icon"
+										className="quantity-icon"
 										onClick={() => {
-											if (volumn < product.numInStock) {
-												let numVolumn = volumn;
-												setVolumn(++numVolumn);
+											if (quantity < product.numInStock) {
+												let numVolumn = quantity;
+												setQuantity(++numVolumn);
 											}
 										}}
 									/>
@@ -219,7 +222,12 @@ const ProductDetail = () => {
 								className="ui button add-cart"
 								type="button"
 								onClick={() => {
-									console.log("add to cart");
+									const cartItem = {
+										productId: product._id,
+										quantity: quantity,
+										size: product.size[size],
+									};
+									dispatch(addItemToCart(cartItem));
 								}}
 							>
 								ADD TO CART

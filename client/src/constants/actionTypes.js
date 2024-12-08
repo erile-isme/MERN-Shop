@@ -1,9 +1,15 @@
-export const FETCH_ALL = 'FETCH_ALL';
+//Product
+export const FETCH_ALL = "FETCH_ALL";
+export const FETCH_SLIDER = "FETCH_SLIDER";
+export const CREATEPROD = "CREATEPROD";
+export const GETPROD = "GETPROD";
+export const GETPROD_CATE = "GETPROD_CATE";
 
-export const CREATEPROD = 'CREATEPROD';
+//Category
+export const FETCHCATE = "FETCHCATE";
+export const CREATECATE = "CREATECATE";
 
-export const FETCHCATE = 'FETCHCATE';
-
-export const CREATECATE = 'CREATECATE';
-
-export const GETPROD = 'GETPROD';
+//Cart
+export const FETCH_CART = "FETCH_CART";
+export const ADD_CART = "ADD_CART";
+export const REMOVE_CART = "REMOVE_CART";

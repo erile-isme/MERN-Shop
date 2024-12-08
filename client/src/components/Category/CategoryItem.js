@@ -3,7 +3,6 @@ import { Link } from 'react-router-dom';
 import "./Category.css";
 
 const CategoryItem = ({ category }) => {
-	console.log(category);
 	return (
 		<div key={category._id} className="category-item">
 			<img src={category.img} alt={category.name} />
