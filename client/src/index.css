@@ -43,3 +43,6 @@ body {
 .hyperlink-item:hover {
   text-decoration: underline;
 }
+p {
+  font-size: 16px;
+}

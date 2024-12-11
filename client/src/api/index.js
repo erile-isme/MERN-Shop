@@ -17,4 +17,5 @@ export const createCate = product => API.post("/categories", product);
 //Cart API
 export const fetchCart = () => API.get("/cart");
 export const addItemToCart = cartItem => API.post("/cart", cartItem);
-export const removeItemFromCart = id => API.get(`/cart/${id}`);
+export const updateCartItem = cartItem => API.patch("/cart", cartItem);
+export const removeItemFromCart = id => API.delete(`/cart/${id}`);

@@ -1,0 +1,55 @@
+.cart-container {
+  margin: 5rem 0 0 5rem;
+}
+
+.ui.grid.cart-items {
+  gap: 3rem;
+}
+.item-title {
+  display: flex;
+  justify-content: space-between;
+}
+.item-icon {
+  margin-top: 5px;
+  font-size: 30px;
+  cursor: pointer;
+}
+
+.five.wide.column.order-summary {
+   display: flex;
+   flex-direction: column;
+   gap: 1rem;
+}
+.total-summary {
+  border: solid 1px var(--color-secondary);
+  height: max-content;
+  padding: 1rem 1rem;
+}
+.order-coupon {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+}
+.checkout-button {
+  width: 100%;
+  padding: 1rem 0;
+  color: var(--color-black);
+  background-color: var(--color-card);
+  cursor: pointer;
+}
+.shopping-button {
+  width: 100%;
+  padding: 1rem 0;
+  color: var(--color-black);
+  border: solid 1px var(--color-black);
+  background-color: var(--color-white);
+  cursor: pointer;
+}
+
+/**************** MEDIA QUERIES (MEDIUM DEVICES - TABLETS) ************** */
+@media screen and (max-width: 1024px) {
+}
+
+/**************** MEDIA QUERIES (SMALL DEVICES - PHONES) ************** */
+@media screen and (max-width: 600px) {
+}
