@@ -4,7 +4,6 @@ import Cart from "../models/cartModel.js";
 export const fetchCart = async (req, res) => {
 	try {
 		const cart = await Cart.find().populate("productId");
-		console.log(cart[0].productId.name);
 		res.status(200).json(cart);
 	} catch (error) {
 		res.status(400).json({ message: error });
@@ -12,17 +11,64 @@ export const fetchCart = async (req, res) => {
 };
 
 export const addItemToCart = async (req, res) => {
-	const cartItem = req.body;
-	cartItem.productId = new mongoose.Types.ObjectId(cartItem.productId);
-
-	console.log(cartItem);
-	const newCartItem = new Cart(cartItem);
+	const newItem = req.body;
+	newItem.productId = new mongoose.Types.ObjectId(newItem.productId);
 
 	try {
-		await newCartItem.save();
-		res.status(201).json(newCartItem);
+		const cartItem = await Cart.updateOne(
+			{ productId: newItem.productId },
+			{ $inc: { quantity: newItem.quantity } }
+		);
+
+		if (cartItem.modifiedCount === 0) {
+			const item = new Cart(newItem);
+			console.log(item);
+			await item.save();
+		}
+		const cart = await Cart.find().populate("productId");
+
+		res.status(201).json({
+			message: `Cart item ${
+				cartItem.modifiedCount === 0 ? "added" : "updated"
+			} successfully`,
+			cart,
+		});
 	} catch (error) {
-		res.status(409).json({ message: error });
+		console.error(error);
+		res
+			.status(500)
+			.json({ message: "An error occurred while updating the cart" });
+	}
+};
+
+export const updateCartItem = async (req, res) => {
+	const { productId, quantity, color, size } = req.body;
+	let updatedItem = {};
+	updatedItem.productId = new mongoose.Types.ObjectId(productId);
+
+	if (quantity != undefined) updatedItem.quantity = quantity;
+	if (color != undefined) updatedItem.color = color;
+	if (size != undefined) updatedItem.size = size;
+
+	try {
+		const cartItem = await Cart.updateOne(
+			{ productId: updatedItem.productId },
+			{ $set: updatedItem }
+		);
+
+		if (cartItem.modifiedCount > 0) {
+			const cart = await Cart.find().populate("productId");
+			return res
+				.status(200)
+				.json({ message: "Cart item updated successfully", cart });
+		} else {
+			return res.status(400).json({ message: "No changes were made" });
+		}
+	} catch (error) {
+		console.error(error);
+		res
+			.status(500)
+			.json({ message: "An error occurred while updating the cart" });
 	}
 };
 
@@ -32,7 +78,14 @@ export const removeItemFromCart = async (req, res) => {
 	if (!mongoose.Types.ObjectId.isValid(id))
 		return res.status(404).send(`No post with id: ${id}`);
 
-	const product = await Product.findById(id);
-
-	res.json(product);
+	try {
+		const cartItem = await Cart.findByIdAndDelete(id);
+		if (!cartItem) return res.status(404).send(`Item with id ${id} not found`);
+		res
+			.status(200)
+			.json({ message: "Item removed from cart successfully", cartItem });
+	} catch (error) {
+		console.error(error);
+		res.status(500).send("Error removing the item from the cart");
+	}
 };

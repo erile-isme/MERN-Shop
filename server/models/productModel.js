@@ -14,6 +14,7 @@ const productSchema = mongoose.Schema({
 		materials: { type: String },
 	},
 	color: { type: [String] },
+	colorName: { type: [String] },
 	numInStock: { type: Number, required: true },
 	img: { type: [String], required: true },
 	size: { type: [String] },
