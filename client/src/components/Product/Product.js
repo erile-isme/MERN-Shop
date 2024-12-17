@@ -7,7 +7,6 @@ import ShoppingCartOutlinedIcon from "@mui/icons-material/ShoppingCartOutlined";
 import "./Product.css";
 
 const Product = ({ product }) => {
-	console.log();
 	return (
 		product && (
 			<Card key={product._id} className="product-info" variant="outlined">

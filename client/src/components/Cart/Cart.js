@@ -10,6 +10,7 @@ import { MdClose } from "react-icons/md";
 import { RiCoupon3Line } from "react-icons/ri";
 import { TAX } from "../../constants/actionTypes";
 import "./Cart.css";
+import { Link } from "react-router-dom";
 
 const Cart = () => {
 	const dispatch = useDispatch();
@@ -28,6 +29,7 @@ const Cart = () => {
 	console.log(cartList);
 
 	useEffect(() => {
+		window.scrollTo(0, 0);
 		dispatch(fetchCart());
 	}, [dispatch]);
 
@@ -122,10 +124,14 @@ const Cart = () => {
 								<div className="ui divider"></div>
 							</div>
 							<button className="checkout-button">
-								<h4>CHECKOUT</h4>
+								<Link to="/payment" className="payment-link">
+									<h4>CHECKOUT</h4>
+								</Link>
 							</button>
 							<button className="shopping-button">
-								<h4>CONTINUE SHOPPING</h4>
+								<Link to="/" className="shopping-link">
+									<h4>CONTINUE SHOPPING</h4>
+								</Link>
 							</button>
 						</div>
 					</div>

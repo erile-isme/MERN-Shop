@@ -27,7 +27,7 @@ export const addItemToCart = cartItem => async dispatch => {
 export const updateCartItem = cartItem => async dispatch => {
 	try {
 		const { data } = await api.updateCartItem(cartItem);
-		dispatch({ type: UPDATE_CART, payload: data.cast });
+		dispatch({ type: UPDATE_CART, payload: data.cart });
 	} catch (error) {
 		console.log(error);
 	}

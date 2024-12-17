@@ -19,3 +19,7 @@ export const fetchCart = () => API.get("/cart");
 export const addItemToCart = cartItem => API.post("/cart", cartItem);
 export const updateCartItem = cartItem => API.patch("/cart", cartItem);
 export const removeItemFromCart = id => API.delete(`/cart/${id}`);
+
+//User API
+export const loginUser = user => API.post("/user/login", user);
+export const registerUser = user => API.post("/user/register", user);

@@ -23,6 +23,7 @@ const ProductDetail = () => {
 	const product = useSelector(state => state.products.product);
 
 	useEffect(() => {
+		window.scrollTo(0, 0);
 		dispatch(getProduct(productId));
 	}, [dispatch, productId]);
 

@@ -6,12 +6,15 @@ import Payment from "./components/Payment/Payment";
 import Login from "./components/Login/Login";
 import Sale from "./components/Sale/Sale";
 import NotFound from "./components/NotFound/NotFound";
-import Products from "./components/Products/Products";
 import ProductDetail from "./components/ProductDetail/ProductDetail";
 import Navbar from "./components/Navbar/Navbar";
 import ProdForm from "./components/Form/ProductForm";
 import CateForm from "./components/Form/CategoryForm";
 import ProductCategory from "./components/ProductList/ProductCategory";
+import ProductLists from "./components/ProductList/ProductLists";
+import Newsletter from "./components/Newsletter/Newsletter";
+import Footer from "./components/Footer/Footer";
+import Copyright from "./components/Copyright/Copyright";
 import "./index.css";
 
 const App = () => {
@@ -27,7 +30,7 @@ const App = () => {
 						path="/products/:category/:productId"
 						element={<ProductDetail />}
 					/>
-					<Route path="/products" element={<Products />} />
+					<Route path="/products" element={<ProductLists />} />
 					<Route path="/categories/:categoryId" element={<ProductCategory />} />
 					<Route path="/sale" element={Sale} />
 					<Route path="/cart" element={<Cart />} />
@@ -41,6 +44,9 @@ const App = () => {
 					<Route path="*" element={<NotFound />} />
 				</Routes>
 			</BrowserRouter>
+			<Newsletter />
+			<Footer />
+			<Copyright />
 		</div>
 	);
 };

@@ -1,184 +1,212 @@
-import React, { useState } from 'react';
-import {
-  Avatar,
-  Button,
-  Paper,
-  Grid,
-  Typography,
-  Container,
-} from '@mui/material';
-import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
-// import { GoogleLogin } from 'react-google-login';
-// import { gapi } from 'gapi-script';
-// import { useDispatch } from 'react-redux';
-// import { useHistory } from 'react-router-dom';
-
+import React, { useEffect, useState } from "react";
+import { Button } from "@mui/material";
+import { useDispatch, useSelector } from "react-redux";
+// import { gapi } from "gapi-script";
+// import { GoogleLogin } from "@react-oauth/google";
 // import Icon from './icon';
-import useStyles from './styles';
-import Input from './Input';
+// import Input from "./Input";
+import "./Login.css";
+import { loginUser, registerUser } from "../../actions/userAction";
+import { useNavigate } from "react-router-dom";
 // import { signup, signin } from '../../actions/auth';
 
-const initialState = {
-  firstName: '',
-  lastName: '',
-  email: '',
-  password: '',
-  confirmPassword: '',
-};
-
 const Login = () => {
-  const classes = useStyles();
-  // const dispatch = useDispatch();
-  // const history = useHistory();
-  const [showPassword, setShowPassword] = useState(false);
-  const [isSignUp, setIsSignUp] = useState(true);
-  const [formData, setFormData] = useState(initialState);
-  // const clientId =
-  //   '453507003309-cvh525arb9ut5b75f2vhr5mdsto1givb.apps.googleusercontent.com';
+	const dispatch = useDispatch();
+	const navigate = useNavigate();
+	const [showPassword, setShowPassword] = useState(false);
+	const [isSignUp, setIsSignUp] = useState(false);
+	const [confirmPass, setConfirmPass] = useState("");
+	const [formData, setFormData] = useState({
+		firstName: "",
+		lastName: "",
+		email: "",
+		password: "",
+		termAgreement: false,
+	});
+	const user = useSelector(state => state.user);
+	const error = useSelector(state => state.user.error);
+	console.log("USER: ", user);
+	console.log("USER: ", error);
 
-  // useEffect(() => {
-  //   gapi.load('client:auth2', () => gapi.auth2.init({ clientId: clientId }));
-  // }, []);
+	useEffect(() => {
+		if (user.isAuthenticated) {
+			alert("Login successfully");
+			navigate("/", { replace: true });
+		} else if (user.isRegistered && !user.isAuthenticated) {
+			alert("Registered successfully");
+			setIsSignUp(false);
+		}
+	}, [user, navigate]);
 
-  const handleSubmit = (e) => {
-    e.preventDefault(); //react always refresh if a form is submitted
+	// useEffect(() => {
+	// 	gapi.load("client:auth2", () =>
+	// 		gapi.auth2.init({ clientId: process.env.CLIENT_ID, scope: "" })
+	// 	);
+	// }, []);
 
-    // if (isSignUp) {
-    //   dispatch(signup(formData, history));
-    // } else {
-    //   dispatch(signin(formData, history));
-    // }
-    console.log(formData);
-  };
+	const handleFormSubmit = e => {
+		e.preventDefault();
+		if (isSignUp) {
+			dispatch(registerUser(formData));
+		} else {
+			dispatch(loginUser(formData));
+		}
+		setFormData({
+			firstName: "",
+			lastName: "",
+			email: "",
+			password: "",
+			termAgreement: false,
+		});
+		setConfirmPass("");
+	};
 
-  const handleChange = (e) => {
-    setFormData({ ...formData, [e.target.name]: [e.target.value] });
-  };
+	const handleChange = e => {
+		setFormData({ ...formData, [e.target.name]: e.target.value });
+	};
 
-  const handleShowPass = () => {
-    setShowPassword((prevShowPass) => !prevShowPass);
-  };
+	const handleConfirmPass = e => {
+		setConfirmPass(e.target.value);
+		if (confirmPass !== formData.password) {
+			console.log("Password are not the same!");
+		}
+	};
 
-  const switchMode = () => {
-    setIsSignUp((prevSignUp) => !prevSignUp);
-    setShowPassword(false);
-  };
+	const switchMode = () => {
+		setIsSignUp(prevSignUp => !prevSignUp);
+		setShowPassword(false);
+	};
 
-  // const googleSuccess = async (res) => {
-  //   const result = res?.profileObj; //with ?, even though it's null, it won't through error -> unidentified
-  //   const token = res?.tokenId;
+	// const googleSuccess = async (res) => {
+	//   const result = res?.profileObj; //with ?, even though it's null, it won't through error -> unidentified
+	//   const token = res?.tokenId;
 
-  //   try {
-  //     dispatch({
-  //       type: 'AUTH',
-  //       data: { result, token },
-  //     });
-  //     history.push('/');
-  //   } catch (error) {
-  //     console.log(error);
-  //   }
-  // };
-  // const googleFailure = (error) => {
-  //   console.log(error);
-  //   console.log('Google Sign In was unsuccesfully. Try Again Later.');
-  // };
+	//   try {
+	//     dispatch({
+	//       type: 'AUTH',
+	//       data: { result, token },
+	//     });
+	//     history.push('/');
+	//   } catch (error) {
+	//     console.log(error);
+	//   }
+	// };
+	// const googleFailure = (error) => {
+	//   console.log(error);
+	//   console.log('Google Sign In was unsuccesfully. Try Again Later.');
+	// };
 
-  return (
-    <div>
-      <Container component='main' maxWidth='xs'>
-        <Paper className={classes.paper} elevation={3}>
-          <Avatar className={classes.avatar}>
-            <LockOutlinedIcon />
-          </Avatar>
-          <Typography variant='h5'>
-            {isSignUp ? 'Sign Up' : 'Sign In'}
-          </Typography>
-          <form
-            className={`${classes.root} ${classes.form}`}
-            onSubmit={handleSubmit}
-          >
-            <Grid>
-              {isSignUp && (
-                <>
-                  <Input
-                    name='firstName'
-                    label='First Name'
-                    handleChange={handleChange}
-                    autoFocus={true}
-                    half
-                  />
-                  <Input
-                    name='lastName'
-                    label='Last Name'
-                    handleChange={handleChange}
-                    half
-                  />
-                </>
-              )}
-              <Input
-                name='email'
-                label='Email Address'
-                handleChange={handleChange}
-                type='email'
-              />
-              <Input
-                name='password'
-                label='Password'
-                handleChange={handleChange}
-                type={showPassword ? 'text' : 'password'}
-                handleShowPass={handleShowPass}
-              />
-              {isSignUp && (
-                <Input
-                  name='confirmPassword'
-                  label='Repeat Password'
-                  handleChange={handleChange}
-                  type='password'
-                />
-              )}
-            </Grid>
-            <Button
-              type='submit'
-              fullWidth
-              variant='contained'
-              color='primary'
-              className={classes.submit}
-            >
-              {isSignUp ? 'Sign Up' : 'Sign In'}
-            </Button>
-            {/* <GoogleLogin
-              clientId={clientId}
-              render={(renderProps) => (
-                <Button
-                  className={classes.googleButton}
-                  color='primary'
-                  fullWidth
-                  onClick={renderProps.onClick}
-                  disabled={renderProps.disabled}
-                  startIcon={<Icon />}
-                  variant='contained'
-                >
-                  Google Sign In
-                </Button>
-              )}
-              onSuccess={googleSuccess}
-              onFailure={googleFailure}
-              cookiePolicy={'single_host_origin'}
-            /> */}
-            <Grid container justify-content='center'>
-              <Grid item>
-                <Button onClick={switchMode}>
-                  {isSignUp
-                    ? 'Already have an account? Sign In'
-                    : "Don't have an account? Sign Up"}
-                </Button>
-              </Grid>
-            </Grid>
-          </form>
-        </Paper>
-      </Container>
-    </div>
-  );
+	return (
+		<div className="ui container login-container">
+			<h1>{isSignUp ? "SIGN UP" : "LOGIN"}</h1>
+			<p>Log in with your email and password</p>
+			{error && <p style={{ color: "red" }}>{error}</p>}
+			<form className="ui form login-form" onSubmit={handleFormSubmit}>
+				{isSignUp && (
+					<React.Fragment>
+						<div className="ui input">
+							<input
+								type="text"
+								name="firstName"
+								value={formData.firstName}
+								placeholder="First Name"
+								onChange={handleChange}
+								required
+							/>
+						</div>
+						<div className="ui input">
+							<input
+								type="text"
+								name="lastName"
+								value={formData.lastName}
+								placeholder="Last Name"
+								onChange={handleChange}
+								required
+							/>
+						</div>
+					</React.Fragment>
+				)}
+				<div className="ui input">
+					<input
+						type="email"
+						name="email"
+						value={formData.email}
+						placeholder="E-mail Address"
+						onChange={handleChange}
+						required
+					/>
+				</div>
+				<div className="ui input">
+					<input
+						type={showPassword ? "text" : "password"}
+						name="password"
+						placeholder="Password"
+						value={formData.password}
+						onChange={handleChange}
+						required
+					/>
+				</div>
+				{isSignUp && (
+					<React.Fragment>
+						<div className="ui input">
+							<input
+								type="password"
+								name="confirmPassword"
+								value={confirmPass}
+								placeholder="Repeat Password"
+								onChange={handleConfirmPass}
+								required
+							/>
+						</div>
+						<div className="ui divider"></div>
+						<div>
+							<h2>MEMBERSHIP AGREEMENT</h2>
+							<p>
+								By creating an account, you agree to eri's privacy policy and
+								terms of use.
+							</p>
+							<div className="ui checkbox">
+								<input
+									type="checkbox"
+									name="termAgreement"
+									required
+									onChange={e =>
+										setFormData({
+											...formData,
+											termAgreement: e.target.value === "on" ? true : false,
+										})
+									}
+								/>
+								<label>I agree to eri's TERMS OF USE and PRIVACY POLICY</label>
+							</div>
+						</div>
+					</React.Fragment>
+				)}
+				<Button
+					type="submit"
+					fullWidth
+					variant="contained"
+					color="primary"
+					className="submit"
+				>
+					{isSignUp ? "Sign Up" : "Sign In"}
+				</Button>
+
+				{/* <Button>
+					<GoogleLogin
+						onSuccess={console.log("Login successfully")}
+						onFailure={console.log("Login failed")}
+						cookiePolicy={"single_host_origin"}
+					/>
+				</Button> */}
+				<Button onClick={switchMode}>
+					{isSignUp
+						? "Already have an account? Sign In"
+						: "Don't have an account? Sign Up"}
+				</Button>
+			</form>
+		</div>
+	);
 };
 
 export default Login;

@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from "react";
 import { Twirl as Hamburger } from "hamburger-react";
 import { Link } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { fetchCart } from "../../actions/cartAction";
 import SearchOutlinedIcon from "@mui/icons-material/SearchOutlined";
 import ShoppingCartOutlinedIcon from "@mui/icons-material/ShoppingCartOutlined";
 import PersonOutlineOutlinedIcon from "@mui/icons-material/PersonOutlineOutlined";
@@ -8,8 +10,6 @@ import Badge from "@mui/material/Badge";
 import Search from "../Search/Search";
 import Sidebar from "./Sidebar";
 import "./styles.css";
-import { useDispatch, useSelector } from "react-redux";
-import { fetchCart } from "../../actions/cartAction";
 
 const Navbar = () => {
 	const dispatch = useDispatch();
@@ -21,6 +21,10 @@ const Navbar = () => {
 	}, [dispatch]);
 
 	const cartList = useSelector(state => state.cart);
+
+	const showSideBar = () => {
+		setSideBar(!sideBar);
+	};
 
 	return (
 		<div>
@@ -58,11 +62,7 @@ const Navbar = () => {
 				</div>
 			</div>
 
-			{sideBar ? (
-				<Sidebar sideBar={sideBar} setSideBar={setSideBar(!sideBar)} />
-			) : (
-				<></>
-			)}
+			{sideBar ? <Sidebar sideBar={sideBar} setSideBar={showSideBar} /> : <></>}
 		</div>
 	);
 };
