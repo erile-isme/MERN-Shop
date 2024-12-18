@@ -8,13 +8,13 @@ import {
 const cart = (cart = [], action) => {
 	switch (action.type) {
 		case FETCH_CART:
-			return action.payload;
+			return action.payload.orderItems;
 		case ADD_CART:
 			return action.payload;
 		case UPDATE_CART:
-			return action.payload;
+			return action.payload.orderItems;
 		case REMOVE_CART:
-			return cart.filter(item => item._id !== action.payload._id);
+			return action.payload.orderItems;
 		default:
 			return cart;
 	}

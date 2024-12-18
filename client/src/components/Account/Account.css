@@ -1,0 +1,7 @@
+.ui.container.account {
+   margin: 5rem 0 5rem 5rem;
+   display: flex;
+   flex-direction: column;
+   gap: 2rem;
+   font-size: 18px;
+}

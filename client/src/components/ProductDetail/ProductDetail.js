@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { FaPlus, FaMinus } from "react-icons/fa6";
 import { IoShareOutline, IoHeartOutline } from "react-icons/io5";
 import {
@@ -16,6 +16,7 @@ import "./ProductDetail.css";
 
 const ProductDetail = () => {
 	const dispatch = useDispatch();
+	const navigate = useNavigate();
 	const [size, setSize] = useState(0);
 	const [colorIndex, setColorIndex] = useState(0);
 	const [quantity, setQuantity] = useState(1);
@@ -24,11 +25,32 @@ const ProductDetail = () => {
 
 	useEffect(() => {
 		window.scrollTo(0, 0);
+	}, []);
+	useEffect(() => {
 		dispatch(getProduct(productId));
 	}, [dispatch, productId]);
 
 	const handleSizeChange = event => {
 		setSize(event.target.value);
+	};
+
+	const addToCart = ({ id, quantity, size, name, color, price, img }) => {
+		const cartItem = {
+			productId: id,
+			name,
+			quantity,
+			price,
+			img,
+			size: size ? size : null,
+			color: color ? color : null,
+		};
+		if (!localStorage.getItem("token")) {
+			navigate(`/login?redirect=${window.location.pathname}`);
+		} else {
+			console.log(cartItem);
+			dispatch(addItemToCart(cartItem));
+			window.location.reload();
+		}
 	};
 
 	return (
@@ -52,7 +74,7 @@ const ProductDetail = () => {
 											"resources\\",
 											""
 										)}`}
-										alt="abc"
+										alt={product.description.details}
 									/>
 								))}
 							</div>
@@ -223,13 +245,15 @@ const ProductDetail = () => {
 								className="ui button add-cart"
 								type="button"
 								onClick={() => {
-									const cartItem = {
-										productId: product._id,
-										quantity: quantity,
+									addToCart({
+										id: product._id,
+										quantity,
 										size: product.size[size],
 										color: product.colorName[colorIndex],
-									};
-									dispatch(addItemToCart(cartItem));
+										name: product.name,
+										price: product.price,
+										img: product.img[0],
+									});
 								}}
 							>
 								ADD TO CART

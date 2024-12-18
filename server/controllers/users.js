@@ -2,15 +2,6 @@ import jwt from "jsonwebtoken";
 import bcrypt from "bcrypt";
 import User from "../models/userModel.js";
 
-export const fetchAllProducts = async (req, res) => {
-	try {
-		const product = await Product.find().populate("category");
-		res.status(200).json(product);
-	} catch (error) {
-		res.status(400).json({ message: error });
-	}
-};
-
 const generateToken = id => {
 	return jwt.sign(
 		{
@@ -19,6 +10,20 @@ const generateToken = id => {
 		process.env.JWT_SECRET,
 		{ expiresIn: "1h" }
 	);
+};
+
+export const getUser = async (req, res) => {
+	const currentUser = req.user;
+
+	const user = {
+		id: currentUser._id,
+		name: currentUser.firstName + " " + currentUser.lastName,
+		email: currentUser.email,
+	};
+	console.log(user);
+	res
+		.status(200)
+		.json({ message: "Retrieve user info successfully", user: user });
 };
 
 export const loginUser = async (req, res) => {
@@ -86,8 +91,4 @@ export const registerUser = async (req, res) => {
 			userAdded: false,
 		});
 	}
-};
-
-export const getMe = async (req, res) => {
-	res.status(200).json({ message: "User Data Display" });
 };

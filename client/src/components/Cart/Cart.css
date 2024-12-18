@@ -1,9 +1,17 @@
-.cart-container {
+.ui.container.cart-container {
   margin: 5rem 0 5rem 5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
 }
 
 .ui.grid.cart-items {
   gap: 3rem;
+}
+.cart-img {
+  width: 100%;
+  height: 200px;
+  object-fit: cover;
 }
 .item-title {
   display: flex;
@@ -44,6 +52,13 @@
   border: solid 1px var(--color-black);
   background-color: var(--color-white);
   cursor: pointer;
+}
+.summary-table {
+  width: 100%;
+  border-spacing: 1rem 1rem;
+}
+tbody .value {
+  text-align: right;
 }
 
 /**************** MEDIA QUERIES (MEDIUM DEVICES - TABLETS) ************** */

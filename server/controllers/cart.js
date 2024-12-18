@@ -3,8 +3,11 @@ import Cart from "../models/cartModel.js";
 
 export const fetchCart = async (req, res) => {
 	try {
-		const cart = await Cart.find().populate("productId");
-		res.status(200).json(cart);
+		const cart = await Cart.find();
+		res.status(200).json({
+			message: "Fetch cart successfully",
+			cart: cart[0] === undefined ? cart : cart[0],
+		});
 	} catch (error) {
 		res.status(400).json({ message: error });
 	}
@@ -13,25 +16,87 @@ export const fetchCart = async (req, res) => {
 export const addItemToCart = async (req, res) => {
 	const newItem = req.body;
 	newItem.productId = new mongoose.Types.ObjectId(newItem.productId);
+	let cartItem = null;
+	let productIdExists;
 
 	try {
-		const cartItem = await Cart.updateOne(
-			{ productId: newItem.productId },
-			{ $inc: { quantity: newItem.quantity } }
-		);
+		const userExist = await Cart.findOne({
+			user: req.user._id,
+		});
 
-		if (cartItem.modifiedCount === 0) {
-			const item = new Cart(newItem);
-			console.log(item);
-			await item.save();
+		//If user exist in Cart table
+		if (userExist) {
+			// If cart exists, check if the item exists in the orderItems array
+			let [productIdExists, sizeExists, colorExists] = [
+				"productId",
+				"size",
+				"color",
+			].map(key =>
+				userExist.orderItems.some(item => {
+					//If it's productId, compare .equals()
+					if (
+						mongoose.Types.ObjectId.isValid(item[key]) ||
+						mongoose.Types.ObjectId.isValid(newItem[key])
+					) {
+						return newItem[key].equals(item[key]);
+					}
+					//Other type, compare ===
+					return newItem[key] === item[key];
+				})
+			);
+
+			if (productIdExists && sizeExists && colorExists) {
+				// Item already exists in the cart, increment the quantity
+				cartItem = await Cart.updateOne(
+					{ user: req.user._id, "orderItems.productId": newItem.productId },
+					{
+						$inc: { "orderItems.$.quantity": newItem.quantity },
+					}
+				);
+			} else {
+				// Item doesn't exist or properties are not the same, add it to the orderItems array
+				cartItem = await Cart.updateOne(
+					{ user: req.user._id },
+					{
+						$push: {
+							orderItems: {
+								quantity: newItem.quantity,
+								color: newItem.color,
+								size: newItem.size,
+								name: newItem.name,
+								price: newItem.price,
+								img: newItem.img,
+								productId: newItem.productId,
+							},
+						},
+					}
+				);
+			}
+		} else {
+			// If cart doesn't exist, create a new cart and add the item
+			cartItem = new Cart({
+				user: req.user._id,
+				orderItems: [
+					{
+						quantity: newItem.quantity,
+						color: newItem.color,
+						size: newItem.size,
+						name: newItem.name,
+						price: newItem.price,
+						img: newItem.img,
+						productId: newItem.productId,
+					},
+				],
+			});
+			await cartItem.save();
 		}
-		const cart = await Cart.find().populate("productId");
+		const cart = await Cart.find();
 
 		res.status(201).json({
 			message: `Cart item ${
-				cartItem.modifiedCount === 0 ? "added" : "updated"
+				productIdExists ? "added" : "updated"
 			} successfully`,
-			cart,
+			cart: cart ? cart[0] : cart,
 		});
 	} catch (error) {
 		console.error(error);
@@ -43,27 +108,39 @@ export const addItemToCart = async (req, res) => {
 
 export const updateCartItem = async (req, res) => {
 	const { productId, quantity, color, size } = req.body;
-	let updatedItem = {};
-	updatedItem.productId = new mongoose.Types.ObjectId(productId);
 
-	if (quantity != undefined) updatedItem.quantity = quantity;
-	if (color != undefined) updatedItem.color = color;
-	if (size != undefined) updatedItem.size = size;
-
+	// console.log(productId);
+	// console.log(quantity);
+	// console.log(color);
+	// console.log(size);
+	// console.log(
+	// 	await Cart.findOne({
+	// 		user: req.user._id,
+	// 		"orderItems.productId": updatedItem.productId,
+	// 		"orderItems.productId": updatedItem.productId,
+	// 		"orderItems.size": size,
+	// 		"orderItems.color": color,
+	// 	})
+	// );
 	try {
-		const cartItem = await Cart.updateOne(
-			{ productId: updatedItem.productId },
-			{ $set: updatedItem }
+		const updatedItem = await Cart.updateOne(
+			{
+				user: req.user._id,
+				"orderItems.productId": new mongoose.Types.ObjectId(productId),
+				"orderItems.size": size,
+				"orderItems.color": color,
+			},
+			{ $set: { "orderItems.$.quantity": quantity } },
+			{ new: true }
 		);
+		console.log("UPDATE CART: ", updatedItem);
 
-		if (cartItem.modifiedCount > 0) {
-			const cart = await Cart.find().populate("productId");
-			return res
-				.status(200)
-				.json({ message: "Cart item updated successfully", cart });
-		} else {
-			return res.status(400).json({ message: "No changes were made" });
-		}
+		res
+			.status(200)
+			.json({
+				message: "Cart item updated successfully",
+				userCart: updatedItem,
+			});
 	} catch (error) {
 		console.error(error);
 		res
@@ -73,17 +150,35 @@ export const updateCartItem = async (req, res) => {
 };
 
 export const removeItemFromCart = async (req, res) => {
-	const { id } = req.params;
-
-	if (!mongoose.Types.ObjectId.isValid(id))
-		return res.status(404).send(`No post with id: ${id}`);
+	const { productId, size, color } = req.body;
+	const cartId = new mongoose.Types.ObjectId(productId);
 
 	try {
-		const cartItem = await Cart.findByIdAndDelete(id);
-		if (!cartItem) return res.status(404).send(`Item with id ${id} not found`);
+		const removedItem = await Cart.findOneAndUpdate(
+			{
+				user: req.user._id,
+				"orderItems.productId": cartId,
+				"orderItems.size": size,
+				"orderItems.color": color,
+			},
+			{
+				$pull: {
+					orderItems: { productId, size, color },
+				},
+			},
+			{ new: true }
+		);
+
+		console.log(removedItem);
+
+		if (!removedItem)
+			return res.status(404).send(`Item with id ${cartId} not found`);
 		res
 			.status(200)
-			.json({ message: "Item removed from cart successfully", cartItem });
+			.json({
+				message: "Item removed from cart successfully",
+				userCart: removedItem,
+			});
 	} catch (error) {
 		console.error(error);
 		res.status(500).send("Error removing the item from the cart");

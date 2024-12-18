@@ -18,6 +18,7 @@ export const UPDATE_CART = "UPDATE_CART";
 export const REMOVE_CART = "REMOVE_CART";
 
 //User
+export const GET_USER = "GET_USER";
 export const LOGIN = "LOGIN";
 export const LOGIN_ERROR = "LOGIN_ERROR";
 export const REGISTER = "REGISTER";

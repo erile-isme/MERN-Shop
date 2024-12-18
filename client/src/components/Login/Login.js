@@ -7,12 +7,14 @@ import { useDispatch, useSelector } from "react-redux";
 // import Input from "./Input";
 import "./Login.css";
 import { loginUser, registerUser } from "../../actions/userAction";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
+import jwt from "jsonwebtoken";
 // import { signup, signin } from '../../actions/auth';
 
 const Login = () => {
 	const dispatch = useDispatch();
 	const navigate = useNavigate();
+	const location = useLocation();
 	const [showPassword, setShowPassword] = useState(false);
 	const [isSignUp, setIsSignUp] = useState(false);
 	const [confirmPass, setConfirmPass] = useState("");
@@ -21,17 +23,48 @@ const Login = () => {
 		lastName: "",
 		email: "",
 		password: "",
+		address: "",
+		postalCode: "",
+		phone: 0,
 		termAgreement: false,
 	});
+
+	const handleLogoutOnTokenExpiration = () => {
+		const token = localStorage.getItem("token");
+
+		if (token) {
+			const decoded = jwt.decode(token);
+			const currentTime = Date.now() / 1000; // Current time in seconds
+
+			if (decoded.exp < currentTime) {
+				// Token has expired, perform logout
+				console.warn("Token has expired. Logging out...");
+				localStorage.removeItem("token");
+				navigate("/");
+			}
+		}
+	};
+
+	// Check token expiration every 10 mins
+	useEffect(() => {
+		const interval = setInterval(handleLogoutOnTokenExpiration, 300000);
+		return () => clearInterval(interval); // Cleanup interval on component unmount
+	});
+
 	const user = useSelector(state => state.user);
 	const error = useSelector(state => state.user.error);
 	console.log("USER: ", user);
 	console.log("USER: ", error);
 
 	useEffect(() => {
+		window.scrollTo(0, 0);
 		if (user.isAuthenticated) {
+			localStorage.setItem("token", user.token);
 			alert("Login successfully");
-			navigate("/", { replace: true });
+			const redirectUrl =
+				new URLSearchParams(location.search).get("redirect") || "/";
+			navigate(redirectUrl, { replace: true });
+			window.location.reload();
 		} else if (user.isRegistered && !user.isAuthenticated) {
 			alert("Registered successfully");
 			setIsSignUp(false);
@@ -56,6 +89,9 @@ const Login = () => {
 			lastName: "",
 			email: "",
 			password: "",
+			address: "",
+			postalCode: "",
+			phone: 0,
 			termAgreement: false,
 		});
 		setConfirmPass("");
@@ -158,6 +194,36 @@ const Login = () => {
 								required
 							/>
 						</div>
+						{/* <div className="ui input">
+					<input
+						type="text"
+						name="address"
+						value={formData.address}
+						placeholder="Address"
+						onChange={handleChange}
+						required
+					/>
+				</div>
+				<div className="ui input">
+					<input
+						type="text"
+						name="postalCode"
+						value={formData.postalCode}
+						placeholder="Postal Code"
+						onChange={handleChange}
+						required
+					/>
+				</div>
+				<div className="ui input">
+					<input
+						type="number"
+						name="phone"
+						value={formData.phone}
+						placeholder="Phone Number"
+						onChange={handleChange}
+						required
+					/>
+				</div> */}
 						<div className="ui divider"></div>
 						<div>
 							<h2>MEMBERSHIP AGREEMENT</h2>

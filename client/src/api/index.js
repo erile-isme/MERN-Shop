@@ -15,11 +15,45 @@ export const fetchCates = () => API.get("/categories");
 export const createCate = product => API.post("/categories", product);
 
 //Cart API
-export const fetchCart = () => API.get("/cart");
-export const addItemToCart = cartItem => API.post("/cart", cartItem);
-export const updateCartItem = cartItem => API.patch("/cart", cartItem);
-export const removeItemFromCart = id => API.delete(`/cart/${id}`);
+export const fetchCart = () => {
+	return API.get("/cart", {
+		headers: {
+			Authorization: `Bearer ${localStorage.getItem("token")}`,
+		},
+	});
+};
+export const addItemToCart = cartItem => {
+	return API.post("/cart", cartItem, {
+		headers: {
+			Authorization: `Bearer ${localStorage.getItem("token")}`,
+		},
+	});
+};
+export const updateCartItem = cartItem => {
+	return API.patch("/cart", cartItem, {
+		headers: {
+			Authorization: `Bearer ${localStorage.getItem("token")}`,
+		},
+	});
+};
+export const removeItemFromCart = removedId => {
+	return API.patch("/cart/delete", removedId, {
+		headers: {
+			Authorization: `Bearer ${localStorage.getItem("token")}`,
+		},
+	});
+};
 
 //User API
+export const getUser = () => {
+	if (!localStorage.getItem("token")) {
+		throw new Error("Token not found in localStorage");
+	}
+	return API.get("/user", {
+		headers: {
+			Authorization: `Bearer ${localStorage.getItem("token")}`,
+		},
+	});
+};
 export const loginUser = user => API.post("/user/login", user);
 export const registerUser = user => API.post("/user/register", user);

@@ -15,6 +15,7 @@ const Navbar = () => {
 	const dispatch = useDispatch();
 	const [search, setSearch] = useState(false);
 	const [sideBar, setSideBar] = useState(false);
+	const token = localStorage.getItem("token");
 
 	useEffect(() => {
 		dispatch(fetchCart());
@@ -56,7 +57,7 @@ const Navbar = () => {
 							<ShoppingCartOutlinedIcon />
 						</Badge>
 					</Link>
-					<Link to="/login">
+					<Link to={`${token ? "/account" : "/login"}`}>
 						<PersonOutlineOutlinedIcon />
 					</Link>
 				</div>
