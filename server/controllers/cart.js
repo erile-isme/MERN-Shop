@@ -3,7 +3,9 @@ import Cart from "../models/cartModel.js";
 
 export const fetchCart = async (req, res) => {
 	try {
-		const cart = await Cart.find();
+		const cart = await Cart.findOne({
+			user: req.user._id,
+		});
 		res.status(200).json({
 			message: "Fetch cart successfully",
 			cart: cart[0] === undefined ? cart : cart[0],

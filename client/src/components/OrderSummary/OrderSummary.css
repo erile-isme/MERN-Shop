@@ -1,0 +1,17 @@
+.total-summary {
+  border: solid 1px var(--color-secondary);
+  height: max-content;
+  padding: 1rem 1rem;
+}
+.order-coupon {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+}
+.summary-table {
+  width: 100%;
+  border-spacing: 0 1rem;
+}
+tbody .value {
+  text-align: right;
+}

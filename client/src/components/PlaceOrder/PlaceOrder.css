@@ -1,0 +1,13 @@
+.ui.container.orderplace-container {
+    margin-top: 5rem;
+    display: flex;
+    flex-direction: column;
+    gap: 3rem;
+}
+.order-title {
+    border: solid 1px var(--color-secondary);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 1rem 0;
+}

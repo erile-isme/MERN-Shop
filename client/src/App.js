@@ -17,6 +17,8 @@ import Footer from "./components/Footer/Footer";
 import Copyright from "./components/Copyright/Copyright";
 import "./index.css";
 import Account from "./components/Account/Account";
+import PrivateRoute from "./components/PrivateRoute";
+import PlaceOrder from "./components/PlaceOrder/PlaceOrder";
 
 const App = () => {
 	const [currId, setCurrId] = useState(null);
@@ -26,6 +28,7 @@ const App = () => {
 			<BrowserRouter>
 				<Navbar />
 				<Routes>
+					{/** Public routes */}
 					<Route path="/" element={<Home />} />
 					<Route
 						path="/products/:category/:productId"
@@ -33,10 +36,16 @@ const App = () => {
 					/>
 					<Route path="/products" element={<ProductLists />} />
 					<Route path="/categories/:categoryId" element={<ProductCategory />} />
-					<Route path="/cart" element={<Cart />} />
-					<Route path="/payment" element={<Payment />} />
 					<Route path="/login" element={<Login />} />
-					<Route path="/account" element={<Account />} />
+
+					{/** Private routes */}
+					<Route element={<PrivateRoute />}>
+						<Route path="/cart" element={<Cart />} />
+						<Route path="/payment" element={<Payment />} />
+						<Route path="/account" element={<Account />} />
+						<Route path="/placeorder" element={<PlaceOrder />} />
+					</Route>
+
 					<Route
 						path="/addProd"
 						element={<ProdForm currId={currId} setCurrId={setCurrId} />}

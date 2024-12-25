@@ -16,6 +16,4 @@ router.get("/slider", fetchSlider);
 router.get("/:id", getProduct);
 router.get("/categories/:cateId", fetchProductsInCategory);
 
-// router.post('/:category', getCategory);
-
 export default router;

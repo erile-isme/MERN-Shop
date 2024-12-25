@@ -8,7 +8,6 @@ import { useDispatch, useSelector } from "react-redux";
 import "./Login.css";
 import { loginUser, registerUser } from "../../actions/userAction";
 import { useLocation, useNavigate } from "react-router-dom";
-import jwt from "jsonwebtoken";
 // import { signup, signin } from '../../actions/auth';
 
 const Login = () => {
@@ -29,28 +28,6 @@ const Login = () => {
 		termAgreement: false,
 	});
 
-	const handleLogoutOnTokenExpiration = () => {
-		const token = localStorage.getItem("token");
-
-		if (token) {
-			const decoded = jwt.decode(token);
-			const currentTime = Date.now() / 1000; // Current time in seconds
-
-			if (decoded.exp < currentTime) {
-				// Token has expired, perform logout
-				console.warn("Token has expired. Logging out...");
-				localStorage.removeItem("token");
-				navigate("/");
-			}
-		}
-	};
-
-	// Check token expiration every 10 mins
-	useEffect(() => {
-		const interval = setInterval(handleLogoutOnTokenExpiration, 300000);
-		return () => clearInterval(interval); // Cleanup interval on component unmount
-	});
-
 	const user = useSelector(state => state.user);
 	const error = useSelector(state => state.user.error);
 	console.log("USER: ", user);
@@ -60,6 +37,7 @@ const Login = () => {
 		window.scrollTo(0, 0);
 		if (user.isAuthenticated) {
 			localStorage.setItem("token", user.token);
+			localStorage.setItem("tokenExpiration", Date.now() + 60 * 60 * 1000); //Token valid for 1 hour
 			alert("Login successfully");
 			const redirectUrl =
 				new URLSearchParams(location.search).get("redirect") || "/";
@@ -69,7 +47,7 @@ const Login = () => {
 			alert("Registered successfully");
 			setIsSignUp(false);
 		}
-	}, [user, navigate]);
+	}, [user, navigate, location]);
 
 	// useEffect(() => {
 	// 	gapi.load("client:auth2", () =>

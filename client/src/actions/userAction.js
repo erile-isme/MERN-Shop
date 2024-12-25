@@ -43,10 +43,7 @@ export const registerUser = user => async dispatch => {
 		dispatch({ type: REGISTER, payload: data });
 	} catch (error) {
 		console.log(error);
-		if (
-			(error.response && error.response.status === 400) ||
-			(error.response && error.response.status === 401)
-		) {
+		if (error.response && error.response.status === 400) {
 			dispatch({
 				type: REGISTER_ERROR,
 				payload: error.response.data,

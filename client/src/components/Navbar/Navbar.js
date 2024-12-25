@@ -18,8 +18,11 @@ const Navbar = () => {
 	const token = localStorage.getItem("token");
 
 	useEffect(() => {
+		// if (!token) {
+		// 	window.location.reload();
+		// }
 		dispatch(fetchCart());
-	}, [dispatch]);
+	}, [dispatch, token]);
 
 	const cartList = useSelector(state => state.cart);
 

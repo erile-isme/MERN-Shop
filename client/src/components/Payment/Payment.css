@@ -2,4 +2,85 @@
     margin: 5rem 0 5rem 0;
     display: flex;
     flex-direction: column;
+    gap: 2rem;
+}
+
+.eleven.wide.column.checkout-content {
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+}
+
+/** Shipping container **/
+.delivery-content {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    border: solid 1px var(--color-secondary);
+    height: max-content;
+    padding: 1rem 1rem;
+}
+.input-radios {
+    display: flex;
+    align-items: start;
+    gap: 20px;
+}
+.input-radios span {
+    font-size: 16px;
+}
+.delivery-button {
+    display: flex;
+    justify-content: space-between;
+}
+.back-button {
+    width: 20%;
+    padding: 0.5rem 1rem;
+    cursor: pointer;
+    border-radius: 5px;
+    border: solid 1px var(--color-secondary)
+}
+.continue-button {
+    width: 20%;
+    padding: 0.5rem 1rem;
+    border-radius: 5px;
+    color: var(--color-black);
+    background-color: var(--color-card);
+    cursor: pointer;
+}
+.back-button:hover, .continue-button:hover {
+    opacity: 70%;
+}
+
+/** Payment container **/
+.payment-container {
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+}
+.delivery-content {
+    display: flex;
+    gap: 1rem;
+}
+.order-details, .payment-content {
+    display: flex;
+    flex-direction: column;
+    border: solid 1px var(--color-secondary);
+    height: max-content;
+    padding: 1rem 1rem;
+}
+.input-radios {
+    display: flex;
+    justify-content: flex-start;
+    gap: 2rem;
+    padding-left: 2rem;
+}
+.input-radios input {
+    padding-top: 10px;
+}
+h4:first-child {
+    margin-bottom: 0;
+}
+.input-radio {
+    display: flex;
+    gap: 10px;
 }

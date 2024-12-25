@@ -7,47 +7,14 @@ import {
 } from "../../actions/cartAction";
 import { FaPlus, FaMinus } from "react-icons/fa6";
 import { MdClose } from "react-icons/md";
-import { RiCoupon3Line } from "react-icons/ri";
-import { TAX } from "../../constants/actionTypes";
-import "./Cart.css";
 import { Link, useNavigate } from "react-router-dom";
-import jwt from "jsonwebtoken";
+import OrderSummary from "../OrderSummary/OrderSummary";
+import "./Cart.css";
 
 const Cart = () => {
-	const handleLogoutOnTokenExpiration = () => {
-		const token = localStorage.getItem("token");
-
-		if (token) {
-			const decoded = jwt.decode(token);
-			const currentTime = Date.now() / 1000; // Current time in seconds
-
-			if (decoded.exp < currentTime) {
-				// Token has expired, perform logout
-				console.warn("Token has expired. Logging out...");
-				localStorage.removeItem("token");
-				navigate("/");
-			}
-		}
-	};
-
-	// Check token expiration every 10 mins
-	useEffect(() => {
-		const interval = setInterval(handleLogoutOnTokenExpiration, 300000);
-		return () => clearInterval(interval); // Cleanup interval on component unmount
-	}, []);
-
 	const dispatch = useDispatch();
 	const navigate = useNavigate();
 	const [cartUpdated, setCartUpdated] = useState(false);
-
-	const calculateTotal = () => {
-		let total = 0;
-		cartList.map(item => (total += item.price * item.quantity));
-		return Math.round(total * 100) / 100;
-	};
-	const calculateTax = () => {
-		return Math.round(calculateTotal() * TAX * 100) / 100;
-	};
 
 	const cartList = useSelector(state => state.cart);
 	console.log(cartList);
@@ -176,65 +143,7 @@ const Cart = () => {
 							))}
 						</div>
 						<div className="five wide column order-summary">
-							<div className="total-summary">
-								<table className="summary-table">
-									<thead>
-										<tr>
-											<th colSpan="2" className="summary-title">
-												<h3>Order Summary | {cartList.length} ITEMS</h3>
-											</th>
-										</tr>
-									</thead>
-									<tbody>
-										<tr>
-											<td>
-												<p>Item(s) subtotal</p>
-											</td>
-											<td className="value">
-												<p>CAD ${calculateTotal()}</p>
-											</td>
-										</tr>
-										<tr>
-											<td>
-												<h4>SUBTOTAL</h4>
-											</td>
-											<td className="value">
-												<h4>CAD ${calculateTotal()}</h4>
-											</td>
-										</tr>
-										<tr>
-											<td>
-												<p>Estimated Tax</p>
-											</td>
-											<td className="value">
-												<p>CAD ${calculateTax()}</p>
-											</td>
-										</tr>
-										<tr>
-											<td>
-												<h3>ORDER TOTAL</h3>
-											</td>
-											<td className="value">
-												<h3>
-													CAD $
-													{Math.round(
-														(calculateTax() + calculateTotal()) * 100
-													) / 100}
-												</h3>
-											</td>
-										</tr>
-									</tbody>
-								</table>
-							</div>
-
-							<div>
-								<div className="ui divider"></div>
-								<div className="order-coupon">
-									<RiCoupon3Line />
-									<p>Coupon</p>
-								</div>
-								<div className="ui divider"></div>
-							</div>
+							<OrderSummary />
 							<button className="checkout-button">
 								<Link to="/payment" className="payment-link">
 									<h4>CHECKOUT</h4>
