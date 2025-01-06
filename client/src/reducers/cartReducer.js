@@ -3,6 +3,7 @@ import {
 	ADD_CART,
 	UPDATE_CART,
 	REMOVE_CART,
+	REMOVE_ALL,
 } from "../constants/actionTypes";
 
 const cart = (cart = [], action) => {
@@ -15,6 +16,8 @@ const cart = (cart = [], action) => {
 			return action.payload.orderItems;
 		case REMOVE_CART:
 			return action.payload.orderItems;
+		case REMOVE_ALL:
+			return [];
 		default:
 			return cart;
 	}

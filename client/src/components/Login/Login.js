@@ -1,13 +1,13 @@
 import React, { useEffect, useState } from "react";
 import { Button } from "@mui/material";
 import { useDispatch, useSelector } from "react-redux";
+import { loginUser, registerUser } from "../../actions/userAction";
+import { useLocation, useNavigate } from "react-router-dom";
+import "./Login.css";
 // import { gapi } from "gapi-script";
 // import { GoogleLogin } from "@react-oauth/google";
 // import Icon from './icon';
 // import Input from "./Input";
-import "./Login.css";
-import { loginUser, registerUser } from "../../actions/userAction";
-import { useLocation, useNavigate } from "react-router-dom";
 // import { signup, signin } from '../../actions/auth';
 
 const Login = () => {
@@ -24,14 +24,13 @@ const Login = () => {
 		password: "",
 		address: "",
 		postalCode: "",
-		phone: 0,
+		phone: "",
 		termAgreement: false,
 	});
 
 	const user = useSelector(state => state.user);
 	const error = useSelector(state => state.user.error);
 	console.log("USER: ", user);
-	console.log("USER: ", error);
 
 	useEffect(() => {
 		window.scrollTo(0, 0);
@@ -69,7 +68,7 @@ const Login = () => {
 			password: "",
 			address: "",
 			postalCode: "",
-			phone: 0,
+			phone: "",
 			termAgreement: false,
 		});
 		setConfirmPass("");
@@ -172,36 +171,35 @@ const Login = () => {
 								required
 							/>
 						</div>
-						{/* <div className="ui input">
-					<input
-						type="text"
-						name="address"
-						value={formData.address}
-						placeholder="Address"
-						onChange={handleChange}
-						required
-					/>
-				</div>
-				<div className="ui input">
-					<input
-						type="text"
-						name="postalCode"
-						value={formData.postalCode}
-						placeholder="Postal Code"
-						onChange={handleChange}
-						required
-					/>
-				</div>
-				<div className="ui input">
-					<input
-						type="number"
-						name="phone"
-						value={formData.phone}
-						placeholder="Phone Number"
-						onChange={handleChange}
-						required
-					/>
-				</div> */}
+						<div className="ui input">
+							<input
+								type="text"
+								name="address"
+								value={formData.address}
+								placeholder="Address"
+								onChange={handleChange}
+								required
+							/>
+						</div>
+						<div className="ui input">
+							<input
+								type="text"
+								name="postalCode"
+								value={formData.postalCode}
+								placeholder="Postal Code"
+								onChange={handleChange}
+							/>
+						</div>
+						<div className="ui input">
+							<input
+								type="text"
+								name="phone"
+								value={formData.phone}
+								placeholder="Phone Number (e.g. (555) 555-5555)"
+								onChange={handleChange}
+								required
+							/>
+						</div>
 						<div className="ui divider"></div>
 						<div>
 							<h2>MEMBERSHIP AGREEMENT</h2>
@@ -217,7 +215,7 @@ const Login = () => {
 									onChange={e =>
 										setFormData({
 											...formData,
-											termAgreement: e.target.value === "on" ? true : false,
+											termAgreement: e.target.checked,
 										})
 									}
 								/>
@@ -232,6 +230,7 @@ const Login = () => {
 					variant="contained"
 					color="primary"
 					className="submit"
+					disabled={isSignUp && !formData.termAgreement}
 				>
 					{isSignUp ? "Sign Up" : "Sign In"}
 				</Button>

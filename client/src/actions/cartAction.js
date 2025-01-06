@@ -4,11 +4,13 @@ import {
 	ADD_CART,
 	UPDATE_CART,
 	REMOVE_CART,
+	REMOVE_ALL,
 } from "../constants/actionTypes";
 
 export const fetchCart = () => async dispatch => {
 	try {
 		const { data } = await api.fetchCart();
+		console.log(data);
 		dispatch({ type: FETCH_CART, payload: data.cart });
 	} catch (error) {
 		console.log(error);
@@ -59,6 +61,21 @@ export const removeItemFromCart = removedItem => async dispatch => {
 	try {
 		const { data } = await api.removeItemFromCart(removedItem);
 		dispatch({ type: REMOVE_CART, payload: data });
+	} catch (error) {
+		console.log(error);
+		if (error.response && error.response.status === 500) {
+			dispatch({
+				type: FETCH_CART,
+				payload: error.response.data.message,
+			});
+		}
+	}
+};
+
+export const removeAllFromCart = () => async dispatch => {
+	try {
+		const { data } = await api.removeAllFromCart();
+		dispatch({ type: REMOVE_ALL, payload: data });
 	} catch (error) {
 		console.log(error);
 		if (error.response && error.response.status === 500) {

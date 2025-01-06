@@ -1,43 +1,67 @@
 import React, { useEffect } from "react";
 import { RiCoupon3Line } from "react-icons/ri";
-import "./OrderSummary.css";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchCart } from "../../actions/cartAction";
 import { TAX } from "../../constants/actionTypes";
 import { Link } from "react-router-dom";
+import { useOrder } from "./OrderProvider";
+import "./OrderSummary.css";
 
-const OrderSummary = () => {
+const OrderSummary = ({ state }) => {
 	const dispatch = useDispatch();
-	const calculateTotal = () => {
-		let total = 0;
-		cartList.map(item => (total += item.price * item.quantity));
-		return Math.round(total * 100) / 100;
-	};
-	const calculateTax = () => {
-		return Math.round(calculateTotal() * TAX * 100) / 100;
-	};
+	const {
+		totalBeforeTax,
+		setTotalBeforeTax,
+		tax,
+		setTax,
+		orderTotal,
+		setOrderTotal,
+		shippingFee,
+		setShippingFee,
+	} = useOrder();
 
 	const cartList = useSelector(state => state.cart);
-	console.log(cartList);
+
+	const calculateOrder = () => {
+		let total = 0;
+		cartList.forEach(item => (total += item.price * item.quantity));
+
+		const totalBeforeTax = Math.round(total * 100) / 100;
+		setTotalBeforeTax(totalBeforeTax);
+
+		const tax = totalBeforeTax * TAX;
+		setTax(Math.round(tax * 100) / 100);
+
+		const ship = Math.round(Math.random() * 10 * 100) / 100;
+		setShippingFee(ship);
+
+		const orderTotal = Math.round((totalBeforeTax + tax + ship) * 100) / 100;
+		setOrderTotal(orderTotal);
+	};
+
+	useEffect(() => {
+		if (state === 0) {
+			calculateOrder();
+		}
+	}, [state]);
 
 	useEffect(() => {
 		dispatch(fetchCart());
 	}, [dispatch]);
 
 	return (
-		<div>
+		<>
 			<div className="total-summary">
 				<table className="summary-table">
 					<thead>
 						<tr>
-							<th colSpan="1" className="summary-title">
+							<th colSpan="2" className="summary-title">
 								<h3>Order Summary | {cartList.length} ITEMS</h3>
-							</th>
-							<th colSpan="1" className="summary-title">
 								<Link to="/cart">
 									<h3>EDIT</h3>
 								</Link>
 							</th>
+							<th colSpan="1" className="summary-title"></th>
 						</tr>
 					</thead>
 					<tbody>
@@ -46,7 +70,7 @@ const OrderSummary = () => {
 								<p>Item(s) subtotal</p>
 							</td>
 							<td className="value">
-								<p>CAD ${calculateTotal()}</p>
+								<p>CAD ${totalBeforeTax}</p>
 							</td>
 						</tr>
 						<tr>
@@ -54,7 +78,7 @@ const OrderSummary = () => {
 								<p>Shipping</p>
 							</td>
 							<td className="value">
-								<p>CAD $0</p>
+								<p>CAD ${shippingFee}</p>
 							</td>
 						</tr>
 						{window.location.pathname === "/payment" && (
@@ -72,7 +96,7 @@ const OrderSummary = () => {
 								<h4>SUBTOTAL</h4>
 							</td>
 							<td className="value">
-								<h4>CAD ${calculateTotal()}</h4>
+								<h4>CAD ${totalBeforeTax}</h4>
 							</td>
 						</tr>
 						<tr>
@@ -80,7 +104,7 @@ const OrderSummary = () => {
 								<p>Estimated Tax</p>
 							</td>
 							<td className="value">
-								<p>CAD ${calculateTax()}</p>
+								<p>CAD ${tax}</p>
 							</td>
 						</tr>
 						{window.location.pathname === "/payment" && (
@@ -97,11 +121,8 @@ const OrderSummary = () => {
 							<td>
 								<h3>ORDER TOTAL</h3>
 							</td>
-							<td className="value">
-								<h3>
-									CAD $
-									{Math.round((calculateTax() + calculateTotal()) * 100) / 100}
-								</h3>
+							<td className="value ordertotal">
+								<h3>CAD ${orderTotal}</h3>
 							</td>
 						</tr>
 					</tbody>
@@ -116,8 +137,7 @@ const OrderSummary = () => {
 				</div>
 				<div className="ui divider"></div>
 			</div>
-		</div>
+		</>
 	);
 };
-
 export default OrderSummary;

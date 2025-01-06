@@ -15,10 +15,12 @@ import ProductLists from "./components/ProductList/ProductLists";
 import Newsletter from "./components/Newsletter/Newsletter";
 import Footer from "./components/Footer/Footer";
 import Copyright from "./components/Copyright/Copyright";
-import "./index.css";
 import Account from "./components/Account/Account";
 import PrivateRoute from "./components/PrivateRoute";
 import PlaceOrder from "./components/PlaceOrder/PlaceOrder";
+import { OrderProvider } from "./components/OrderSummary/OrderProvider";
+import OrderHistoryDetail from "./components/OrderHistory/OrderHistoryDetail";
+import "./index.css";
 
 const App = () => {
 	const [currId, setCurrId] = useState(null);
@@ -41,9 +43,17 @@ const App = () => {
 					{/** Private routes */}
 					<Route element={<PrivateRoute />}>
 						<Route path="/cart" element={<Cart />} />
-						<Route path="/payment" element={<Payment />} />
+						<Route
+							path="/payment"
+							element={
+								<OrderProvider>
+									<Payment />
+								</OrderProvider>
+							}
+						/>
 						<Route path="/account" element={<Account />} />
 						<Route path="/placeorder" element={<PlaceOrder />} />
+						<Route path="/orderhistory" element={<OrderHistoryDetail />} />
 					</Route>
 
 					<Route

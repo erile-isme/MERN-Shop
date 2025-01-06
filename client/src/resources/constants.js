@@ -9,11 +9,11 @@ export const navMenu = [
 		name: "Products",
 		href: "/products",
 	},
-	{
-		// icon: <DiscountRoundedIcon />,
-		name: "Sale",
-		href: "/sale",
-	},
+	// {
+	// 	// icon: <DiscountRoundedIcon />,
+	// 	name: "Sale",
+	// 	href: "/sale",
+	// },
 	{
 		// icon: <PersonOutlineOutlinedIcon />,
 		name: "My Account",
@@ -24,12 +24,12 @@ export const navMenu = [
 		name: "Cart",
 		href: "/cart",
 	},
-	{
-		name: "Add new Product",
-		href: "/addProd",
-	},
-	{
-		name: "Add new Category",
-		href: "/addCate",
-	},
+	// {
+	// 	name: "Add new Product",
+	// 	href: "/addProd",
+	// },
+	// {
+	// 	name: "Add new Category",
+	// 	href: "/addCate",
+	// },
 ];

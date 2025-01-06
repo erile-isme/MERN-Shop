@@ -10,6 +10,7 @@ import { MdClose } from "react-icons/md";
 import { Link, useNavigate } from "react-router-dom";
 import OrderSummary from "../OrderSummary/OrderSummary";
 import "./Cart.css";
+import { OrderProvider } from "../OrderSummary/OrderProvider";
 
 const Cart = () => {
 	const dispatch = useDispatch();
@@ -37,8 +38,6 @@ const Cart = () => {
 	}, [cartUpdated, dispatch]);
 
 	const handleUpdateQuantity = (item, newQuantity, color, size) => {
-		console.log(item);
-		console.log(newQuantity);
 		if (newQuantity >= 0) {
 			dispatch(
 				updateCartItem({
@@ -92,7 +91,7 @@ const Cart = () => {
 										</div>
 										<div className="thirteen wide column">
 											<div className="item-title">
-												<h2>Item {item.name}</h2>
+												<h2>{item.name.toUpperCase()}</h2>
 												<MdClose
 													className="item-icon"
 													onClick={() =>
@@ -143,7 +142,9 @@ const Cart = () => {
 							))}
 						</div>
 						<div className="five wide column order-summary">
-							<OrderSummary />
+							<OrderProvider>
+								<OrderSummary />
+							</OrderProvider>
 							<button className="checkout-button">
 								<Link to="/payment" className="payment-link">
 									<h4>CHECKOUT</h4>

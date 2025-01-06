@@ -19,6 +19,9 @@ export const getUser = async (req, res) => {
 		id: currentUser._id,
 		name: currentUser.firstName + " " + currentUser.lastName,
 		email: currentUser.email,
+		address: currentUser.address,
+		postalCode: currentUser.postalCode,
+		phone: currentUser.phone,
 	};
 	console.log(user);
 	res
@@ -50,7 +53,16 @@ export const loginUser = async (req, res) => {
 };
 
 export const registerUser = async (req, res) => {
-	const { firstName, lastName, email, password, termAgreement } = req.body;
+	const {
+		firstName,
+		lastName,
+		email,
+		password,
+		termAgreement,
+		address,
+		postalCode,
+		phone,
+	} = req.body;
 	try {
 		const exisitingUser = await User.findOne({
 			email: email,
@@ -70,10 +82,13 @@ export const registerUser = async (req, res) => {
 
 			//Create user
 			const newUser = new User({
-				firstName: firstName,
-				lastName: lastName,
-				email: email,
+				firstName,
+				lastName,
+				email,
 				password: hashedPass,
+				address,
+				postalCode,
+				phone,
 				termAgreement: termAgreement,
 			});
 			console.log("NEWUSER: ", newUser);

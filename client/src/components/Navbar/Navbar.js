@@ -18,13 +18,11 @@ const Navbar = () => {
 	const token = localStorage.getItem("token");
 
 	useEffect(() => {
-		// if (!token) {
-		// 	window.location.reload();
-		// }
 		dispatch(fetchCart());
 	}, [dispatch, token]);
 
 	const cartList = useSelector(state => state.cart);
+	console.log("NAVBAR: ", cartList);
 
 	const showSideBar = () => {
 		setSideBar(!sideBar);
@@ -53,7 +51,7 @@ const Navbar = () => {
 					<Link to="/cart">
 						<Badge
 							color="primary"
-							badgeContent={cartList.length}
+							badgeContent={cartList?.length}
 							showZero
 							overlap="rectangular"
 						>

@@ -61,6 +61,14 @@ export const removeItemFromCart = removedId => {
 		},
 	});
 };
+export const removeAllFromCart = () => {
+	checkAndRemoveToken();
+	return API.delete("/cart/delete-all", {
+		headers: {
+			Authorization: `Bearer ${localStorage.getItem("token")}`,
+		},
+	});
+};
 
 //User API
 export const getUser = () => {
@@ -76,3 +84,37 @@ export const getUser = () => {
 };
 export const loginUser = user => API.post("/user/login", user);
 export const registerUser = user => API.post("/user/register", user);
+
+//Order History API
+export const fetchAllOrderHistory = () => {
+	checkAndRemoveToken();
+	return API.get("/orderhistory/all", {
+		headers: {
+			Authorization: `Bearer ${localStorage.getItem("token")}`,
+		},
+	});
+};
+export const fetchLatestOrder = () => {
+	checkAndRemoveToken();
+	return API.get("/orderhistory", {
+		headers: {
+			Authorization: `Bearer ${localStorage.getItem("token")}`,
+		},
+	});
+};
+export const getOrderHistory = id => {
+	checkAndRemoveToken();
+	return API.get(`/orderhistory/${id}`, {
+		headers: {
+			Authorization: `Bearer ${localStorage.getItem("token")}`,
+		},
+	});
+};
+export const addToOrderHistory = product => {
+	checkAndRemoveToken();
+	return API.post("/orderhistory", product, {
+		headers: {
+			Authorization: `Bearer ${localStorage.getItem("token")}`,
+		},
+	});
+};

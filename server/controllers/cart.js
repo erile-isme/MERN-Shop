@@ -2,13 +2,19 @@ import mongoose from "mongoose";
 import Cart from "../models/cartModel.js";
 
 export const fetchCart = async (req, res) => {
+	let cartExist = undefined;
 	try {
 		const cart = await Cart.findOne({
 			user: req.user._id,
 		});
+		if (!cart) {
+			cartExist = [];
+		} else {
+			cartExist = cart;
+		}
 		res.status(200).json({
 			message: "Fetch cart successfully",
-			cart: cart[0] === undefined ? cart : cart[0],
+			cart: cartExist,
 		});
 	} catch (error) {
 		res.status(400).json({ message: error });
@@ -137,12 +143,10 @@ export const updateCartItem = async (req, res) => {
 		);
 		console.log("UPDATE CART: ", updatedItem);
 
-		res
-			.status(200)
-			.json({
-				message: "Cart item updated successfully",
-				userCart: updatedItem,
-			});
+		res.status(200).json({
+			message: "Cart item updated successfully",
+			userCart: updatedItem,
+		});
 	} catch (error) {
 		console.error(error);
 		res
@@ -175,14 +179,25 @@ export const removeItemFromCart = async (req, res) => {
 
 		if (!removedItem)
 			return res.status(404).send(`Item with id ${cartId} not found`);
-		res
-			.status(200)
-			.json({
-				message: "Item removed from cart successfully",
-				userCart: removedItem,
-			});
+		res.status(200).json({
+			message: "Item removed from cart successfully",
+			userCart: removedItem,
+		});
 	} catch (error) {
 		console.error(error);
 		res.status(500).send("Error removing the item from the cart");
+	}
+};
+
+export const removeAllFromCart = async (req, res) => {
+	try {
+		const result = await Cart.deleteMany({ user: req.user._id });
+		console.log(result);
+		res.status(200).json({
+			message: `${result.deletedCount} item(s) removed from cart successfully`,
+		});
+	} catch (error) {
+		console.error(error);
+		res.status(500).send("Error removing all of the items from the cart");
 	}
 };

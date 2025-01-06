@@ -1,31 +1,38 @@
 import React, { useEffect, useState } from "react";
 import { FaCheck } from "react-icons/fa";
 import OrderSummary from "../OrderSummary/OrderSummary";
-import "./Payment.css";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchCart } from "../../actions/cartAction";
 import { Link } from "react-router-dom";
+import { addToOrderHistory } from "../../actions/orderHistoryAction";
+import { useOrder } from "../OrderSummary/OrderProvider";
+import "./Payment.css";
+import { getUser } from "../../actions/userAction";
 
 const Payment = () => {
 	const dispatch = useDispatch();
 	const [state, setState] = useState(0);
-	const [selectedMethod, setSelectedMethod] = useState("creditCard");
+	const [selectedMethod, setSelectedMethod] = useState("Credit Card");
 	const [selectedShipping, setSelectedShipping] = useState("ship");
-	const cartList = useSelector(state => state.cart);
-
-	useEffect(() => {
-		dispatch(fetchCart());
-	}, [dispatch]);
-
-	const deliveryDate = date => {
+	const handleDeliveryDate = () => {
 		const today = new Date();
-		today.setDate(today.getDate() + date);
+		today.setDate(today.getDate() + Math.random() * 10);
 		return new Intl.DateTimeFormat("en-US", {
 			weekday: "long",
 			month: "long",
 			day: "numeric",
 		}).format(today);
 	};
+	const deliveryDate = handleDeliveryDate();
+	const { totalBeforeTax, tax, orderTotal, shippingFee } = useOrder();
+
+	const cartList = useSelector(state => state.cart);
+	const currUser = useSelector(state => state.user);
+
+	useEffect(() => {
+		dispatch(fetchCart());
+		dispatch(getUser());
+	}, [dispatch]);
 
 	return (
 		<div className="ui container checkout-container">
@@ -63,7 +70,7 @@ const Payment = () => {
 				</div>
 			</div>
 			<div className="ui grid">
-				<div className="eleven wide column checkout-content">
+				<div className="ten wide column checkout-content">
 					{state === 0 && (
 						<div className="delivery-content">
 							<div className="delivery-title">
@@ -83,8 +90,8 @@ const Payment = () => {
 									/>
 									<div>
 										<h4>Ship To Address</h4>
-										<p>Shipping: FREE</p>
-										<p>Expected Deliver: {deliveryDate(4)}</p>
+										<p>Shipping: ${shippingFee}</p>
+										<p>Expected Deliver: {deliveryDate}</p>
 									</div>
 								</div>
 								<div className="input-radios">
@@ -98,7 +105,7 @@ const Payment = () => {
 									/>
 									<div>
 										<h4>Click or Collect</h4>
-										<p>Available pickup: {deliveryDate(2)}</p>
+										<p>Available pickup: {deliveryDate}</p>
 									</div>
 								</div>
 							</div>
@@ -106,15 +113,15 @@ const Payment = () => {
 							<div className="delivery-address">
 								<div className="ui grid">
 									<div className="three wide column">
-										<p>Eri Le</p>
+										<p>{currUser.name}</p>
 									</div>
 									<div className="ten wide column">
-										<p>123 Abc Street</p>
-										<p>Ottawa, Ontario, A1B 2C3</p>
-										<p>Phone number</p>
+										<p>{currUser.address}</p>
+										<p>{currUser.postalCode}</p>
+										<p>{currUser.phone}</p>
 									</div>
 									<div className="three wide column">
-										<div className="ui vertical animated button" tabindex="0">
+										<div className="ui vertical animated button" tabIndex="0">
 											<div className="hidden content">
 												<FaCheck />
 											</div>
@@ -152,7 +159,7 @@ const Payment = () => {
 												</div>
 												<div className="thirteen wide column">
 													<div className="item-title">
-														<h2>Item {item.name}</h2>
+														<h2>{item.name.toUpperCase()}</h2>
 													</div>
 													<div className="item-content">
 														<p>{item.color ? `Color: ${item.color}` : ""}</p>
@@ -176,8 +183,8 @@ const Payment = () => {
 											type="radio"
 											name="paymentMethod"
 											id="creditCard"
-											value="creditCard"
-											checked={selectedMethod === "creditCard"}
+											value="Credit Card"
+											checked={selectedMethod === "Credit Card"}
 											onChange={e => setSelectedMethod(e.target.value)}
 										/>
 										Credit Card
@@ -187,9 +194,12 @@ const Payment = () => {
 											type="radio"
 											name="paymentMethod"
 											id="paypal"
-											value="paypal"
-											checked={selectedMethod === "paypal"}
-											onChange={e => setSelectedMethod(e.target.value)}
+											value="PayPal"
+											checked={selectedMethod === "PayPal"}
+											onChange={e => {
+												console.log(e.target.value);
+												setSelectedMethod(e.target.value);
+											}}
 										/>
 										PayPal
 									</div>
@@ -221,15 +231,15 @@ const Payment = () => {
 					)}
 				</div>
 				{state !== 2 && (
-					<div className="five wide column">
-						<OrderSummary />
+					<div className="six wide column">
+						<OrderSummary state={0} />
 					</div>
 				)}
 			</div>
 			{state === 2 && (
 				<div className="confirm-container">
 					<h2>3. ORDER SUMMARY</h2>
-					<OrderSummary />
+					<OrderSummary state={1} />
 					<div className="delivery-button">
 						<button
 							className="back-button"
@@ -243,6 +253,20 @@ const Payment = () => {
 							onClick={() => {
 								if (state < 2 && (selectedMethod || selectedShipping)) {
 									setState(state + 1);
+								} else if (state === 2) {
+									console.log(cartList);
+									dispatch(
+										addToOrderHistory({
+											orderItems: cartList,
+											deliveredBy: deliveryDate,
+											paymentOption: selectedMethod,
+											totalBeforeTax,
+											tax,
+											orderTotal,
+											shippingFee,
+										})
+									);
+									setTimeout(3000);
 								}
 							}}
 						>

@@ -16,6 +16,7 @@ export const FETCH_CART = "FETCH_CART";
 export const ADD_CART = "ADD_CART";
 export const UPDATE_CART = "UPDATE_CART";
 export const REMOVE_CART = "REMOVE_CART";
+export const REMOVE_ALL = "REMOVE_ALL";
 
 //User
 export const GET_USER = "GET_USER";
@@ -23,3 +24,9 @@ export const LOGIN = "LOGIN";
 export const LOGIN_ERROR = "LOGIN_ERROR";
 export const REGISTER = "REGISTER";
 export const REGISTER_ERROR = "REGISTER_ERROR";
+
+//Order History
+export const FETCH_ALL_HISTORY = "FETCH_ALL_HISTORY";
+export const FETCH_LATEST = "FETCH_LATEST";
+export const GET_ORDER = "GET_ORDER";
+export const ADD_HISTORY = "ADD_ORDERHISTORY";
