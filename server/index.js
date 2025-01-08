@@ -19,7 +19,24 @@ const __dirname = path.dirname(__filename);
 
 app.use(bodyParser.json({ limit: "30mb", extended: true }));
 app.use(bodyParser.urlencoded({ imit: "30mb", extended: true }));
-app.use(cors());
+// CORS Configuration
+const allowedOrigins = [
+	process.env.LOCAL_FRONTEND_API,
+	process.env.PROD_FRONTEND_API,
+];
+
+app.use(
+  cors({
+    origin: (origin, callback) => {
+      if (!origin || allowedOrigins.includes(origin)) {
+        callback(null, true);
+      } else {
+        callback(new Error("Not allowed by CORS"));
+      }
+    },
+    credentials: true, // Allow cookies and credentials
+  })
+);
 
 app.use("/uploads", express.static(path.join(__dirname, "resources"))); //Access file in this folder
 app.use("/products/uploads", productRoutes); //POST a product with images
