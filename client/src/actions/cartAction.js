@@ -5,18 +5,19 @@ import {
 	UPDATE_CART,
 	REMOVE_CART,
 	REMOVE_ALL,
+	CART_ERROR,
 } from "../constants/actionTypes";
 
 export const fetchCart = () => async dispatch => {
 	try {
 		const { data } = await api.fetchCart();
-		console.log(data);
+		console.log(data.cart);
 		dispatch({ type: FETCH_CART, payload: data.cart });
 	} catch (error) {
 		console.log(error);
 		if (error.response && error.response.status === 400) {
 			dispatch({
-				type: FETCH_CART,
+				type: CART_ERROR,
 				payload: error.response.data.message,
 			});
 		}
@@ -32,7 +33,7 @@ export const addItemToCart = cartItem => async dispatch => {
 		console.log(error);
 		if (error.response && error.response.status === 400) {
 			dispatch({
-				type: FETCH_CART,
+				type: CART_ERROR,
 				payload: error.response.data.message,
 			});
 		}
@@ -50,7 +51,7 @@ export const updateCartItem = cartItem => async dispatch => {
 			(error.response.status === 500 || error.response.status === 400)
 		) {
 			dispatch({
-				type: FETCH_CART,
+				type: CART_ERROR,
 				payload: error.response.data.message,
 			});
 		}
@@ -65,7 +66,7 @@ export const removeItemFromCart = removedItem => async dispatch => {
 		console.log(error);
 		if (error.response && error.response.status === 500) {
 			dispatch({
-				type: FETCH_CART,
+				type: CART_ERROR,
 				payload: error.response.data.message,
 			});
 		}
@@ -80,7 +81,7 @@ export const removeAllFromCart = () => async dispatch => {
 		console.log(error);
 		if (error.response && error.response.status === 500) {
 			dispatch({
-				type: FETCH_CART,
+				type: CART_ERROR,
 				payload: error.response.data.message,
 			});
 		}

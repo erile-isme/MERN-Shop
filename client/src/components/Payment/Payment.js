@@ -1,19 +1,31 @@
 import React, { useEffect, useState } from "react";
-import { FaCheck } from "react-icons/fa";
-import OrderSummary from "../OrderSummary/OrderSummary";
 import { useDispatch, useSelector } from "react-redux";
-import { fetchCart } from "../../actions/cartAction";
-import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { addToOrderHistory } from "../../actions/orderHistoryAction";
-import { useOrder } from "../OrderSummary/OrderProvider";
-import "./Payment.css";
+import { fetchCart } from "../../actions/cartAction";
 import { getUser } from "../../actions/userAction";
+import { FaCheck } from "react-icons/fa";
+import { useOrder } from "../OrderSummary/OrderProvider";
+import Loading from "../Loading/Loading";
+import OrderSummary from "../OrderSummary/OrderSummary";
+import "./Payment.css";
 
 const Payment = () => {
 	const dispatch = useDispatch();
+	const navigate = useNavigate();
 	const [state, setState] = useState(0);
 	const [selectedMethod, setSelectedMethod] = useState("Credit Card");
 	const [selectedShipping, setSelectedShipping] = useState("ship");
+	const [isLoading, setIsLoading] = useState(false);
+	const [orderPlaced, setOrderPlaced] = useState(false);
+	const { totalBeforeTax, tax, orderTotal, shippingFee } = useOrder();
+
+	const cartList = useSelector(state => state.cart);
+	const currUser = useSelector(state => state.user.user);
+	console.log(currUser);
+	const orderHistory = useSelector(state => state.orderHistory);
+
+	//Create estimated delivery date
 	const handleDeliveryDate = () => {
 		const today = new Date();
 		today.setDate(today.getDate() + Math.random() * 10);
@@ -24,18 +36,37 @@ const Payment = () => {
 		}).format(today);
 	};
 	const deliveryDate = handleDeliveryDate();
-	const { totalBeforeTax, tax, orderTotal, shippingFee } = useOrder();
 
-	const cartList = useSelector(state => state.cart);
-	const currUser = useSelector(state => state.user);
+	//Handle place order and navigate to Place Order Confirmation page in useEffect
+	const handlePlaceOrder = async () => {
+		setIsLoading(true);
+		dispatch(
+			addToOrderHistory({
+				orderItems: cartList,
+				deliveredBy: deliveryDate,
+				paymentOption: selectedMethod,
+				totalBeforeTax,
+				tax,
+				orderTotal,
+				shippingFee,
+			})
+		);
+		setOrderPlaced(true);
+	};
 
 	useEffect(() => {
 		dispatch(fetchCart());
 		dispatch(getUser());
-	}, [dispatch]);
+		if (orderPlaced && orderHistory?.newOrderHistory) {
+			console.log("ORDER PLACED SUCCESFULLY");
+			setIsLoading(false);
+			navigate(`/placeorder/${orderHistory.newOrderHistory._id.toString()}`);
+		}
+	}, [dispatch, navigate, orderPlaced, orderHistory]);
 
 	return (
 		<div className="ui container checkout-container">
+			{/* Breadccrumbs for UX */}
 			<div className="ui breadcrumb">
 				<a className="section" href="/">
 					Home
@@ -47,6 +78,7 @@ const Payment = () => {
 				<i className="right chevron icon divider"></i>
 				<div className="active section">Delivery</div>
 			</div>
+			{/* Delivery steps */}
 			<div className="ui steps">
 				<div className={`${state === 0 ? "active" : ""} step`}>
 					<i className="truck icon"></i>
@@ -71,6 +103,7 @@ const Payment = () => {
 			</div>
 			<div className="ui grid">
 				<div className="ten wide column checkout-content">
+					{/* Confirm delivery option and address */}
 					{state === 0 && (
 						<div className="delivery-content">
 							<div className="delivery-title">
@@ -110,33 +143,31 @@ const Payment = () => {
 								</div>
 							</div>
 							<div className="ui divider"></div>
-							<div className="delivery-address">
-								<div className="ui grid">
-									<div className="three wide column">
-										<p>{currUser.name}</p>
-									</div>
-									<div className="ten wide column">
-										<p>{currUser.address}</p>
-										<p>{currUser.postalCode}</p>
-										<p>{currUser.phone}</p>
-									</div>
-									<div className="three wide column">
-										<div className="ui vertical animated button" tabIndex="0">
-											<div className="hidden content">
-												<FaCheck />
-											</div>
-											<div className="visible content">Selected</div>
+							{currUser && (
+								<div className="delivery-address">
+									<div className="ui grid">
+										<div className="three wide column">
+											<p>{currUser.name}</p>
 										</div>
-										{/* <button className="checkout-button">
-										<Link to="/payment" className="payment-link">
-											<h4>CHECKOUT</h4>
-										</Link>
-									</button> */}
+										<div className="ten wide column">
+											<p>{currUser.address}</p>
+											<p>{currUser.postalCode}</p>
+											<p>{currUser.phone}</p>
+										</div>
+										<div className="three wide column">
+											<div className="ui vertical animated button" tabIndex="0">
+												<div className="hidden content">
+													<FaCheck />
+												</div>
+												<div className="visible content">Selected</div>
+											</div>
+										</div>
 									</div>
 								</div>
-							</div>
+							)}
 						</div>
 					)}
+					{/* Confirm purchased items and payment options */}
 					{state === 1 && (
 						<div className="payment-container">
 							<div className="order-details">
@@ -145,7 +176,7 @@ const Payment = () => {
 								{cartList &&
 									cartList.length > 0 &&
 									cartList.map((item, index) => (
-										<div key={index}>
+										<div key={item._id}>
 											<div className="ui grid">
 												<div className="three wide column">
 													<img
@@ -207,6 +238,7 @@ const Payment = () => {
 							</div>
 						</div>
 					)}
+					{/* Back and Continue button are different for state 0 and 1 comparing with state 2 */}
 					{state !== 2 && (
 						<div className="delivery-button">
 							<button
@@ -230,16 +262,18 @@ const Payment = () => {
 						</div>
 					)}
 				</div>
+				{/* Display Order Summary throughout state 0 and 1. State 2 will expand the whole width without ui grid */}
 				{state !== 2 && (
 					<div className="six wide column">
-						<OrderSummary state={0} />
+						<OrderSummary paymentState={0} />
 					</div>
 				)}
 			</div>
+			{/* Confirm order before paying */}
 			{state === 2 && (
 				<div className="confirm-container">
 					<h2>3. ORDER SUMMARY</h2>
-					<OrderSummary state={1} />
+					<OrderSummary paymentState={1} />
 					<div className="delivery-button">
 						<button
 							className="back-button"
@@ -251,36 +285,17 @@ const Payment = () => {
 						<button
 							className="continue-button"
 							onClick={() => {
-								if (state < 2 && (selectedMethod || selectedShipping)) {
+								if (state < 2 && (selectedMethod || selectedShipping))
 									setState(state + 1);
-								} else if (state === 2) {
-									console.log(cartList);
-									dispatch(
-										addToOrderHistory({
-											orderItems: cartList,
-											deliveredBy: deliveryDate,
-											paymentOption: selectedMethod,
-											totalBeforeTax,
-											tax,
-											orderTotal,
-											shippingFee,
-										})
-									);
-									setTimeout(3000);
-								}
+								else if (state === 2) handlePlaceOrder();
 							}}
 						>
-							{state !== 2 ? (
-								<h4>CONTINUE</h4>
-							) : (
-								<Link to="/placeorder">
-									<h4>PLACE ORDER</h4>
-								</Link>
-							)}
+							{state !== 2 ? <h4>CONTINUE</h4> : <h4>PLACE ORDER</h4>}
 						</button>
 					</div>
 				</div>
 			)}
+			<Loading show={isLoading} />
 		</div>
 	);
 };

@@ -17,6 +17,7 @@ export const ADD_CART = "ADD_CART";
 export const UPDATE_CART = "UPDATE_CART";
 export const REMOVE_CART = "REMOVE_CART";
 export const REMOVE_ALL = "REMOVE_ALL";
+export const CART_ERROR = "CART_ERROR";
 
 //User
 export const GET_USER = "GET_USER";

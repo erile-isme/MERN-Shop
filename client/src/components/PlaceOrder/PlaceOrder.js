@@ -2,18 +2,19 @@ import React, { useEffect } from "react";
 import "./PlaceOrder.css";
 import OrderHistoryDetail from "../OrderHistory/OrderHistoryDetail";
 import { useDispatch, useSelector } from "react-redux";
-import { fetchLatestOrder } from "../../actions/orderHistoryAction";
+import { getOrderHistory } from "../../actions/orderHistoryAction";
 import { removeAllFromCart } from "../../actions/cartAction";
+import { useParams } from "react-router-dom";
 
 const PlaceOrder = () => {
 	const dispatch = useDispatch();
+	const { orderId } = useParams();
 	const orderHistory = useSelector(state => state.orderHistory);
-	console.log(orderHistory);
 
 	useEffect(() => {
-		dispatch(fetchLatestOrder());
-		// dispatch(removeAllFromCart());
-	}, [dispatch]);
+		dispatch(getOrderHistory(orderId));
+		dispatch(removeAllFromCart());
+	}, [dispatch, orderId]);
 
 	return (
 		orderHistory && (

@@ -2,11 +2,12 @@ import mongoose from "mongoose";
 import Cart from "../models/cartModel.js";
 
 export const fetchCart = async (req, res) => {
-	let cartExist = undefined;
+	let cartExist = null;
 	try {
 		const cart = await Cart.findOne({
 			user: req.user._id,
 		});
+		console.log(cart);
 		if (!cart) {
 			cartExist = [];
 		} else {

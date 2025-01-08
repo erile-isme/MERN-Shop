@@ -2,6 +2,7 @@ import React, { useEffect } from "react";
 import "./OrderHistory.css";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchAllOrderHistory } from "../../actions/orderHistoryAction";
+import { Link } from "react-router-dom";
 
 const OrderHistory = ({ setState, setOrderHistoryId }) => {
 	const dispatch = useDispatch();
@@ -23,17 +24,13 @@ const OrderHistory = ({ setState, setOrderHistoryId }) => {
 				{orderHistory &&
 					orderHistory.length > 0 &&
 					orderHistory.map(order => (
-						<>
+						<div key={order._id}>
 							<div className="history-title">
 								<h3>DATE OF ORDER {order.dateOfOrder}</h3>
-								<div
-									className="details-button"
-									onClick={() => {
-										setOrderHistoryId(order._id);
-										setState("Order History Detail");
-									}}
-								>
-									<h4>DETAILS</h4>
+								<div className="details-button">
+									<Link to={`/account/orderhistory/${order._id.toString()}`}>
+										Details
+									</Link>
 								</div>
 							</div>
 							<span>
@@ -41,7 +38,7 @@ const OrderHistory = ({ setState, setOrderHistoryId }) => {
 								<p>Order status: {order.orderStatus}</p>
 								<p>Estimated delivery time: {order.deliveredBy}</p>
 							</span>
-						</>
+						</div>
 					))}
 			</div>
 		</div>

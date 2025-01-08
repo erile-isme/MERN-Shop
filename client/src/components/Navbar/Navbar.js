@@ -15,18 +15,13 @@ const Navbar = () => {
 	const dispatch = useDispatch();
 	const [search, setSearch] = useState(false);
 	const [sideBar, setSideBar] = useState(false);
+
 	const token = localStorage.getItem("token");
+	const cartList = useSelector(state => state.cart);
 
 	useEffect(() => {
 		dispatch(fetchCart());
-	}, [dispatch, token]);
-
-	const cartList = useSelector(state => state.cart);
-	console.log("NAVBAR: ", cartList);
-
-	const showSideBar = () => {
-		setSideBar(!sideBar);
-	};
+	}, [dispatch]);
 
 	return (
 		<div>
@@ -58,13 +53,17 @@ const Navbar = () => {
 							<ShoppingCartOutlinedIcon />
 						</Badge>
 					</Link>
-					<Link to={`${token ? "/account" : "/login"}`}>
+					<Link to={`${token ? "/account/profile" : "/login"}`}>
 						<PersonOutlineOutlinedIcon />
 					</Link>
 				</div>
 			</div>
 
-			{sideBar ? <Sidebar sideBar={sideBar} setSideBar={showSideBar} /> : <></>}
+			{sideBar ? (
+				<Sidebar sideBar={sideBar} setSideBar={() => setSideBar(!sideBar)} />
+			) : (
+				<></>
+			)}
 		</div>
 	);
 };

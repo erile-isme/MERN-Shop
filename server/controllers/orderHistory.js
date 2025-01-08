@@ -12,23 +12,13 @@ export const fetchAllOrderHistory = async (req, res) => {
 	}
 };
 
-export const fetchLatestOrder = async (req, res) => {
-	console.log(req.user._id);
-	try {
-		const orderHistory = await OrderHistory.findOne({ user: req.user._id });
-		console.log("ORDER HISTORY", orderHistory);
-		res.status(200).json(orderHistory);
-	} catch (error) {
-		res.status(400).json({ message: error.message });
-	}
-};
-
 export const getOrderHistory = async (req, res) => {
 	console.log(req.params.id);
 	try {
 		const orderHistory = await OrderHistory.findOne({
 			_id: req.params.id,
 		});
+		console.log("GET ORDER HISTORY: ", orderHistory);
 		res.status(200).json(orderHistory);
 	} catch (error) {
 		res.status(400).json({ message: error.message });
@@ -37,11 +27,18 @@ export const getOrderHistory = async (req, res) => {
 
 export const addToOrderHistory = async (req, res) => {
 	const orderNumber = Date.now() + "-" + Math.floor(Math.random() * 1000);
-	console.log(req.body.orderItems);
 
 	const orderHistory = {
 		user: req.user._id,
-		dateOfOrder: new Date(),
+		dateOfOrder: new Date().toLocaleString("en-US", {
+			weekday: "long",
+			year: "numeric",
+			month: "long",
+			day: "numeric",
+			hour: "numeric",
+			minute: "numeric",
+			second: "numeric",
+		}),
 		orderNumber,
 		orderStatus: "Processing",
 		deliveredBy: req.body.deliveredBy,
@@ -54,9 +51,8 @@ export const addToOrderHistory = async (req, res) => {
 		orderTotal: req.body.orderTotal,
 	};
 	console.log("ADD TO HISTORY: ", orderHistory);
-
 	const newOrderHistory = new OrderHistory(orderHistory);
-	console.log("NEW ORDER HISTORY: ", newOrderHistory);
+
 	try {
 		await newOrderHistory.save();
 		res

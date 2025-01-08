@@ -10,7 +10,8 @@ import {
 export const getUser = () => async dispatch => {
 	try {
 		const { data } = await api.getUser();
-		dispatch({ type: GET_USER, payload: data });
+		console.log(data.data);
+		dispatch({ type: GET_USER, payload: data.data });
 	} catch (error) {
 		console.log(error);
 		if (error.response && error.response.status === 401) {

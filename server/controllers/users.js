@@ -14,7 +14,6 @@ const generateToken = id => {
 
 export const getUser = async (req, res) => {
 	const currentUser = req.user;
-
 	const user = {
 		id: currentUser._id,
 		name: currentUser.firstName + " " + currentUser.lastName,
@@ -26,7 +25,11 @@ export const getUser = async (req, res) => {
 	console.log(user);
 	res
 		.status(200)
-		.json({ message: "Retrieve user info successfully", user: user });
+		.json({
+			sucess: true,
+			message: "Retrieve user info successfully",
+			data: user,
+		});
 };
 
 export const loginUser = async (req, res) => {

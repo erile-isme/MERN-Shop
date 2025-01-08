@@ -5,17 +5,19 @@ import {
 	removeItemFromCart,
 	updateCartItem,
 } from "../../actions/cartAction";
+import { Link, useNavigate } from "react-router-dom";
+import { OrderProvider } from "../OrderSummary/OrderProvider";
 import { FaPlus, FaMinus } from "react-icons/fa6";
 import { MdClose } from "react-icons/md";
-import { Link, useNavigate } from "react-router-dom";
 import OrderSummary from "../OrderSummary/OrderSummary";
+import Loading from "../Loading/Loading";
 import "./Cart.css";
-import { OrderProvider } from "../OrderSummary/OrderProvider";
 
 const Cart = () => {
 	const dispatch = useDispatch();
 	const navigate = useNavigate();
 	const [cartUpdated, setCartUpdated] = useState(false);
+	const [isLoading, setIsLoading] = useState(false);
 
 	const cartList = useSelector(state => state.cart);
 	console.log(cartList);
@@ -34,6 +36,7 @@ const Cart = () => {
 		if (cartUpdated) {
 			dispatch(fetchCart());
 			setCartUpdated(false);
+			setIsLoading(false);
 		}
 	}, [cartUpdated, dispatch]);
 
@@ -64,6 +67,7 @@ const Cart = () => {
 
 	return (
 		<div className="ui container cart-container">
+			<Loading show={isLoading} />
 			<div className="ui breadcrumb">
 				<a className="section" href="/">
 					Home
@@ -94,13 +98,15 @@ const Cart = () => {
 												<h2>{item.name.toUpperCase()}</h2>
 												<MdClose
 													className="item-icon"
-													onClick={() =>
+													onClick={() => {
+														setIsLoading(true);
 														removeCartItem(
 															item.productId,
 															item.size,
 															item.color
-														)
-													}
+														);
+														setCartUpdated(true);
+													}}
 												/>
 											</div>
 											<div className="item-content">
@@ -143,7 +149,7 @@ const Cart = () => {
 						</div>
 						<div className="five wide column order-summary">
 							<OrderProvider>
-								<OrderSummary />
+								<OrderSummary paymentState={2} />
 							</OrderProvider>
 							<button className="checkout-button">
 								<Link to="/payment" className="payment-link">

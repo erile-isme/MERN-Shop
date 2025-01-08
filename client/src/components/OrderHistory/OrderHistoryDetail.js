@@ -2,15 +2,21 @@ import React, { useEffect } from "react";
 import "./OrderHistoryDetail.css";
 import { useDispatch, useSelector } from "react-redux";
 import { getUser } from "../../actions/userAction";
+import { useParams } from "react-router-dom";
+import { getOrderHistory } from "../../actions/orderHistoryAction";
 
-const OrderHistoryDetail = ({ orderHistory }) => {
+const OrderHistoryDetail = () => {
 	const dispatch = useDispatch();
-	const currUser = useSelector(state => state.user);
+	const { orderHistoryId } = useParams();
+	const currUser = useSelector(state => state.user.user);
+	const orderHistory = useSelector(state => state.orderHistory);
+	console.log("ORDERID: ", orderHistoryId);
 	console.log("ORDER HISTORY IN DETAIL: ", orderHistory);
 
 	useEffect(() => {
 		dispatch(getUser());
-	}, [dispatch]);
+		if (orderHistoryId) dispatch(getOrderHistory(orderHistoryId));
+	}, [dispatch, orderHistoryId]);
 
 	return (
 		orderHistory &&

@@ -7,7 +7,7 @@ import { Link } from "react-router-dom";
 import { useOrder } from "./OrderProvider";
 import "./OrderSummary.css";
 
-const OrderSummary = ({ state }) => {
+const OrderSummary = ({ paymentState }) => {
 	const dispatch = useDispatch();
 	const {
 		totalBeforeTax,
@@ -32,18 +32,24 @@ const OrderSummary = ({ state }) => {
 		const tax = totalBeforeTax * TAX;
 		setTax(Math.round(tax * 100) / 100);
 
-		const ship = Math.round(Math.random() * 10 * 100) / 100;
+		const ship =
+			paymentState === 0 ? Math.round(Math.random() * 10 * 100) / 100 : 0;
 		setShippingFee(ship);
 
 		const orderTotal = Math.round((totalBeforeTax + tax + ship) * 100) / 100;
 		setOrderTotal(orderTotal);
 	};
 
+	/*
+	 * state 0: From Payment for delivery and billing - calculate as normal after knowing address
+	 * state 1: From Payment for confirm order - used data from state 0, no need to recalculate
+	 * state 2: From Cart - calculate Order except shipping until knowing address
+	 */
 	useEffect(() => {
-		if (state === 0) {
+		if (paymentState === 0 || paymentState === 2) {
 			calculateOrder();
 		}
-	}, [state]);
+	}, [paymentState]);
 
 	useEffect(() => {
 		dispatch(fetchCart());
@@ -78,7 +84,11 @@ const OrderSummary = ({ state }) => {
 								<p>Shipping</p>
 							</td>
 							<td className="value">
-								<p>CAD ${shippingFee}</p>
+								<p>
+									{paymentState === 2
+										? "Estimated later"
+										: `CAD ${shippingFee}`}
+								</p>
 							</td>
 						</tr>
 						{window.location.pathname === "/payment" && (

@@ -5,11 +5,17 @@ import {
 	REGISTER_ERROR,
 	GET_USER,
 } from "../constants/actionTypes";
-
-const user = (user = [], action) => {
+const initialState = {
+	user: null,
+	error: null,
+	token: null,
+	isAuthenticated: false,
+	isRegistered: false,
+};
+const user = (user = initialState, action) => {
 	switch (action.type) {
 		case GET_USER:
-			return action.payload.user;
+			return { ...user, user: action.payload, loading: false };
 		case LOGIN:
 			return {
 				...user,

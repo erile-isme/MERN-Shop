@@ -1,25 +1,10 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
+import { Link, Outlet, useNavigate } from "react-router-dom";
 import "./Account.css";
-import { useDispatch, useSelector } from "react-redux";
-import { getUser } from "../../actions/userAction";
-import OrderHistory from "../OrderHistory/OrderHistory";
-import OrderHistoryDetail from "../OrderHistory/OrderHistoryDetail";
-import { getOrderHistory } from "../../actions/orderHistoryAction";
 
 const Account = () => {
-	const dispatch = useDispatch();
+	const navigate = useNavigate();
 	const [state, setState] = useState("Profile");
-	const [orderHistoryId, setOrderHistoryId] = useState("");
-	const currentUser = useSelector(state => state.user);
-	console.log(currentUser);
-	const orderHistorySelected = useSelector(state => state.orderHistory);
-	console.log(orderHistorySelected);
-
-	useEffect(() => {
-		dispatch(getUser());
-		if (state === "Order History Detail")
-			dispatch(getOrderHistory(orderHistoryId));
-	}, [dispatch, state, orderHistoryId]);
 
 	return (
 		<div className="ui container account">
@@ -40,13 +25,13 @@ const Account = () => {
 							className={`${state === "Profile" ? "active" : ""} item`}
 							onClick={() => setState("Profile")}
 						>
-							Profile
+							<Link to="/account/profile">Profile</Link>
 						</div>
 						<div
 							className={`${state === "Order History" ? "active" : ""} item`}
 							onClick={() => setState("Order History")}
 						>
-							Order History
+							<Link to="/account/orderhistory">Order History</Link>
 						</div>
 					</div>
 					<h2>Profile Setting</h2>
@@ -63,29 +48,21 @@ const Account = () => {
 						>
 							Change passwords
 						</div>
+						<div
+							className={`${state === "Sign Out" ? "active" : ""} item`}
+							onClick={() => {
+								setState("Sign Out");
+								localStorage.removeItem("token");
+								localStorage.removeItem("tokenExpiration");
+								navigate("/");
+							}}
+						>
+							Sign Out
+						</div>
 					</div>
 				</div>
 				<div className="eleven wide column">
-					{state === "Profile" && (
-						<div className="account-profile">
-							<h2>PROFILE</h2>
-							<div className="personal-info">
-								<h3>Name</h3>
-								<p>{currentUser.name}</p>
-								<h3>Email Address</h3>
-								<p>{currentUser.email}</p>
-							</div>
-						</div>
-					)}
-					{state === "Order History" && (
-						<OrderHistory
-							setState={setState}
-							setOrderHistoryId={setOrderHistoryId}
-						/>
-					)}
-					{state === "Order History Detail" && (
-						<OrderHistoryDetail orderHistory={orderHistorySelected} />
-					)}
+					<Outlet />
 				</div>
 			</div>
 		</div>

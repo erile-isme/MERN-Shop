@@ -21,6 +21,8 @@ import PlaceOrder from "./components/PlaceOrder/PlaceOrder";
 import { OrderProvider } from "./components/OrderSummary/OrderProvider";
 import OrderHistoryDetail from "./components/OrderHistory/OrderHistoryDetail";
 import "./index.css";
+import OrderHistory from "./components/OrderHistory/OrderHistory";
+import Profile from "./components/Account/Profile";
 
 const App = () => {
 	const [currId, setCurrId] = useState(null);
@@ -51,9 +53,15 @@ const App = () => {
 								</OrderProvider>
 							}
 						/>
-						<Route path="/account" element={<Account />} />
-						<Route path="/placeorder" element={<PlaceOrder />} />
-						<Route path="/orderhistory" element={<OrderHistoryDetail />} />
+						<Route path="/account" element={<Account />}>
+							<Route path="profile" element={<Profile />} />
+							<Route path="orderhistory" element={<OrderHistory />}></Route>
+							<Route
+								path="orderhistory/:orderHistoryId"
+								element={<OrderHistoryDetail />}
+							/>
+						</Route>
+						<Route path="/placeorder/:orderId" element={<PlaceOrder />} />
 					</Route>
 
 					<Route

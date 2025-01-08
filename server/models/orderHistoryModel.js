@@ -2,7 +2,7 @@ import mongoose from "mongoose";
 
 const orderHistorySchema = mongoose.Schema({
 	user: { type: mongoose.Schema.Types.ObjectId, required: true, ref: "User" },
-	dateOfOrder: { type: Date },
+	dateOfOrder: { type: String },
 	orderNumber: { type: String, unique: true },
 	orderStatus: { type: String, required: true },
 	deliveredBy: { type: String },

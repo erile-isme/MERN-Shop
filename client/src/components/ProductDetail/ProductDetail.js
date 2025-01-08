@@ -30,10 +30,6 @@ const ProductDetail = () => {
 		dispatch(getProduct(productId));
 	}, [dispatch, productId]);
 
-	const handleSizeChange = event => {
-		setSize(event.target.value);
-	};
-
 	const addToCart = ({ id, quantity, size, name, color, price, img }) => {
 		const cartItem = {
 			productId: id,
@@ -44,12 +40,11 @@ const ProductDetail = () => {
 			size: size ? size : null,
 			color: color ? color : null,
 		};
+		console.log(cartItem);
 		if (!localStorage.getItem("token")) {
 			navigate(`/login?redirect=${window.location.pathname}`);
 		} else {
-			console.log(cartItem);
 			dispatch(addItemToCart(cartItem));
-			window.location.reload();
 		}
 	};
 
@@ -199,7 +194,7 @@ const ProductDetail = () => {
 												id="demo-simple-select-standard"
 												value={size}
 												label="Size"
-												onChange={handleSizeChange}
+												onChange={e => setSize(e.target.value)}
 											>
 												{product.size.map((size, index) => (
 													<MenuItem key={index} className="size" value={index}>
@@ -245,6 +240,15 @@ const ProductDetail = () => {
 								className="ui button add-cart"
 								type="button"
 								onClick={() => {
+									console.log("ADDED ITEM: ", {
+										id: product._id,
+										quantity,
+										size: product.size[size],
+										color: product.colorName[colorIndex],
+										name: product.name,
+										price: product.price,
+										img: product.img[0],
+									});
 									addToCart({
 										id: product._id,
 										quantity,

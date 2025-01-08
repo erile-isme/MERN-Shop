@@ -4,6 +4,7 @@ import {
 	UPDATE_CART,
 	REMOVE_CART,
 	REMOVE_ALL,
+	CART_ERROR,
 } from "../constants/actionTypes";
 
 const cart = (cart = [], action) => {
@@ -18,6 +19,8 @@ const cart = (cart = [], action) => {
 			return action.payload.orderItems;
 		case REMOVE_ALL:
 			return [];
+		case CART_ERROR:
+			return { message: action.payload };
 		default:
 			return cart;
 	}

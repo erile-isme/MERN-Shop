@@ -1,7 +1,6 @@
 import * as api from "../api";
 import {
 	FETCH_ALL_HISTORY,
-	FETCH_LATEST,
 	ADD_HISTORY,
 	GET_ORDER,
 } from "../constants/actionTypes";
@@ -10,15 +9,6 @@ export const fetchAllOrderHistory = () => async dispatch => {
 	try {
 		const { data } = await api.fetchAllOrderHistory();
 		dispatch({ type: FETCH_ALL_HISTORY, payload: data });
-	} catch (error) {
-		console.log(error);
-	}
-};
-
-export const fetchLatestOrder = () => async dispatch => {
-	try {
-		const { data } = await api.fetchLatestOrder();
-		dispatch({ type: FETCH_LATEST, payload: data });
 	} catch (error) {
 		console.log(error);
 	}
@@ -34,8 +24,10 @@ export const getOrderHistory = id => async dispatch => {
 };
 
 export const addToOrderHistory = product => async dispatch => {
+	console.log(product);
 	try {
 		const { data } = await api.addToOrderHistory(product);
+		console.log("ADD TO HISTORY: ", data);
 		dispatch({ type: ADD_HISTORY, payload: data });
 	} catch (error) {
 		console.log(error);
