@@ -1,6 +1,8 @@
 import axios from 'axios';
 
-const API = axios.create({ baseURL: "http://localhost:5000" });
+const baseURL = process.env.REACT_APP_SERVER;
+console.log("BASEURL: ", baseURL);
+const API = axios.create({ baseURL: baseURL });
 
 const isTokenExpired = () => {
 	const expiration = localStorage.getItem("tokenExpiration");
