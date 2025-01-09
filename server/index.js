@@ -27,7 +27,7 @@ const allowedOrigins = [
 console.log("ALLOWED: ", allowedOrigins);
 app.use(
 	cors({
-		origin: [process.env.LOCAL_FRONTEND_API, process.env.PROD_FRONTEND_API],
+		origin: ["https://mern-shop-eri.vercel.app/"],
 		methods: ["GET", "PUT", "PATCH", "POST", "DELETE"],
 		credentials: true,
 	})
