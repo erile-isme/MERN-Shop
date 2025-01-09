@@ -14,8 +14,8 @@ const CarouselSlider = () => {
 	}, [dispatch]);
 
 	const productList = useSelector(state => state.products.slider);
-	const product = productList.filter(p => p === productList[currState]);
-	const length = productList.length - 1;
+	const product = productList?.filter(p => p === productList[currState]);
+	const length = productList?.length - 1;
 
 	useEffect(() => {
 		const timer = setTimeout(() => {
@@ -44,46 +44,51 @@ const CarouselSlider = () => {
 	};
 
 	return (
-		<div className="slider-container">
-			<div
-				className="slider-arrow left"
-				onClick={() => {
-					onClickBack(currState);
-				}}
-			>
-				<NavigateBeforeRoundedIcon />
-			</div>
-			{product.map(p => (
-				<div key={p._id}>
-					<div className="slider-detail">
-						<div className="slider-image">
-							<img src={p.img} alt={p.description} />
-						</div>
-						<div className="slider-info">
-							<h1 className="slider-title">{p.name}</h1>
-							<div className="slider-description">{p.description}</div>
-							<button>ENJOY NOW</button>
-						</div>
-					</div>
-					<div className="carousel-boult">
-						{productList.map((p, index) => (
-							<span
-								className={`slider-span ${currState === index ? "active" : ""}`}
-								key={index}
-							></span>
-						))}
-					</div>
+		product &&
+		product.length > 0 && (
+			<div className="slider-container">
+				<div
+					className="slider-arrow left"
+					onClick={() => {
+						onClickBack(currState);
+					}}
+				>
+					<NavigateBeforeRoundedIcon />
 				</div>
-			))}
-			<div
-				className="slider-arrow right"
-				onClick={() => {
-					onClickNext(currState);
-				}}
-			>
-				<NavigateNextRoundedIcon />
+				{product.map(p => (
+					<div key={p._id}>
+						<div className="slider-detail">
+							<div className="slider-image">
+								<img src={p.img} alt={p.description} />
+							</div>
+							<div className="slider-info">
+								<h1 className="slider-title">{p.name}</h1>
+								<div className="slider-description">{p.description}</div>
+								<button>ENJOY NOW</button>
+							</div>
+						</div>
+						<div className="carousel-boult">
+							{productList.map((p, index) => (
+								<span
+									className={`slider-span ${
+										currState === index ? "active" : ""
+									}`}
+									key={index}
+								></span>
+							))}
+						</div>
+					</div>
+				))}
+				<div
+					className="slider-arrow right"
+					onClick={() => {
+						onClickNext(currState);
+					}}
+				>
+					<NavigateNextRoundedIcon />
+				</div>
 			</div>
-		</div>
+		)
 	);
 };
 

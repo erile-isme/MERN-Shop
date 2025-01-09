@@ -14,7 +14,7 @@ const ProductLists = () => {
 	const productLists = useSelector(state => state.products.products);
 	console.log("PRODUCTLIST:", productLists);
 
-	return !productLists.length ? (
+	return productLists && !productLists.length ? (
 		<h3>No products to show</h3>
 	) : (
 		<div className="productlist-container">

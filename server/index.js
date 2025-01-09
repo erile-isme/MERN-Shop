@@ -24,36 +24,51 @@ const allowedOrigins = [
 	process.env.LOCAL_FRONTEND_API,
 	process.env.PROD_FRONTEND_API,
 ];
-
+console.log("ALLOWED: ", allowedOrigins);
 app.use(
 	cors({
-		origin: (origin, callback) => {
-			console.log("Origin: ", origin);
-			if (!origin || allowedOrigins.includes(origin)) {
-				callback(null, true);
-			} else {
-				console.error(`Blocked by CORS: ${origin}`);
-				callback(new Error("Not allowed by CORS"));
-			}
-		},
-		methods: "GET,HEAD,PUT,PATCH,POST,DELETE",
-		credentials: true, // Allow cookies and credentials
+		origin: [process.env.LOCAL_FRONTEND_API, process.env.PROD_FRONTEND_API],
+		methods: ["GET", "PUT", "PATCH", "POST", "DELETE"],
+		credentials: true,
 	})
 );
+app.use(express.json());
 
-app.use((req, res, next) => {
-	res.setHeader("Access-Control-Allow-Origin", req.headers.origin || "*");
-	res.setHeader("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE");
-	res.setHeader("Access-Control-Allow-Headers", "Content-Type, Authorization");
-	next();
-});
+// app.use((req, res, next) => {
+// 	const origin = req.headers.origin;
+// 	console.log("ORIGIN: ", origin);
+
+// 	if (!origin || allowedOrigins.includes(origin)) {
+// 		console.log("START SETTING HEADERS");
+// 		res.setHeader("Access-Control-Allow-Origin", origin || "*");
+// 		res.setHeader(
+// 			"Access-Control-Allow-Methods",
+// 			"GET, POST, PUT, DELETE, OPTIONS"
+// 		);
+// 		res.setHeader(
+// 			"Access-Control-Allow-Headers",
+// 			"Origin, X-Requested-With, Content-Type, Accept, Authorization"
+// 		);
+// 		res.setHeader("Access-Control-Allow-Credentials", "true");
+// 	}
+
+// 	if (req.method === "OPTIONS") {
+// 		// Respond OK to preflight requests
+// 		return res.sendStatus(204);
+// 	}
+
+// 	next();
+// });
+// app.options("*", cors());
 
 //Health Check Point
 app.get("/", (req, res) => {
-	res.status(200).json({ message: "Backend is running!" });
+	res.status(200).json("Backend is running!");
 });
-app.use("/uploads", express.static(path.join(__dirname, "resources"))); //Access file in this folder
-app.use("/products/uploads", productRoutes); //POST a product with images
+//Access file in this folder
+app.use("/uploads", express.static(path.join(__dirname, "resources")));
+//POST a product with images
+app.use("/products/uploads", productRoutes); 
 app.use("/products", productRoutes);
 app.use("/categories", categoryRoutes);
 app.use("/cart", cartRoutes);
