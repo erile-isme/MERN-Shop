@@ -20,14 +20,10 @@ const __dirname = path.dirname(__filename);
 app.use(bodyParser.json({ limit: "30mb", extended: true }));
 app.use(bodyParser.urlencoded({ imit: "30mb", extended: true }));
 // CORS Configuration
-const allowedOrigins = [
-	process.env.LOCAL_FRONTEND_API,
-	process.env.PROD_FRONTEND_API,
-];
-console.log("ALLOWED: ", allowedOrigins);
+console.log(process.env.PROD_FRONTEND_API);
 app.use(
 	cors({
-		origin: ["https://mern-shop-eri.vercel.app/"],
+		origin: [process.env.PROD_FRONTEND_API, process.env.LOCAL_FRONTEND_API],
 		methods: ["GET", "PUT", "PATCH", "POST", "DELETE"],
 		credentials: true,
 	})

@@ -1,10 +1,8 @@
 import axios from 'axios';
 
 const API = axios.create({
-	baseURL: "https://mern-shop-api-delta.vercel.app/",
+	baseURL: process.env.REACT_APP_PROD,
 });
-// const API = axios.create({ baseURL: "https://mern-shop-lysa.vercel.app/" });
-// const API = axios.create({ baseURL: "http://localhost:5000/" });
 
 const isTokenExpired = () => {
 	const expiration = localStorage.getItem("tokenExpiration");
