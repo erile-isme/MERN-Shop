@@ -26,18 +26,32 @@ const allowedOrigins = [
 ];
 
 app.use(
-  cors({
-    origin: (origin, callback) => {
-      if (!origin || allowedOrigins.includes(origin)) {
-        callback(null, true);
-      } else {
-        callback(new Error("Not allowed by CORS"));
-      }
-    },
-    credentials: true, // Allow cookies and credentials
-  })
+	cors({
+		origin: (origin, callback) => {
+			console.log("Origin: ", origin);
+			if (!origin || allowedOrigins.includes(origin)) {
+				callback(null, true);
+			} else {
+				console.error(`Blocked by CORS: ${origin}`);
+				callback(new Error("Not allowed by CORS"));
+			}
+		},
+		methods: "GET,HEAD,PUT,PATCH,POST,DELETE",
+		credentials: true, // Allow cookies and credentials
+	})
 );
 
+app.use((req, res, next) => {
+	res.setHeader("Access-Control-Allow-Origin", req.headers.origin || "*");
+	res.setHeader("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE");
+	res.setHeader("Access-Control-Allow-Headers", "Content-Type, Authorization");
+	next();
+});
+
+//Health Check Point
+app.get("/", (req, res) => {
+	res.status(200).json({ message: "Backend is running!" });
+});
 app.use("/uploads", express.static(path.join(__dirname, "resources"))); //Access file in this folder
 app.use("/products/uploads", productRoutes); //POST a product with images
 app.use("/products", productRoutes);
