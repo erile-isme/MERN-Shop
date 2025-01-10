@@ -63,10 +63,9 @@ const OrderHistoryDetail = () => {
 									<div className="three wide column">
 										<img
 											className="cart-img"
-											src={`http://localhost:5000/uploads/${item.img.replace(
-												"resources\\",
-												""
-											)}`}
+											src={`${
+												process.env.REACT_APP_PROD
+											}/uploads/${item.img.replace("resources\\", "")}`}
 											alt={item.name}
 										/>
 									</div>

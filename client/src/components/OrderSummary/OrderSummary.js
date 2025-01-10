@@ -7,7 +7,7 @@ import { Link } from "react-router-dom";
 import { useOrder } from "./OrderProvider";
 import "./OrderSummary.css";
 
-const OrderSummary = ({ paymentState }) => {
+const OrderSummary = ({ paymentState, cartUpdated, setCartUpdated }) => {
 	const dispatch = useDispatch();
 	const {
 		totalBeforeTax,
@@ -46,14 +46,13 @@ const OrderSummary = ({ paymentState }) => {
 	 * state 2: From Cart - calculate Order except shipping until knowing address
 	 */
 	useEffect(() => {
-		if (paymentState === 0 || paymentState === 2) {
-			calculateOrder();
+		if (paymentState === 0 || paymentState === 2 || cartUpdated) {
+			dispatch(fetchCart()).then(() => {
+				calculateOrder();
+				setCartUpdated(false);
+			});
 		}
-	}, [paymentState]);
-
-	useEffect(() => {
-		dispatch(fetchCart());
-	}, [dispatch]);
+	}, [dispatch, cartUpdated, paymentState, setCartUpdated]);
 
 	return (
 		<>

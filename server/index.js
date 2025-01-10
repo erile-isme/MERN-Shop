@@ -20,7 +20,6 @@ const __dirname = path.dirname(__filename);
 app.use(bodyParser.json({ limit: "30mb", extended: true }));
 app.use(bodyParser.urlencoded({ imit: "30mb", extended: true }));
 // CORS Configuration
-console.log(process.env.PROD_FRONTEND_API);
 app.use(
 	cors({
 		origin: [process.env.PROD_FRONTEND_API, process.env.LOCAL_FRONTEND_API],
@@ -29,33 +28,6 @@ app.use(
 	})
 );
 app.use(express.json());
-
-// app.use((req, res, next) => {
-// 	const origin = req.headers.origin;
-// 	console.log("ORIGIN: ", origin);
-
-// 	if (!origin || allowedOrigins.includes(origin)) {
-// 		console.log("START SETTING HEADERS");
-// 		res.setHeader("Access-Control-Allow-Origin", origin || "*");
-// 		res.setHeader(
-// 			"Access-Control-Allow-Methods",
-// 			"GET, POST, PUT, DELETE, OPTIONS"
-// 		);
-// 		res.setHeader(
-// 			"Access-Control-Allow-Headers",
-// 			"Origin, X-Requested-With, Content-Type, Accept, Authorization"
-// 		);
-// 		res.setHeader("Access-Control-Allow-Credentials", "true");
-// 	}
-
-// 	if (req.method === "OPTIONS") {
-// 		// Respond OK to preflight requests
-// 		return res.sendStatus(204);
-// 	}
-
-// 	next();
-// });
-// app.options("*", cors());
 
 //Health Check Point
 app.get("/", (req, res) => {

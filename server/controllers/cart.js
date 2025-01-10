@@ -15,7 +15,7 @@ export const fetchCart = async (req, res) => {
 		}
 		res.status(200).json({
 			message: "Fetch cart successfully",
-			cart: cartExist,
+			userCart: cartExist,
 		});
 	} catch (error) {
 		res.status(400).json({ message: error });
@@ -105,7 +105,7 @@ export const addItemToCart = async (req, res) => {
 			message: `Cart item ${
 				productIdExists ? "added" : "updated"
 			} successfully`,
-			cart: cart ? cart[0] : cart,
+			userCart: cart ? cart[0] : cart,
 		});
 	} catch (error) {
 		console.error(error);
@@ -118,21 +118,8 @@ export const addItemToCart = async (req, res) => {
 export const updateCartItem = async (req, res) => {
 	const { productId, quantity, color, size } = req.body;
 
-	// console.log(productId);
-	// console.log(quantity);
-	// console.log(color);
-	// console.log(size);
-	// console.log(
-	// 	await Cart.findOne({
-	// 		user: req.user._id,
-	// 		"orderItems.productId": updatedItem.productId,
-	// 		"orderItems.productId": updatedItem.productId,
-	// 		"orderItems.size": size,
-	// 		"orderItems.color": color,
-	// 	})
-	// );
 	try {
-		const updatedItem = await Cart.updateOne(
+		const updatedItem = await Cart.findOneAndUpdate(
 			{
 				user: req.user._id,
 				"orderItems.productId": new mongoose.Types.ObjectId(productId),
@@ -175,8 +162,6 @@ export const removeItemFromCart = async (req, res) => {
 			},
 			{ new: true }
 		);
-
-		console.log(removedItem);
 
 		if (!removedItem)
 			return res.status(404).send(`Item with id ${cartId} not found`);

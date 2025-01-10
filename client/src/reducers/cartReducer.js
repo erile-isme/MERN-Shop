@@ -16,7 +16,7 @@ const cart = (cart = [], action) => {
 		case UPDATE_CART:
 			return action.payload.orderItems;
 		case REMOVE_CART:
-			return action.payload.orderItems;
+			return { message: action.payload.message };
 		case REMOVE_ALL:
 			return [];
 		case CART_ERROR:

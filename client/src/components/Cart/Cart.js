@@ -20,28 +20,22 @@ const Cart = () => {
 	const [isLoading, setIsLoading] = useState(false);
 
 	const cartList = useSelector(state => state.cart);
-	console.log(cartList);
 
 	useEffect(() => {
 		window.scrollTo(0, 0);
 		if (localStorage.getItem("token")) {
-			window.scrollTo(0, 0);
 			dispatch(fetchCart());
+			if (cartUpdated) {
+				dispatch(fetchCart());
+				setIsLoading(false);
+			}
 		} else {
 			navigate(`/login?redirect=${window.location.pathname}`);
 		}
-	}, [dispatch, navigate]);
-
-	useEffect(() => {
-		if (cartUpdated) {
-			dispatch(fetchCart());
-			setCartUpdated(false);
-			setIsLoading(false);
-		}
-	}, [cartUpdated, dispatch]);
+	}, [dispatch, navigate, cartUpdated]);
 
 	const handleUpdateQuantity = (item, newQuantity, color, size) => {
-		if (newQuantity >= 0) {
+		if (newQuantity > 0) {
 			dispatch(
 				updateCartItem({
 					productId: item.productId,
@@ -86,10 +80,9 @@ const Cart = () => {
 										<div className="three wide column">
 											<img
 												className="cart-img"
-												src={`http://localhost:5000/uploads/${item.img.replace(
-													"resources\\",
-													""
-												)}`}
+												src={`${
+													process.env.REACT_APP_PROD
+												}/uploads/${item.img.replace("resources\\", "")}`}
 												alt={item.name}
 											/>
 										</div>
@@ -129,15 +122,14 @@ const Cart = () => {
 													<p>{item.quantity}</p>
 													<FaPlus
 														className="quantity-icon"
-														onClick={() => {
-															console.log("PLUS");
+														onClick={() =>
 															handleUpdateQuantity(
 																item,
 																item.quantity + 1,
 																item.color,
 																item.size
-															);
-														}}
+															)
+														}
 													/>
 												</div>
 											</div>
@@ -149,7 +141,11 @@ const Cart = () => {
 						</div>
 						<div className="five wide column order-summary">
 							<OrderProvider>
-								<OrderSummary paymentState={2} />
+								<OrderSummary
+									paymentState={2}
+									cartUpdated={cartUpdated}
+									setCartUpdated={setCartUpdated}
+								/>
 							</OrderProvider>
 							<button className="checkout-button">
 								<Link to="/payment" className="payment-link">

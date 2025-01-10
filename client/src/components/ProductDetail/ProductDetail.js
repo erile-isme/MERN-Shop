@@ -45,6 +45,7 @@ const ProductDetail = () => {
 			navigate(`/login?redirect=${window.location.pathname}`);
 		} else {
 			dispatch(addItemToCart(cartItem));
+			window.location.reload();
 		}
 	};
 
@@ -65,7 +66,7 @@ const ProductDetail = () => {
 								{product.img.map((img, index) => (
 									<img
 										key={index}
-										src={`http://localhost:5000/uploads/${img.replace(
+										src={`${process.env.REACT_APP_PROD}/uploads/${img.replace(
 											"resources\\",
 											""
 										)}`}
@@ -239,16 +240,7 @@ const ProductDetail = () => {
 							<button
 								className="ui button add-cart"
 								type="button"
-								onClick={() => {
-									console.log("ADDED ITEM: ", {
-										id: product._id,
-										quantity,
-										size: product.size[size],
-										color: product.colorName[colorIndex],
-										name: product.name,
-										price: product.price,
-										img: product.img[0],
-									});
+								onClick={() =>
 									addToCart({
 										id: product._id,
 										quantity,
@@ -257,8 +249,8 @@ const ProductDetail = () => {
 										name: product.name,
 										price: product.price,
 										img: product.img[0],
-									});
-								}}
+									})
+								}
 							>
 								ADD TO CART
 							</button>

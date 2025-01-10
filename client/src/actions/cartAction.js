@@ -12,7 +12,7 @@ export const fetchCart = () => async dispatch => {
 	try {
 		const { data } = await api.fetchCart();
 		console.log(data.cart);
-		dispatch({ type: FETCH_CART, payload: data.cart });
+		dispatch({ type: FETCH_CART, payload: data.userCart });
 	} catch (error) {
 		console.log(error);
 		if (error.response && error.response.status === 400) {
@@ -28,7 +28,7 @@ export const addItemToCart = cartItem => async dispatch => {
 	try {
 		const { data } = await api.addItemToCart(cartItem);
 		console.log(data);
-		dispatch({ type: ADD_CART, payload: data.cart });
+		dispatch({ type: ADD_CART, payload: data.userCart });
 	} catch (error) {
 		console.log(error);
 		if (error.response && error.response.status === 400) {
@@ -43,7 +43,7 @@ export const addItemToCart = cartItem => async dispatch => {
 export const updateCartItem = cartItem => async dispatch => {
 	try {
 		const { data } = await api.updateCartItem(cartItem);
-		dispatch({ type: UPDATE_CART, payload: data });
+		dispatch({ type: UPDATE_CART, payload: data.userCart });
 	} catch (error) {
 		console.log(error);
 		if (
