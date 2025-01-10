@@ -11,7 +11,8 @@
 .ui.grid.prodcate {
     gap: 1rem;
     margin: 0 auto;
-	justify-content: center;
+    margin-left: 5rem;
+	justify-content: left;
 }
 .ui.card:first-child, .ui.card:last-child {
     margin-top: auto;
@@ -20,4 +21,10 @@
 
 .extra.content.prodcate {
     color: var(--color-black);
+}
+
+.img-prodcate {
+    width: 290px;
+    object-fit: cover;
+    height: 450px;
 }

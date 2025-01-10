@@ -13,7 +13,7 @@ const Product = ({ product }) => {
 				<img
 					className="product-img"
 					src={`${process.env.REACT_APP_PROD}/uploads/${product.img[0].replace(
-						"resources\\",
+						"resources/",
 						""
 					)}`}
 					alt={product.description}

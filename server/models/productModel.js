@@ -22,8 +22,8 @@ const productSchema = mongoose.Schema({
 	isSlider: { type: Boolean },
 	reviews: [
 		{
-			comment: { type: String, required: true },
-			rating: { type: Number, required: true },
+			comment: { type: String },
+			rating: { type: Number },
 			timestamp: { type: Date },
 			product: {
 				color: { type: String },

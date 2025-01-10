@@ -40,14 +40,14 @@ const ProductCategory = () => {
 				<div className="ui grid prodcate">
 					{productList.map(product => (
 						<div key={product._id} className="ui card">
-							<div className="image">
-								<img src={product.img} alt={product.description} />
+							<div>
 								<img
+									className="img-prodcate"
 									src={`http://localhost:5000/uploads/${product.img[0].replace(
-										"resources\\",
+										"resources/",
 										""
 									)}`}
-									alt={product.description}
+									alt={product.name}
 								/>
 							</div>
 							<div className="content">

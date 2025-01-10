@@ -4,6 +4,7 @@ import { fetchSlider } from "../../actions/productAction";
 import NavigateBeforeRoundedIcon from "@mui/icons-material/NavigateBeforeRounded";
 import NavigateNextRoundedIcon from "@mui/icons-material/NavigateNextRounded";
 import "./Slider.css";
+import { Link } from "react-router-dom";
 
 const CarouselSlider = () => {
 	const dispatch = useDispatch();
@@ -16,6 +17,8 @@ const CarouselSlider = () => {
 	const productList = useSelector(state => state.products.slider);
 	const product = productList?.filter(p => p === productList[currState]);
 	const length = productList?.length - 1;
+	console.log("PRODUCT LIST: ", productList);
+	console.log(product);
 
 	useEffect(() => {
 		const timer = setTimeout(() => {
@@ -59,12 +62,21 @@ const CarouselSlider = () => {
 					<div key={p._id}>
 						<div className="slider-detail">
 							<div className="slider-image">
-								<img src={p.img} alt={p.description} />
+								<img
+									src={`${
+										process.env.REACT_APP_PROD
+									}/uploads/${p.img[0].replace("resources/", "")}`}
+									alt={p.name}
+								/>
 							</div>
 							<div className="slider-info">
 								<h1 className="slider-title">{p.name}</h1>
-								<div className="slider-description">{p.description}</div>
-								<button>ENJOY NOW</button>
+								<div className="slider-description">
+									{p.description.features}
+								</div>
+								<Link to={`/products/${p.category.name}/${p._id}`}>
+									<button>ENJOY NOW</button>
+								</Link>
 							</div>
 						</div>
 						<div className="carousel-boult">

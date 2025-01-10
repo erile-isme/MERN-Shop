@@ -25,8 +25,6 @@ const ProductDetail = () => {
 
 	useEffect(() => {
 		window.scrollTo(0, 0);
-	}, []);
-	useEffect(() => {
 		dispatch(getProduct(productId));
 	}, [dispatch, productId]);
 
@@ -49,6 +47,22 @@ const ProductDetail = () => {
 		}
 	};
 
+	document.addEventListener("scroll", function () {
+		const stickyElement = document.querySelector(
+			".six.wide.column.info-product"
+		);
+		const newsletter = document.querySelector(".newsletter-container");
+
+		const stickyBottom = stickyElement.getBoundingClientRect().bottom;
+		const newsletterTop = newsletter.getBoundingClientRect().top;
+
+		if (stickyBottom >= newsletterTop) {
+			stickyElement.style.overflowY = "hidden"; // Stop scrolling
+		} else {
+			stickyElement.style.overflowY = "auto"; // Allow scrolling
+		}
+	});
+
 	return (
 		<div>
 			{product && (
@@ -67,7 +81,7 @@ const ProductDetail = () => {
 									<img
 										key={index}
 										src={`${process.env.REACT_APP_PROD}/uploads/${img.replace(
-											"resources\\",
+											"resources/",
 											""
 										)}`}
 										alt={product.description.details}
@@ -122,8 +136,12 @@ const ProductDetail = () => {
 											</p>
 										</div>
 										<p>
-											{review.product ? `Product: ${review.product.color}` : ""}
-											{review.product ? `Type: ${review.product.type}` : ""}
+											{review.product.color
+												? `Product: ${review.product.color}`
+												: ""}
+											{review.product.type
+												? `Type: ${review.product.type}`
+												: ""}
 										</p>
 										<br />
 									</div>

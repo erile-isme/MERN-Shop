@@ -1,5 +1,7 @@
 .info-container {
-  margin: 5rem 0 0 3rem;
+  margin: 5rem 0 5rem 3rem;
+  min-height: 100vh;
+  max-height: max-content;
 }
 .nine.wide.column.info-left {
   display: flex;
@@ -18,11 +20,12 @@
 
 .six.wide.column.info-product {
   padding-left: 2rem;
-  min-height: max-content;
+  max-height: max-content;
   display: flex;
   flex-direction: column;
-  position: fixed;
-  top: 20%;
+  position: sticky;
+  overflow-y: auto;
+  top: 15%;
   right: 5rem;
   flex-direction: column;
   gap: 2rem;

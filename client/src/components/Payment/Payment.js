@@ -183,7 +183,7 @@ const Payment = () => {
 														className="cart-img"
 														src={`${
 															process.env.REACT_APP_PROD
-														}/uploads/${item.img.replace("resources\\", "")}`}
+														}/uploads/${item.img.replace("resources/", "")}`}
 														alt={item.name}
 													/>
 												</div>
