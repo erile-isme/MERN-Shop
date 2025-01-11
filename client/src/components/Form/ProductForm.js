@@ -35,7 +35,6 @@ const ProductForm = ({ currId, setCurrId }) => {
 		currId ? state.products.find(p => p._id === currId) : null
 	); //fetch data (current post) from redux
 	const categories = useSelector(state => state.categories);
-	console.log("Cate - FORM: ", categories.length);
 
 	useEffect(() => {
 		if (product) setProdData(product);
@@ -52,12 +51,6 @@ const ProductForm = ({ currId, setCurrId }) => {
 			prodData.img !== "" &&
 			prodData.numInStock !== ""
 		) {
-			// if (currId) {
-			//   dispatch(updatePost(currId, postData));
-			// } else {
-			// }
-			// setProdData({ ...prodData, value: categories.length + 1 });
-			console.log(prodData);
 			dispatch(createProduct(prodData));
 		}
 		console.error("Please fill out all information.");

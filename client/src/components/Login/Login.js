@@ -30,7 +30,6 @@ const Login = () => {
 
 	const user = useSelector(state => state.user);
 	const error = useSelector(state => state.user.error);
-	console.log("USER: ", user);
 
 	useEffect(() => {
 		window.scrollTo(0, 0);
@@ -81,7 +80,7 @@ const Login = () => {
 	const handleConfirmPass = e => {
 		setConfirmPass(e.target.value);
 		if (confirmPass !== formData.password) {
-			console.log("Password are not the same!");
+			alert("Password are not the same!");
 		}
 	};
 

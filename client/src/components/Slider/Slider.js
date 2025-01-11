@@ -17,8 +17,6 @@ const CarouselSlider = () => {
 	const productList = useSelector(state => state.products.slider);
 	const product = productList?.filter(p => p === productList[currState]);
 	const length = productList?.length - 1;
-	console.log("PRODUCT LIST: ", productList);
-	console.log(product);
 
 	useEffect(() => {
 		const timer = setTimeout(() => {

@@ -4,7 +4,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { fetchAllOrderHistory } from "../../actions/orderHistoryAction";
 import { Link } from "react-router-dom";
 
-const OrderHistory = ({ setState, setOrderHistoryId }) => {
+const OrderHistory = () => {
 	const dispatch = useDispatch();
 	const orderHistory = useSelector(state => state.orderHistory);
 	console.log(orderHistory);

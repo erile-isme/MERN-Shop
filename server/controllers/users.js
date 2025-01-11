@@ -22,14 +22,11 @@ export const getUser = async (req, res) => {
 		postalCode: currentUser.postalCode,
 		phone: currentUser.phone,
 	};
-	console.log(user);
-	res
-		.status(200)
-		.json({
-			sucess: true,
-			message: "Retrieve user info successfully",
-			data: user,
-		});
+	res.status(200).json({
+		sucess: true,
+		message: "Retrieve user info successfully",
+		data: user,
+	});
 };
 
 export const loginUser = async (req, res) => {
@@ -38,7 +35,7 @@ export const loginUser = async (req, res) => {
 		email: email,
 	});
 
-	console.log(exisitingUser);
+	// console.log(exisitingUser);
 
 	if (
 		exisitingUser &&
@@ -71,8 +68,6 @@ export const registerUser = async (req, res) => {
 			email: email,
 		});
 
-		console.log(exisitingUser);
-
 		if (exisitingUser) {
 			res.status(400).json({
 				message: "User already exists",
@@ -94,7 +89,7 @@ export const registerUser = async (req, res) => {
 				phone,
 				termAgreement: termAgreement,
 			});
-			console.log("NEWUSER: ", newUser);
+			// console.log("NEWUSER: ", newUser);
 			await newUser.save();
 
 			res.status(201).json({

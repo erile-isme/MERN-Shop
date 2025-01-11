@@ -7,7 +7,7 @@ export const fetchCart = async (req, res) => {
 		const cart = await Cart.findOne({
 			user: req.user._id,
 		});
-		console.log(cart);
+		// console.log(cart);
 		if (!cart) {
 			cartExist = [];
 		} else {
@@ -129,7 +129,6 @@ export const updateCartItem = async (req, res) => {
 			{ $set: { "orderItems.$.quantity": quantity } },
 			{ new: true }
 		);
-		console.log("UPDATE CART: ", updatedItem);
 
 		res.status(200).json({
 			message: "Cart item updated successfully",
@@ -178,7 +177,6 @@ export const removeItemFromCart = async (req, res) => {
 export const removeAllFromCart = async (req, res) => {
 	try {
 		const result = await Cart.deleteMany({ user: req.user._id });
-		console.log(result);
 		res.status(200).json({
 			message: `${result.deletedCount} item(s) removed from cart successfully`,
 		});

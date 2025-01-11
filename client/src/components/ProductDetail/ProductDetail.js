@@ -38,7 +38,6 @@ const ProductDetail = () => {
 			size: size ? size : null,
 			color: color ? color : null,
 		};
-		console.log(cartItem);
 		if (!localStorage.getItem("token")) {
 			navigate(`/login?redirect=${window.location.pathname}`);
 		} else {

@@ -27,7 +27,6 @@ export const addToOrderHistory = product => async dispatch => {
 	console.log(product);
 	try {
 		const { data } = await api.addToOrderHistory(product);
-		console.log("ADD TO HISTORY: ", data);
 		dispatch({ type: ADD_HISTORY, payload: data });
 	} catch (error) {
 		console.log(error);

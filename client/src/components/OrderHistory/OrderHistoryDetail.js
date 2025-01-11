@@ -10,8 +10,6 @@ const OrderHistoryDetail = () => {
 	const { orderHistoryId } = useParams();
 	const currUser = useSelector(state => state.user.user);
 	const orderHistory = useSelector(state => state.orderHistory);
-	console.log("ORDERID: ", orderHistoryId);
-	console.log("ORDER HISTORY IN DETAIL: ", orderHistory);
 
 	useEffect(() => {
 		dispatch(getUser());

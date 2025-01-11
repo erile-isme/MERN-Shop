@@ -12,7 +12,6 @@ const ProductCategory = () => {
 	const currCategory = categoryList.filter(
 		category => categoryId === category._id
 	)[0];
-	console.log(currCategory);
 
 	useEffect(() => {
 		dispatch(getProductsInCategory(currCategory._id));

@@ -33,12 +33,6 @@ const CategoryForm = () => {
 			prodData.description !== "" &&
 			prodData.img !== ""
 		) {
-			// if (currId) {
-			//   dispatch(updatePost(currId, postData));
-			// } else {
-			// }
-			// setProdData({ ...prodData, value: categories.length + 1 });
-			console.log(prodData);
 			dispatch(createCate(prodData));
 		}
 		console.error("Please fill out all information.");

@@ -29,12 +29,11 @@ export const fetchProductsInCategory = async (req, res) => {
 	if (!mongoose.Types.ObjectId.isValid(parsedCateId))
 		return res.status(404).send(`No post with id: ${parsedCateId}`);
 
-	console.log(parsedCateId);
 	try {
 		const product = await Product.find({ category: parsedCateId }).populate(
 			"category"
 		);
-		console.log(product);
+		// console.log(product);
 		res.status(200).json(product);
 	} catch (error) {
 		res.status(400).json({ message: error });

@@ -44,10 +44,8 @@ export const getProduct = id => async dispatch => {
 };
 
 export const getProductsInCategory = cateId => async dispatch => {
-	console.log(cateId);
 	try {
 		const { data } = await api.getProductsInCategory(cateId);
-		console.log(data);
 		dispatch({ type: GETPROD_CATE, payload: data });
 	} catch (error) {
 		console.log(error);

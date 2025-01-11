@@ -22,7 +22,6 @@ const Payment = () => {
 
 	const cartList = useSelector(state => state.cart);
 	const currUser = useSelector(state => state.user.user);
-	console.log(currUser);
 	const orderHistory = useSelector(state => state.orderHistory);
 
 	//Create estimated delivery date
@@ -227,7 +226,6 @@ const Payment = () => {
 											value="PayPal"
 											checked={selectedMethod === "PayPal"}
 											onChange={e => {
-												console.log(e.target.value);
 												setSelectedMethod(e.target.value);
 											}}
 										/>

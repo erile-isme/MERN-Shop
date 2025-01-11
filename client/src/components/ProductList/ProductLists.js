@@ -6,13 +6,12 @@ import "./ProductLists.css";
 
 const ProductLists = () => {
 	const dispatch = useDispatch();
+	const productLists = useSelector(state => state.products.products);
 
 	useEffect(() => {
 		dispatch(fetchAllProducts());
 	}, [dispatch]);
 
-	const productLists = useSelector(state => state.products.products);
-	console.log("PRODUCTLIST:", productLists);
 
 	return productLists && !productLists.length ? (
 		<h3>No products to show</h3>

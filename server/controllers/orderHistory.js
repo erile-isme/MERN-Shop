@@ -5,7 +5,7 @@ export const fetchAllOrderHistory = async (req, res) => {
 		const orderHistory = await OrderHistory.find({ user: req.user._id }).sort({
 			orderDate: -1,
 		});
-		console.log(orderHistory);
+		// console.log(orderHistory);
 		res.status(200).json(orderHistory);
 	} catch (error) {
 		res.status(400).json({ message: error });
@@ -13,12 +13,11 @@ export const fetchAllOrderHistory = async (req, res) => {
 };
 
 export const getOrderHistory = async (req, res) => {
-	console.log(req.params.id);
 	try {
 		const orderHistory = await OrderHistory.findOne({
 			_id: req.params.id,
 		});
-		console.log("GET ORDER HISTORY: ", orderHistory);
+		// console.log("GET ORDER HISTORY: ", orderHistory);
 		res.status(200).json(orderHistory);
 	} catch (error) {
 		res.status(400).json({ message: error.message });
@@ -50,7 +49,7 @@ export const addToOrderHistory = async (req, res) => {
 		shippingFee: req.body.shippingFee,
 		orderTotal: req.body.orderTotal,
 	};
-	console.log("ADD TO HISTORY: ", orderHistory);
+	// console.log("ADD TO HISTORY: ", orderHistory);
 	const newOrderHistory = new OrderHistory(orderHistory);
 
 	try {

@@ -6,7 +6,6 @@ import Loading from "../Loading/Loading";
 const Profile = () => {
 	const dispatch = useDispatch();
 	const { user } = useSelector(state => state.user);
-	console.log(user);
 
 	useEffect(() => {
 		if (!user) dispatch(getUser());
