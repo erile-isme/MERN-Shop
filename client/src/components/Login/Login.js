@@ -80,7 +80,7 @@ const Login = () => {
 	const handleConfirmPass = e => {
 		setConfirmPass(e.target.value);
 		if (confirmPass !== formData.password) {
-			alert("Password are not the same!");
+			console.error("Password are not the same!");
 		}
 	};
 

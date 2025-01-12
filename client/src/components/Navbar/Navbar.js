@@ -20,8 +20,8 @@ const Navbar = () => {
 	const cartList = useSelector(state => state.cart);
 
 	useEffect(() => {
-		dispatch(fetchCart());
-	}, [dispatch]);
+		if (token) dispatch(fetchCart());
+	}, [dispatch, token]);
 
 	return (
 		<div>
@@ -46,7 +46,7 @@ const Navbar = () => {
 					<Link to="/cart">
 						<Badge
 							color="primary"
-							badgeContent={cartList?.length}
+							badgeContent={token ? cartList?.length : 0}
 							showZero
 							overlap="rectangular"
 						>

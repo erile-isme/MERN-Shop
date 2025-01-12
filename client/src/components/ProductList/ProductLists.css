@@ -4,12 +4,13 @@
 
 .ui.grid.productlist {
   margin: 0 auto;
-  margin-left: 5rem;
-	justify-content: left;
+  display: flex;
+  /* margin-left: 5%; */
+	justify-content: center;
 }
 .ui.grid>* {
-    padding-left: 0;
-    padding-right: 0;
+  padding-left: 0;
+  padding-right: 0;
 }
 .product-img {
   width: 300px;
