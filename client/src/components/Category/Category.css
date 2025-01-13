@@ -4,7 +4,8 @@
   justify-content: space-between;
   gap: 1rem;
   position: relative;
-  overflow: hidden;
+  overflow-x: auto;
+  overflow-y: hidden;
 }
 .category-item {
   display: flex;
@@ -15,7 +16,7 @@
   position: absolute;
   text-align: center;
   bottom: 0;
-  width: 450px;
+  width: calc(90vw / 4);
   height: 250px;
   background-color: black;
   opacity: 40%;
@@ -65,8 +66,9 @@
   margin-top: -1rem;
 }
 .category-item img {
-  width: 450px;
+  width: calc(90vw / 4);
   height: 600px;
+  object-fit: fill;
 }
 .category-body:hover {
   opacity: 80%;

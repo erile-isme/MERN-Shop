@@ -7,7 +7,7 @@ import { Link } from "react-router-dom";
 import { useOrder } from "./OrderProvider";
 import "./OrderSummary.css";
 
-const OrderSummary = ({ paymentState, cartUpdated, setCartUpdated }) => {
+const OrderSummary = ({ paymentState, cartUpdated }) => {
 	const dispatch = useDispatch();
 	const {
 		totalBeforeTax,
@@ -49,10 +49,9 @@ const OrderSummary = ({ paymentState, cartUpdated, setCartUpdated }) => {
 		if (paymentState === 0 || paymentState === 2 || cartUpdated) {
 			dispatch(fetchCart()).then(() => {
 				calculateOrder();
-				setCartUpdated(false);
 			});
 		}
-	}, [dispatch, cartUpdated, paymentState, setCartUpdated]);
+	}, [dispatch, cartUpdated, paymentState]);
 
 	return (
 		<>

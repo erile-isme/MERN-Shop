@@ -141,11 +141,7 @@ const Cart = () => {
 						</div>
 						<div className="five wide column order-summary">
 							<OrderProvider>
-								<OrderSummary
-									paymentState={2}
-									cartUpdated={cartUpdated}
-									setCartUpdated={setCartUpdated}
-								/>
+								<OrderSummary paymentState={2} cartUpdated={cartUpdated} />
 							</OrderProvider>
 							<button className="checkout-button">
 								<Link to="/payment" className="payment-link">

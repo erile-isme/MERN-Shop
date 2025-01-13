@@ -148,7 +148,7 @@ const Payment = () => {
 										<div className="three wide column">
 											<p>{currUser.name}</p>
 										</div>
-										<div className="ten wide column">
+										<div className="nine wide column">
 											<p>{currUser.address}</p>
 											<p>{currUser.postalCode}</p>
 											<p>{currUser.phone}</p>

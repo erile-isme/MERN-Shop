@@ -57,7 +57,7 @@ const CarouselSlider = () => {
 					<NavigateBeforeRoundedIcon />
 				</div>
 				{product.map(p => (
-					<div key={p._id}>
+					<div className="slider-card" key={p._id}>
 						<div className="slider-detail">
 							<div className="slider-image">
 								<img

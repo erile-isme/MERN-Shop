@@ -117,19 +117,28 @@ export const addItemToCart = async (req, res) => {
 
 export const updateCartItem = async (req, res) => {
 	const { productId, quantity, color, size } = req.body;
+	console.log(quantity);
+	console.log(productId);
 
 	try {
-		const updatedItem = await Cart.findOneAndUpdate(
+		const updatedItem = await Cart.updateOne(
+			{ user: req.user._id },
 			{
-				user: req.user._id,
-				"orderItems.productId": new mongoose.Types.ObjectId(productId),
-				"orderItems.size": size,
-				"orderItems.color": color,
+				$set: { "orderItems.$[elem].quantity": quantity },
 			},
-			{ $set: { "orderItems.$.quantity": quantity } },
-			{ new: true }
+			{
+				arrayFilters: [
+					{
+						"elem.productId": new mongoose.Types.ObjectId(productId),
+						"elem.size": size,
+						"elem.color": color,
+					},
+				],
+				new: true,
+			}
 		);
 
+		console.log("UPDATED ITEM: ", updatedItem);
 		res.status(200).json({
 			message: "Cart item updated successfully",
 			userCart: updatedItem,

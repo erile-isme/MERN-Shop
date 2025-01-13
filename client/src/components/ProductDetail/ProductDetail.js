@@ -38,6 +38,7 @@ const ProductDetail = () => {
 			size: size ? size : null,
 			color: color ? color : null,
 		};
+		console.log(cartItem);
 		if (!localStorage.getItem("token")) {
 			navigate(`/login?redirect=${window.location.pathname}`);
 		} else {
@@ -135,11 +136,11 @@ const ProductDetail = () => {
 											</p>
 										</div>
 										<p>
-											{review.product.color
-												? `Product: ${review.product.color}`
+											{review.product?.color
+												? `Product: ${review.product?.color}`
 												: ""}
-											{review.product.type
-												? `Type: ${review.product.type}`
+											{review.product?.type
+												? `Type: ${review.product?.type}`
 												: ""}
 										</p>
 										<br />

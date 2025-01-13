@@ -3,13 +3,13 @@ import { Twirl as Hamburger } from "hamburger-react";
 import { Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchCart } from "../../actions/cartAction";
-import SearchOutlinedIcon from "@mui/icons-material/SearchOutlined";
-import ShoppingCartOutlinedIcon from "@mui/icons-material/ShoppingCartOutlined";
-import PersonOutlineOutlinedIcon from "@mui/icons-material/PersonOutlineOutlined";
+import { FaSearch } from "react-icons/fa";
+import { MdShoppingCart } from "react-icons/md";
+import { IoPerson } from "react-icons/io5";
 import Badge from "@mui/material/Badge";
 import Search from "../Search/Search";
 import Sidebar from "./Sidebar";
-import "./styles.css";
+import "./Navbar.css";
 
 const Navbar = () => {
 	const dispatch = useDispatch();
@@ -36,12 +36,14 @@ const Navbar = () => {
 					/>
 				</div>
 				<div className="brandname">
-					<Link to="/">eri.</Link>
+					<Link to="/">
+						<h2>eri.</h2>
+					</Link>
 				</div>
 				<div className="navbar-left">
 					<div className="navbar-search">
 						<div>{search && <Search />}</div>
-						<SearchOutlinedIcon onClick={() => setSearch(!search)} />
+						<FaSearch className="icon" onClick={() => setSearch(!search)} />
 					</div>
 					<Link to="/cart">
 						<Badge
@@ -50,11 +52,11 @@ const Navbar = () => {
 							showZero
 							overlap="rectangular"
 						>
-							<ShoppingCartOutlinedIcon />
+							<MdShoppingCart className="icon" />
 						</Badge>
 					</Link>
 					<Link to={`${token ? "/account/profile" : "/login"}`}>
-						<PersonOutlineOutlinedIcon />
+						<IoPerson className="icon" />
 					</Link>
 				</div>
 			</div>
