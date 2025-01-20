@@ -13,6 +13,7 @@ import {
 import { getProduct } from "../../actions/productAction";
 import { addItemToCart } from "../../actions/cartAction";
 import "./ProductDetail.css";
+import Loading from "../Loading/Loading";
 
 const ProductDetail = () => {
 	const dispatch = useDispatch();
@@ -20,6 +21,7 @@ const ProductDetail = () => {
 	const [size, setSize] = useState(0);
 	const [colorIndex, setColorIndex] = useState(0);
 	const [quantity, setQuantity] = useState(1);
+	const [isLoading, setIsLoading] = useState(1);
 	const { productId } = useParams();
 	const product = useSelector(state => state.products.product);
 
@@ -43,28 +45,30 @@ const ProductDetail = () => {
 			navigate(`/login?redirect=${window.location.pathname}`);
 		} else {
 			dispatch(addItemToCart(cartItem));
-			window.location.reload();
+			setIsLoading(false);
 		}
 	};
 
-	document.addEventListener("scroll", function () {
-		const stickyElement = document.querySelector(
-			".six.wide.column.info-product"
-		);
-		const newsletter = document.querySelector(".newsletter-container");
+	window.location.pathname === "/products/:category/:productId" &&
+		document.addEventListener("scroll", function () {
+			const stickyElement = document.querySelector(
+				".six.wide.column.info-product"
+			);
+			const newsletter = document.querySelector(".newsletter-container");
 
-		const stickyBottom = stickyElement.getBoundingClientRect().bottom;
-		const newsletterTop = newsletter.getBoundingClientRect().top;
+			const stickyBottom = stickyElement.getBoundingClientRect().bottom;
+			const newsletterTop = newsletter.getBoundingClientRect().top;
 
-		if (stickyBottom >= newsletterTop) {
-			stickyElement.style.overflowY = "hidden"; // Stop scrolling
-		} else {
-			stickyElement.style.overflowY = "auto"; // Allow scrolling
-		}
-	});
+			if (stickyBottom >= newsletterTop) {
+				stickyElement.style.overflowY = "hidden"; // Stop scrolling
+			} else {
+				stickyElement.style.overflowY = "auto"; // Allow scrolling
+			}
+		});
 
 	return (
 		<div>
+			<Loading state={isLoading} />
 			{product && (
 				<div className="info-container">
 					<div className="ui breadcrumb">
@@ -258,7 +262,8 @@ const ProductDetail = () => {
 							<button
 								className="ui button add-cart"
 								type="button"
-								onClick={() =>
+								onClick={() => {
+									setIsLoading(true);
 									addToCart({
 										id: product._id,
 										quantity,
@@ -267,8 +272,8 @@ const ProductDetail = () => {
 										name: product.name,
 										price: product.price,
 										img: product.img[0],
-									})
-								}
+									});
+								}}
 							>
 								ADD TO CART
 							</button>

@@ -59,7 +59,7 @@ export const updateCartItem = cartItem => async dispatch => {
 export const removeItemFromCart = removedItem => async dispatch => {
 	try {
 		const { data } = await api.removeItemFromCart(removedItem);
-		dispatch({ type: REMOVE_CART, payload: data });
+		dispatch({ type: REMOVE_CART, payload: data.userCart });
 	} catch (error) {
 		console.log(error);
 		if (error.response && error.response.status === 500) {

@@ -10,17 +10,21 @@ import {
 const cart = (cart = [], action) => {
 	switch (action.type) {
 		case FETCH_CART:
-			return action.payload.orderItems;
+			return action.payload || [];
 		case ADD_CART:
-			return action.payload;
+			return [...cart, action.payload];
 		case UPDATE_CART:
-			return action.payload.orderItems;
+			return cart.map(item =>
+				item._id === action.payload._id
+					? { ...item, quantity: action.payload.quantity }
+					: item
+			);
 		case REMOVE_CART:
-			return { message: action.payload.message };
+			return cart.filter(item => item._id !== action.payload._id);
 		case REMOVE_ALL:
 			return [];
 		case CART_ERROR:
-			return { message: action.payload };
+			return { ...cart, message: action.payload };
 		default:
 			return cart;
 	}

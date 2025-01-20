@@ -22,7 +22,6 @@ const Cart = () => {
 	const cartList = useSelector(state => state.cart);
 
 	useEffect(() => {
-		window.scrollTo(0, 0);
 		if (localStorage.getItem("token")) {
 			dispatch(fetchCart());
 			if (cartUpdated) {
@@ -57,6 +56,7 @@ const Cart = () => {
 			})
 		);
 		setCartUpdated(true);
+		setIsLoading(false);
 	};
 
 	return (

@@ -2,20 +2,14 @@ import mongoose from "mongoose";
 import Cart from "../models/cartModel.js";
 
 export const fetchCart = async (req, res) => {
-	let cartExist = null;
 	try {
-		const cart = await Cart.findOne({
+		const cart = await Cart.find({
 			user: req.user._id,
 		});
-		// console.log(cart);
-		if (!cart) {
-			cartExist = [];
-		} else {
-			cartExist = cart;
-		}
+
 		res.status(200).json({
 			message: "Fetch cart successfully",
-			userCart: cartExist,
+			userCart: cart,
 		});
 	} catch (error) {
 		res.status(400).json({ message: error });
@@ -26,86 +20,25 @@ export const addItemToCart = async (req, res) => {
 	const newItem = req.body;
 	newItem.productId = new mongoose.Types.ObjectId(newItem.productId);
 	let cartItem = null;
-	let productIdExists;
 
 	try {
-		const userExist = await Cart.findOne({
+		// If cart doesn't exist, create a new cart and add the item
+		cartItem = new Cart({
 			user: req.user._id,
+			quantity: newItem.quantity,
+			color: newItem.color,
+			size: newItem.size,
+			name: newItem.name,
+			price: newItem.price,
+			img: newItem.img,
+			productId: newItem.productId,
 		});
 
-		//If user exist in Cart table
-		if (userExist) {
-			// If cart exists, check if the item exists in the orderItems array
-			let [productIdExists, sizeExists, colorExists] = [
-				"productId",
-				"size",
-				"color",
-			].map(key =>
-				userExist.orderItems.some(item => {
-					//If it's productId, compare .equals()
-					if (
-						mongoose.Types.ObjectId.isValid(item[key]) ||
-						mongoose.Types.ObjectId.isValid(newItem[key])
-					) {
-						return newItem[key].equals(item[key]);
-					}
-					//Other type, compare ===
-					return newItem[key] === item[key];
-				})
-			);
-
-			if (productIdExists && sizeExists && colorExists) {
-				// Item already exists in the cart, increment the quantity
-				cartItem = await Cart.updateOne(
-					{ user: req.user._id, "orderItems.productId": newItem.productId },
-					{
-						$inc: { "orderItems.$.quantity": newItem.quantity },
-					}
-				);
-			} else {
-				// Item doesn't exist or properties are not the same, add it to the orderItems array
-				cartItem = await Cart.updateOne(
-					{ user: req.user._id },
-					{
-						$push: {
-							orderItems: {
-								quantity: newItem.quantity,
-								color: newItem.color,
-								size: newItem.size,
-								name: newItem.name,
-								price: newItem.price,
-								img: newItem.img,
-								productId: newItem.productId,
-							},
-						},
-					}
-				);
-			}
-		} else {
-			// If cart doesn't exist, create a new cart and add the item
-			cartItem = new Cart({
-				user: req.user._id,
-				orderItems: [
-					{
-						quantity: newItem.quantity,
-						color: newItem.color,
-						size: newItem.size,
-						name: newItem.name,
-						price: newItem.price,
-						img: newItem.img,
-						productId: newItem.productId,
-					},
-				],
-			});
-			await cartItem.save();
-		}
-		const cart = await Cart.find();
+		await cartItem.save();
 
 		res.status(201).json({
-			message: `Cart item ${
-				productIdExists ? "added" : "updated"
-			} successfully`,
-			userCart: cart ? cart[0] : cart,
+			message: "Cart item added successfully",
+			userCart: cartItem,
 		});
 	} catch (error) {
 		console.error(error);
@@ -117,28 +50,23 @@ export const addItemToCart = async (req, res) => {
 
 export const updateCartItem = async (req, res) => {
 	const { productId, quantity, color, size } = req.body;
-	console.log(quantity);
-	console.log(productId);
 
 	try {
-		const updatedItem = await Cart.updateOne(
-			{ user: req.user._id },
+		const updatedItem = await Cart.findOneAndUpdate(
 			{
-				$set: { "orderItems.$[elem].quantity": quantity },
+				user: req.user._id,
+				productId: new mongoose.Types.ObjectId(productId),
+				size: size,
+				color: color,
 			},
 			{
-				arrayFilters: [
-					{
-						"elem.productId": new mongoose.Types.ObjectId(productId),
-						"elem.size": size,
-						"elem.color": color,
-					},
-				],
+				$set: { quantity: quantity },
+			},
+			{
 				new: true,
 			}
 		);
 
-		console.log("UPDATED ITEM: ", updatedItem);
 		res.status(200).json({
 			message: "Cart item updated successfully",
 			userCart: updatedItem,
@@ -159,9 +87,9 @@ export const removeItemFromCart = async (req, res) => {
 		const removedItem = await Cart.findOneAndUpdate(
 			{
 				user: req.user._id,
-				"orderItems.productId": cartId,
-				"orderItems.size": size,
-				"orderItems.color": color,
+				productId: cartId,
+				size: size,
+				color: color,
 			},
 			{
 				$pull: {
