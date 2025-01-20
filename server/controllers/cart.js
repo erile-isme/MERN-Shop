@@ -84,20 +84,12 @@ export const removeItemFromCart = async (req, res) => {
 	const cartId = new mongoose.Types.ObjectId(productId);
 
 	try {
-		const removedItem = await Cart.findOneAndUpdate(
-			{
-				user: req.user._id,
-				productId: cartId,
-				size: size,
-				color: color,
-			},
-			{
-				$pull: {
-					orderItems: { productId, size, color },
-				},
-			},
-			{ new: true }
-		);
+		const removedItem = await Cart.findOneAndDelete({
+			user: req.user._id,
+			productId: cartId,
+			size: size,
+			color: color,
+		});
 
 		if (!removedItem)
 			return res.status(404).send(`Item with id ${cartId} not found`);
