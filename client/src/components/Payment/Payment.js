@@ -180,9 +180,7 @@ const Payment = () => {
 												<div className="three wide column">
 													<img
 														className="cart-img"
-														src={`${
-															process.env.REACT_APP_PROD
-														}/uploads/${item.img.replace("resources/", "")}`}
+														src={`${process.env.REACT_APP_PROD}/${item.img}`}
 														alt={item.name}
 													/>
 												</div>

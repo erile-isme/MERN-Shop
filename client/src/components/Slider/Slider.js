@@ -61,9 +61,7 @@ const CarouselSlider = () => {
 						<div className="slider-detail">
 							<div className="slider-image">
 								<img
-									src={`${
-										process.env.REACT_APP_PROD
-									}/uploads/${p.img[0].replace("resources/", "")}`}
+									src={`${process.env.REACT_APP_PROD}/${p.img[0]}`}
 									alt={p.name}
 								/>
 							</div>

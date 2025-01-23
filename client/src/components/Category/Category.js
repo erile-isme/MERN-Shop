@@ -19,7 +19,10 @@ const Category = () => {
 			<div className="category-container">
 				{categories.map(category => (
 					<div key={category._id} className="category-item">
-						<img src={category.img} alt={category.name} />
+						<img
+							src={`${process.env.REACT_APP_PROD}/${category.img}`}
+							alt={category.name}
+						/>
 						<div className="category-body">
 							<h1 className="category-title">{category.name}</h1>
 							<p className="category-description">{category.description}</p>

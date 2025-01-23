@@ -3,7 +3,7 @@ import { TextField, Button, Typography, Paper } from "@mui/material";
 // import FileBase from 'react-file-base64';
 import { useDispatch, useSelector } from "react-redux";
 import { createCate } from "../../actions/categoryAction";
-import useStyles from "./styles";
+import "./styles.css";
 
 const CategoryForm = () => {
 	const [currId, setCurrId] = useState(0);
@@ -13,7 +13,6 @@ const CategoryForm = () => {
 		img: "",
 	};
 	const [prodData, setProdData] = useState(obj);
-	const classes = useStyles();
 	const dispatch = useDispatch();
 	const product = useSelector(state =>
 		currId ? state.products.find(p => p._id === currId) : null
@@ -46,11 +45,11 @@ const CategoryForm = () => {
 
 	return (
 		<div>
-			<Paper className={classes.paper}>
+			<Paper className="paper">
 				<form
 					autoComplete="off"
 					noValidate
-					className={`${classes.root} ${classes.form}`}
+					className="root form"
 					onSubmit={handleSubmit}
 				>
 					<Typography variant="h6">
@@ -81,7 +80,7 @@ const CategoryForm = () => {
 							});
 						}}
 					/>
-					<div className={classes.fileInput}>
+					<div className="fileInput">
 						{/* <FileBase
               type='file'
               multiple={false}
@@ -89,7 +88,7 @@ const CategoryForm = () => {
             /> */}
 					</div>
 					<Button
-						className={classes.buttonSubmit}
+						className="buttonSubmit"
 						variant="contained"
 						color="primary"
 						size="large"

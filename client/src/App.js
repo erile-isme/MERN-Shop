@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { Route, BrowserRouter, Routes } from "react-router-dom";
+import { OrderProvider } from "./components/OrderSummary/OrderProvider";
 import Home from "./components/Home/Home";
 import Cart from "./components/Cart/Cart";
 import Payment from "./components/Payment/Payment";
@@ -18,19 +19,26 @@ import Copyright from "./components/Copyright/Copyright";
 import Account from "./components/Account/Account";
 import PrivateRoute from "./components/PrivateRoute";
 import PlaceOrder from "./components/PlaceOrder/PlaceOrder";
-import { OrderProvider } from "./components/OrderSummary/OrderProvider";
 import OrderHistoryDetail from "./components/OrderHistory/OrderHistoryDetail";
-import "./index.css";
 import OrderHistory from "./components/OrderHistory/OrderHistory";
 import Profile from "./components/Account/Profile";
+import Sidebar from "./components/Navbar/Sidebar";
+import "./index.css";
 
 const App = () => {
 	const [currId, setCurrId] = useState(null);
+	const [sideBar, setSideBar] = useState(false);
 
 	return (
 		<div>
+			<div className={`overlay ${sideBar ? "active" : ""}`}></div>
 			<BrowserRouter>
-				<Navbar />
+				<Navbar sideBar={sideBar} setSideBar={setSideBar} />
+				{sideBar ? (
+					<Sidebar sideBar={sideBar} setSideBar={() => setSideBar(!sideBar)} />
+				) : (
+					<></>
+				)}
 				<Routes>
 					{/** Public routes */}
 					<Route path="/" element={<Home />} />

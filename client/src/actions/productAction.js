@@ -25,6 +25,10 @@ export const fetchSlider = () => async dispatch => {
 	}
 };
 
+export const uploadPhotos = formData => async dispatch => {
+	await api.uploadPhotos(formData);
+};
+
 export const createProduct = product => async dispatch => {
 	try {
 		const { data } = await api.createProd(product);

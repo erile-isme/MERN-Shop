@@ -1,0 +1,36 @@
+.root .MuiTextField-root {
+  margin: 8px; /* theme.spacing(1) is typically 8px */
+}
+
+.root .MuiFormControl-root {
+  margin: 8px; /* theme.spacing(1) */
+}
+
+.root .MuiFormControlLabel-root {
+  margin: auto 56px; /* theme.spacing("auto", 7), assuming 7 * 8px = 56px */
+}
+
+.paper {
+  padding: 16px; /* theme.spacing(2) is typically 16px */
+  margin: 6rem 20rem;
+}
+
+.form {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.fileInput {
+  width: 97%;
+  margin: 10px 0;
+}
+
+.slider {
+  width: 100%;
+  margin: 2px 0;
+}
+
+.buttonSubmit {
+  margin-bottom: 10px;
+}

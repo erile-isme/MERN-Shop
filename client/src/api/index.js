@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 const API = axios.create({
-	baseURL: process.env.REACT_APP_PROD,
+	baseURL: process.env.REACT_APP_SERVER_PROD,
 });
 
 const isTokenExpired = () => {
@@ -25,6 +25,10 @@ export const createProd = product => API.post("/products/uploads", product);
 export const getProduct = id => API.get(`/products/${id}`);
 export const getProductsInCategory = cateId =>
 	API.get(`/products/categories/${cateId}`);
+export const uploadPhotos = formData =>
+	API.post("/products/uploads-multi", formData, {
+		headers: { "Content-Type": "multipart/form-data" },
+	});
 
 //Category API
 export const fetchCates = () => API.get("/categories");

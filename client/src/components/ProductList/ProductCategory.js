@@ -14,6 +14,7 @@ const ProductCategory = () => {
 	)[0];
 
 	useEffect(() => {
+		window.scroll(0, 0);
 		dispatch(getProductsInCategory(currCategory._id));
 	}, [dispatch, currCategory]);
 
@@ -42,10 +43,7 @@ const ProductCategory = () => {
 							<div>
 								<img
 									className="img-prodcate"
-									src={`http://localhost:5000/uploads/${product.img[0].replace(
-										"resources/",
-										""
-									)}`}
+									src={`${process.env.REACT_APP_PROD}/${product.img[0]}`}
 									alt={product.name}
 								/>
 							</div>

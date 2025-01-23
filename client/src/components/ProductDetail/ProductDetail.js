@@ -84,10 +84,7 @@ const ProductDetail = () => {
 								{product.img.map((img, index) => (
 									<img
 										key={index}
-										src={`${process.env.REACT_APP_PROD}/uploads/${img.replace(
-											"resources/",
-											""
-										)}`}
+										src={`${process.env.REACT_APP_PROD}/${img}`}
 										alt={product.description.details}
 									/>
 								))}

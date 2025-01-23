@@ -12,10 +12,7 @@ const Product = ({ product }) => {
 			<Card key={product._id} className="product-info" variant="outlined">
 				<img
 					className="product-img"
-					src={`${process.env.REACT_APP_PROD}/uploads/${product.img[0].replace(
-						"resources/",
-						""
-					)}`}
+					src={`${process.env.REACT_APP_PROD}/${product.img[0]}`}
 					alt={product.description}
 				/>
 				<nav>

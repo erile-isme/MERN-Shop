@@ -1,37 +1,83 @@
-import React from "react";
-import { Twirl as Hamburger } from "hamburger-react";
+import React, { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
-import { navMenu } from "../../resources/constants.js";
+import { NAV_MENU, CATEFGORY_ICONS } from "../../constants/constants.js";
+import {
+	List,
+	ListItemButton,
+	ListItemIcon,
+	ListSubheader,
+	ListItemText,
+	Collapse,
+} from "@mui/material";
+import { AiFillProduct } from "react-icons/ai";
+import { ExpandMore, ExpandLess } from "@mui/icons-material";
+import { getCate } from "../../actions/categoryAction.js";
 
 const Sidebar = ({ sideBar, setSideBar }) => {
+	const dispatch = useDispatch();
+	const [open, setOpen] = useState(false);
+
+	const categories = useSelector(state => state.categories);
+
+	useEffect(() => {
+		if (!categories) dispatch(getCate());
+	}, [dispatch, categories]);
+
 	return (
-		<div>
-			<div className={`navbar-menu ${sideBar ? "active" : ""}`}>
-				<div className={`navbar-close ${sideBar ? "active" : ""}`}>
-					<Hamburger
-						toggled={sideBar}
-						toggle={setSideBar}
-						rounded
-						size={18}
-						distance="sm"
-					/>
-				</div>
-				<div className="navbar-menulist">
-					<div className="navbar-link">
-						<nav>
-							{navMenu.map((navTitle, index) => (
-								<Link
-									key={index}
-									to={navTitle.href}
-									className="sidebar-link"
-									onClick={prevSideBar => setSideBar(!prevSideBar)}
-								>
-									{navTitle.icon}
-									<span>{navTitle.name}</span>
-								</Link>
-							))}
-						</nav>
-					</div>
+		<div className={`sidebar-menu ${sideBar ? "active" : ""}`}>
+			<div className="sidebar-menulist">
+				<div className="sidebar-link">
+					<List
+						sx={{ width: "100%", maxWidth: 360, bgcolor: "background.paper" }}
+						component="nav"
+						aria-labelledby="nested-list-subheader"
+						subheader={
+							<ListSubheader component="div" id="nested-list-subheader">
+								<h2>eri.</h2>
+							</ListSubheader>
+						}
+					>
+						{NAV_MENU.map((navLink, index) => (
+							<Link
+								className="link-list"
+								key={navLink.name}
+								to={navLink.href}
+								onClick={() => setSideBar(false)}
+							>
+								<ListItemButton>
+									<ListItemIcon>{navLink.icon}</ListItemIcon>
+									<ListItemText primary={navLink.name} />
+								</ListItemButton>
+							</Link>
+						))}
+						<ListItemButton onClick={() => setOpen(!open)}>
+							<ListItemIcon>
+								<AiFillProduct />
+							</ListItemIcon>
+							<ListItemText primary="Category" />
+							{open ? <ExpandLess /> : <ExpandMore />}
+						</ListItemButton>
+						<Collapse in={open} timeout="auto" unmountOnExit>
+							<List
+								component="div"
+								disablePadding
+								onClick={() => setSideBar(false)}
+							>
+								{categories.map((category, index) => (
+									<Link
+										className="link-list"
+										to={`/categories/${category._id}`}
+									>
+										<ListItemButton sx={{ pl: 4 }}>
+											<ListItemIcon>{CATEFGORY_ICONS[index]}</ListItemIcon>
+											<ListItemText primary={category.name} />
+										</ListItemButton>
+									</Link>
+								))}
+							</List>
+						</Collapse>
+					</List>
 				</div>
 			</div>
 		</div>
