@@ -7,7 +7,7 @@ import { Link } from "react-router-dom";
 import { useOrder } from "./OrderProvider";
 import "./OrderSummary.css";
 
-const OrderSummary = ({ paymentState, cartUpdated }) => {
+const OrderSummary = ({ paymentState, selectedShipping }) => {
 	const dispatch = useDispatch();
 	const {
 		totalBeforeTax,
@@ -33,7 +33,9 @@ const OrderSummary = ({ paymentState, cartUpdated }) => {
 		setTax(Math.round(tax * 100) / 100);
 
 		const ship =
-			paymentState === 0 ? Math.round(Math.random() * 10 * 100) / 100 : 0;
+			paymentState === 0 || selectedShipping === "pickup"
+				? 0
+				: Math.round(Math.random() * 10 * 100) / 100;
 		setShippingFee(ship);
 
 		const orderTotal = Math.round((totalBeforeTax + tax + ship) * 100) / 100;
@@ -41,17 +43,14 @@ const OrderSummary = ({ paymentState, cartUpdated }) => {
 	};
 
 	/*
-	 * state 0: From Payment for delivery and billing - calculate as normal after knowing address
-	 * state 1: From Payment for confirm order - used data from state 0, no need to recalculate
-	 * state 2: From Cart - calculate Order except shipping until knowing address
+	 * state 0: From Payment for delivery and billing or Cart for cart update - calculate Order except shipping until knowing shipping method
+	 * state 1: From Payment for confirm order - recalculate with shipping fee
 	 */
 	useEffect(() => {
-		if (paymentState === 0 || paymentState === 2 || cartUpdated) {
-			dispatch(fetchCart()).then(() => {
-				calculateOrder();
-			});
-		}
-	}, [dispatch, cartUpdated, paymentState]);
+		dispatch(fetchCart()).then(() => {
+			calculateOrder();
+		});
+	}, [dispatch]);
 
 	return (
 		<>
@@ -83,7 +82,7 @@ const OrderSummary = ({ paymentState, cartUpdated }) => {
 							</td>
 							<td className="value">
 								<p>
-									{paymentState === 2
+									{paymentState === 0
 										? "Estimated later"
 										: `CAD ${shippingFee}`}
 								</p>

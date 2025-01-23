@@ -122,8 +122,10 @@ const Payment = () => {
 									/>
 									<div>
 										<h4>Ship To Address</h4>
-										<p>Shipping: ${shippingFee}</p>
-										<p>Expected Deliver: {deliveryDate}</p>
+										<p>
+											Expected Deliver:{" "}
+											{selectedShipping === "ship" ? deliveryDate : "Estimate"}
+										</p>
 									</div>
 								</div>
 								<div className="input-radios">
@@ -133,11 +135,18 @@ const Payment = () => {
 										id="pickup"
 										value="pickup"
 										checked={selectedShipping === "pickup"}
-										onChange={e => setSelectedShipping(e.target.value)}
+										onChange={e => {
+											setSelectedShipping(e.target.value);
+										}}
 									/>
 									<div>
-										<h4>Click or Collect</h4>
-										<p>Available pickup: {deliveryDate}</p>
+										<h4>Pick up</h4>
+										<p>
+											Available Pickup:{" "}
+											{selectedShipping === "pickup"
+												? deliveryDate
+												: "Estimated"}
+										</p>
 									</div>
 								</div>
 							</div>
@@ -202,7 +211,11 @@ const Payment = () => {
 							</div>
 							<div className="payment-content">
 								<h2>2. PAYMENT OPTION</h2>
-								<p>Please select your payment option</p>
+								<p>
+									Please select your payment option. Disclaimer: This is for
+									display purpose only. No bank card should be entered in this
+									section.
+								</p>
 								<div className="ui divider"></div>
 								<div className="input-radios">
 									<div className="input-radio">
@@ -223,9 +236,7 @@ const Payment = () => {
 											id="paypal"
 											value="PayPal"
 											checked={selectedMethod === "PayPal"}
-											onChange={e => {
-												setSelectedMethod(e.target.value);
-											}}
+											onChange={e => setSelectedMethod(e.target.value)}
 										/>
 										PayPal
 									</div>
@@ -260,7 +271,10 @@ const Payment = () => {
 				{/* Display Order Summary throughout state 0 and 1. State 2 will expand the whole width without ui grid */}
 				{state !== 2 && (
 					<div className="six wide column">
-						<OrderSummary paymentState={0} />
+						<OrderSummary
+							paymentState={0}
+							selectedShipping={selectedShipping}
+						/>
 					</div>
 				)}
 			</div>
@@ -268,7 +282,7 @@ const Payment = () => {
 			{state === 2 && (
 				<div className="confirm-container">
 					<h2>3. ORDER SUMMARY</h2>
-					<OrderSummary paymentState={1} />
+					<OrderSummary paymentState={1} selectedShipping={selectedShipping} />
 					<div className="delivery-button">
 						<button
 							className="back-button"

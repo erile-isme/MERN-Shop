@@ -140,7 +140,7 @@ const Cart = () => {
 						</div>
 						<div className="five wide column order-summary">
 							<OrderProvider>
-								<OrderSummary paymentState={2} cartUpdated={cartUpdated} />
+								<OrderSummary paymentState={0} />
 							</OrderProvider>
 							<button className="checkout-button">
 								<Link to="/payment" className="payment-link">
