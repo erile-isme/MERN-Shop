@@ -3,7 +3,6 @@ import { Link } from "react-router-dom";
 import { Card } from "@mui/material";
 import FavoriteBorderOutlinedIcon from "@mui/icons-material/FavoriteBorderOutlined";
 import SearchOutlinedIcon from "@mui/icons-material/SearchOutlined";
-import ShoppingCartOutlinedIcon from "@mui/icons-material/ShoppingCartOutlined";
 import "./Product.css";
 
 const Product = ({ product }) => {
@@ -28,11 +27,6 @@ const Product = ({ product }) => {
 						<div className="fav-icon">
 							<Link to="/productfav" className="product-link">
 								<FavoriteBorderOutlinedIcon />
-							</Link>
-						</div>
-						<div className="cart-icon">
-							<Link to="/cart" className="product-link">
-								<ShoppingCartOutlinedIcon />
 							</Link>
 						</div>
 					</div>

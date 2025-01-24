@@ -7,7 +7,7 @@ import { Link } from "react-router-dom";
 import { useOrder } from "./OrderProvider";
 import "./OrderSummary.css";
 
-const OrderSummary = ({ paymentState, selectedShipping }) => {
+const OrderSummary = ({ paymentState, selectedShipping, cartUpdated }) => {
 	const dispatch = useDispatch();
 	const {
 		totalBeforeTax,
@@ -47,9 +47,12 @@ const OrderSummary = ({ paymentState, selectedShipping }) => {
 	 * state 1: From Payment for confirm order - recalculate with shipping fee
 	 */
 	useEffect(() => {
-		dispatch(fetchCart()).then(() => {
-			calculateOrder();
-		});
+		if (cartUpdated) {
+			console.log("Run order summary");
+			dispatch(fetchCart()).then(() => {
+				calculateOrder();
+			});
+		}
 	}, [dispatch]);
 
 	return (

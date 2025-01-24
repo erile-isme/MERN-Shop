@@ -52,13 +52,15 @@ const Newsletter = () => {
 							type="email"
 							placeholder="Type your email here"
 						/>
-						<input
-							className="newsletter-input"
-							name="name"
-							type="text"
-							value={user.user.name}
-							hidden
-						/>
+						{user && (
+							<input
+								className="newsletter-input"
+								name="name"
+								type="text"
+								value={user?.user?.name}
+								hidden
+							/>
+						)}
 						<input
 							className="ui inverted secondary button"
 							type="submit"

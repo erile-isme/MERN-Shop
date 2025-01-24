@@ -24,10 +24,11 @@ const Cart = () => {
 	useEffect(() => {
 		window.scroll(0, 0);
 		if (localStorage.getItem("token")) {
+			console.log("run");
 			dispatch(fetchCart());
 			if (cartUpdated) {
-				dispatch(fetchCart());
 				setIsLoading(false);
+				setCartUpdated(false);
 			}
 		} else {
 			navigate(`/login?redirect=${window.location.pathname}`);
@@ -55,9 +56,10 @@ const Cart = () => {
 				size,
 				color,
 			})
-		);
-		setCartUpdated(true);
-		setIsLoading(false);
+		).then(() => {
+			setCartUpdated(true);
+			setIsLoading(false);
+		});
 	};
 
 	return (
@@ -140,7 +142,7 @@ const Cart = () => {
 						</div>
 						<div className="five wide column order-summary">
 							<OrderProvider>
-								<OrderSummary paymentState={0} />
+								<OrderSummary paymentState={0} cartUpdated={cartUpdated} />
 							</OrderProvider>
 							<button className="checkout-button">
 								<Link to="/payment" className="payment-link">

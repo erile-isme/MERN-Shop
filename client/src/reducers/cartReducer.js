@@ -12,7 +12,11 @@ const cart = (cart = [], action) => {
 		case FETCH_CART:
 			return action.payload || [];
 		case ADD_CART:
-			return [...cart, action.payload];
+			return cart.map(item =>
+				item._id === action.payload._id
+					? { ...item, quantity: action.payload.quantity }
+					: item
+			);
 		case UPDATE_CART:
 			return cart.map(item =>
 				item._id === action.payload._id

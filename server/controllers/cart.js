@@ -22,24 +22,48 @@ export const addItemToCart = async (req, res) => {
 	let cartItem = null;
 
 	try {
-		// If cart doesn't exist, create a new cart and add the item
-		cartItem = new Cart({
-			user: req.user._id,
-			quantity: newItem.quantity,
-			color: newItem.color,
-			size: newItem.size,
-			name: newItem.name,
-			price: newItem.price,
-			img: newItem.img,
-			productId: newItem.productId,
-		});
+		const existingItem = await Cart.findOneAndUpdate(
+			{
+				user: req.user._id,
+				productId: new mongoose.Types.ObjectId(newItem.productId),
+				size: newItem.size,
+				color: newItem.color,
+			},
+			{
+				$inc: { quantity: newItem.quantity },
+			},
+			{
+				new: true,
+			}
+		);
 
-		await cartItem.save();
+		if (existingItem) {
+			console.log(existingItem);
+			res.status(200).json({
+				message: "Cart item added and updated successfully",
+				userCart: existingItem,
+			});
+		} else {
+			//If item doesn't exit in the cart
+			cartItem = new Cart({
+				user: req.user._id,
+				quantity: newItem.quantity,
+				color: newItem.color,
+				size: newItem.size,
+				name: newItem.name,
+				price: newItem.price,
+				img: newItem.img,
+				productId: newItem.productId,
+			});
 
-		res.status(201).json({
-			message: "Cart item added successfully",
-			userCart: cartItem,
-		});
+			await cartItem.save();
+
+			res.status(201).json({
+				message: "Cart item added successfully",
+				userCart: cartItem,
+			});
+		}
+		
 	} catch (error) {
 		console.error(error);
 		res

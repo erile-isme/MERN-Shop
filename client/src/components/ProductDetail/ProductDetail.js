@@ -14,6 +14,7 @@ import { getProduct } from "../../actions/productAction";
 import { addItemToCart } from "../../actions/cartAction";
 import "./ProductDetail.css";
 import Loading from "../Loading/Loading";
+import AddedItemReview from "../Cart/AddedItemReview";
 
 const ProductDetail = () => {
 	const dispatch = useDispatch();
@@ -22,6 +23,9 @@ const ProductDetail = () => {
 	const [colorIndex, setColorIndex] = useState(0);
 	const [quantity, setQuantity] = useState(1);
 	const [isLoading, setIsLoading] = useState(1);
+	const [itemAdded, setItemAdded] = useState(false);
+	const [cartItem, setCartItem] = useState({});
+
 	const { productId } = useParams();
 	const product = useSelector(state => state.products.product);
 
@@ -46,6 +50,8 @@ const ProductDetail = () => {
 		} else {
 			dispatch(addItemToCart(cartItem));
 			setIsLoading(false);
+			setItemAdded(true);
+			setCartItem(cartItem);
 		}
 	};
 
@@ -69,6 +75,11 @@ const ProductDetail = () => {
 	return (
 		<div>
 			<Loading state={isLoading} />
+			<AddedItemReview
+				isItemAdded={itemAdded}
+				setItemAdded={setItemAdded}
+				cartItem={cartItem}
+			/>
 			{product && (
 				<div className="info-container">
 					<div className="ui breadcrumb">
@@ -80,7 +91,7 @@ const ProductDetail = () => {
 					</div>
 					<div className="ui grid info">
 						<div className="nine wide column info-left">
-							<div className="img">
+							<div className="primary-img">
 								{product.img.map((img, index) => (
 									<img
 										key={index}
