@@ -4,7 +4,7 @@ import {
 	LOGIN_ERROR,
 	REGISTER_ERROR,
 	GET_USER,
-} from "../constants/actionTypes";
+} from "../shared/actionTypes";
 const initialState = {
 	user: null,
 	error: null,

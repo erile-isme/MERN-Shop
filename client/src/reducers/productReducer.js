@@ -4,7 +4,7 @@ import {
 	GETPROD,
 	GETPROD_CATE,
 	FETCH_SLIDER,
-} from "../constants/actionTypes";
+} from "../shared/actionTypes";
 
 const products = (state = { products: [], slider: [] }, action) => {
 	switch (action.type) {

@@ -2,7 +2,9 @@ import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate, useParams } from "react-router-dom";
 import { FaPlus, FaMinus } from "react-icons/fa6";
-import { IoShareOutline, IoHeartOutline } from "react-icons/io5";
+import { IoShareOutline } from "react-icons/io5";
+import FavoriteBorderOutlinedIcon from "@mui/icons-material/FavoriteBorderOutlined";
+import { MdOutlineFavorite } from "react-icons/md";
 import {
 	Rating,
 	InputLabel,
@@ -15,6 +17,10 @@ import { addItemToCart } from "../../actions/cartAction";
 import "./ProductDetail.css";
 import Loading from "../Loading/Loading";
 import AddedItemReview from "../Cart/AddedItemReview";
+import {
+	addOrRemoveFavorites,
+	fetchFavorites,
+} from "../../actions/favoriteAction";
 
 const ProductDetail = () => {
 	const dispatch = useDispatch();
@@ -28,10 +34,12 @@ const ProductDetail = () => {
 
 	const { productId } = useParams();
 	const product = useSelector(state => state.products.product);
+	const favorites = useSelector(state => state?.favorites);
 
 	useEffect(() => {
 		window.scrollTo(0, 0);
 		dispatch(getProduct(productId));
+		if (localStorage.getItem("token")) dispatch(fetchFavorites());
 	}, [dispatch, productId]);
 
 	const addToCart = ({ id, quantity, size, name, color, price, img }) => {
@@ -53,6 +61,15 @@ const ProductDetail = () => {
 			setItemAdded(true);
 			setCartItem(cartItem);
 		}
+	};
+
+	const handleFavorites = productId => {
+		if (!localStorage.getItem("token")) {
+			navigate(`/login?redirect=${window.location.pathname}`);
+			return;
+		}
+		dispatch(addOrRemoveFavorites({ productId }));
+		window.location.reload();
 	};
 
 	window.location.pathname === "/products/:category/:productId" &&
@@ -190,7 +207,16 @@ const ProductDetail = () => {
 									</div>
 								</div>
 								<div className="title-icons">
-									<IoHeartOutline />
+									<div
+										className="favorite-icon"
+										onClick={() => handleFavorites(product._id)}
+									>
+										{favorites.some(fav => fav._id === product._id) ? (
+											<MdOutlineFavorite />
+										) : (
+											<FavoriteBorderOutlinedIcon />
+										)}
+									</div>
 									<IoShareOutline />
 								</div>
 							</div>

@@ -8,8 +8,8 @@ export const GETPROD = "GETPROD";
 export const GETPROD_CATE = "GETPROD_CATE";
 
 //Category
-export const FETCHCATE = "FETCHCATE";
-export const CREATECATE = "CREATECATE";
+export const FETCH_CATE = "FETCHCATE";
+export const CREATE_CATE = "CREATECATE";
 
 //Cart
 export const FETCH_CART = "FETCH_CART";
@@ -31,3 +31,9 @@ export const FETCH_ALL_HISTORY = "FETCH_ALL_HISTORY";
 export const FETCH_LATEST = "FETCH_LATEST";
 export const GET_ORDER = "GET_ORDER";
 export const ADD_HISTORY = "ADD_ORDERHISTORY";
+
+//Favorites
+export const FETCH_FAV = "FETCH_FAV";
+export const NEW_USER_FAV = "NEW_USER_FAV";
+export const ADD_FAV = "ADD_FAV";
+export const REMOVE_FAV = "REMOVE_FAV";

@@ -9,6 +9,7 @@ import { useOrder } from "../OrderSummary/OrderProvider";
 import Loading from "../Loading/Loading";
 import OrderSummary from "../OrderSummary/OrderSummary";
 import "./Payment.css";
+import ProductBand from "../Product/ProductBand";
 
 const Payment = () => {
 	const dispatch = useDispatch();
@@ -183,30 +184,8 @@ const Payment = () => {
 								<div className="ui divider"></div>
 								{cartList &&
 									cartList.length > 0 &&
-									cartList.map((item, index) => (
-										<div key={item._id}>
-											<div className="ui grid">
-												<div className="three wide column">
-													<img
-														className="cart-img"
-														src={`${process.env.REACT_APP_PROD}/${item.img}`}
-														alt={item.name}
-													/>
-												</div>
-												<div className="thirteen wide column">
-													<div className="item-title">
-														<h2>{item.name.toUpperCase()}</h2>
-													</div>
-													<div className="item-content">
-														<p>{item.color ? `Color: ${item.color}` : ""}</p>
-														<p>{item.type ? `Type: ${item.type}` : ""}</p>
-														<p>{item.size ? `Size: ${item.size}` : ""}</p>
-														<p>Quantity: {item.quantity}</p>
-														<h3>CAD $ {item.price}</h3>
-													</div>
-												</div>
-											</div>
-										</div>
+									cartList.map(item => (
+										<ProductBand key={item._id} product={item} />
 									))}
 							</div>
 							<div className="payment-content">

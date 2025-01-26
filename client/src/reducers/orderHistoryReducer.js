@@ -2,7 +2,7 @@ import {
 	FETCH_ALL_HISTORY,
 	ADD_HISTORY,
 	GET_ORDER,
-} from "../constants/actionTypes";
+} from "../shared/actionTypes";
 
 const orderHistory = (orderHistory = [], action) => {
 	switch (action.type) {

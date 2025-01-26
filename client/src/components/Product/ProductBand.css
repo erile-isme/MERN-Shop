@@ -1,0 +1,13 @@
+.item-img {
+  width: 230px;
+  height: 300px;
+}
+.item-img.payment {
+  width: 100%;
+  height: 200px;
+  object-fit: cover;
+}
+.item-title {
+  display: flex;
+  justify-content: space-between;
+}

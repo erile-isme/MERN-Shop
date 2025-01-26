@@ -1,0 +1,7 @@
+.wishlist-content {
+    border: solid 1px var(--color-secondary);
+    padding: 2rem 2rem;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}

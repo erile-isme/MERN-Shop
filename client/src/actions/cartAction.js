@@ -6,7 +6,7 @@ import {
 	REMOVE_CART,
 	REMOVE_ALL,
 	CART_ERROR,
-} from "../constants/actionTypes";
+} from "../shared/actionTypes";
 
 export const fetchCart = () => async dispatch => {
 	try {

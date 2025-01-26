@@ -12,7 +12,7 @@
   justify-content: center;
 }
 .navbar-right {
-  padding: 1rem;
+  padding: 1rem 2rem 1rem 1rem;
   display: flex;
   justify-content: flex-end;
   gap: 2rem;
@@ -34,6 +34,15 @@
 .navbar-text {
   justify-content: center;
   align-items: center;
+}
+.ui.top.right.pointing.dropdown >.menu {
+  margin-top: 0;
+}
+.profile-icon {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 5px;
 }
 
 .brandname {

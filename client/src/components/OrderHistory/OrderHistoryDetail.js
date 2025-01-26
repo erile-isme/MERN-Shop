@@ -4,6 +4,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { getUser } from "../../actions/userAction";
 import { useParams } from "react-router-dom";
 import { getOrderHistory } from "../../actions/orderHistoryAction";
+import ProductBand from "../Product/ProductBand";
 
 const OrderHistoryDetail = () => {
 	const dispatch = useDispatch();
@@ -56,30 +57,7 @@ const OrderHistoryDetail = () => {
 					{order.orderItems &&
 						order.orderItems.length > 0 &&
 						order.orderItems.map((item, index) => (
-							<div key={index}>
-								<div className="ui grid">
-									<div className="three wide column">
-										<img
-											className="cart-img"
-											src={`${process.env.REACT_APP_PROD}/${item.img}`}
-											alt={item.name}
-										/>
-									</div>
-									<div className="thirteen wide column">
-										<div className="item-title">
-											<h2>{item.name.toUpperCase()}</h2>
-										</div>
-										<div className="item-content">
-											<p>{item.color ? `Color: ${item.color}` : ""}</p>
-											<p>{item.type ? `Type: ${item.type}` : ""}</p>
-											<p>{item.size ? `Size: ${item.size}` : ""}</p>
-											<p>Quantity: {item.quantity}</p>
-											<h4>CAD $ {item.price}</h4>
-											<h3>Subtotal: CAD ${item.price}</h3>
-										</div>
-									</div>
-								</div>
-							</div>
+							<ProductBand key={item._id} product={item} />
 						))}
 					<div className="ui divider"></div>
 					<div>

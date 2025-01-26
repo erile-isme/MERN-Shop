@@ -7,6 +7,7 @@ import {
 	GiHeartNecklace,
 	GiLipstick,
 } from "react-icons/gi";
+import { toast } from "react-toastify";
 
 export const NAV_MENU = [
 	{
@@ -47,3 +48,21 @@ export const CATEFGORY_ICONS = [
 	<GiHeartNecklace />,
 	<GiLipstick />,
 ];
+
+export const successMessage = (message, position) =>
+	toast.success(message, {
+		position: position,
+		autoClose: 2000,
+		hideProgressBar: true,
+		closeOnClick: true,
+		theme: "dark",
+	});
+
+export const errorMessage = (error, position) =>
+	toast.error(error, {
+		position: position,
+		autoClose: 2000,
+		hideProgressBar: true,
+		closeOnClick: true,
+		theme: "dark",
+	});

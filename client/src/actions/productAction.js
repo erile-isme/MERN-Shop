@@ -5,7 +5,7 @@ import {
 	GETPROD,
 	GETPROD_CATE,
 	FETCH_SLIDER,
-} from "../constants/actionTypes";
+} from "../shared/actionTypes";
 
 export const fetchAllProducts = () => async dispatch => {
 	try {

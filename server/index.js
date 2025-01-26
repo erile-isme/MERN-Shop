@@ -10,6 +10,7 @@ import categoryRoutes from "./routes/categories.js";
 import cartRoutes from "./routes/cart.js";
 import userRoutes from "./routes/users.js";
 import orderHistoryRoute from "./routes/orderHistory.js";
+import favrotiesRoute from "./routes/favorites.js";
 
 const app = express();
 dotenv.config();
@@ -36,12 +37,13 @@ app.get("/", (req, res) => {
 //Access file in this folder
 app.use("/uploads", express.static(path.join(__dirname, "resources")));
 //POST a product with images
-app.use("/products/uploads", productRoutes); 
+app.use("/products/uploads", productRoutes);
 app.use("/products", productRoutes);
 app.use("/categories", categoryRoutes);
 app.use("/cart", cartRoutes);
 app.use("/user", userRoutes);
 app.use("/orderhistory", orderHistoryRoute);
+app.use("/favorites", favrotiesRoute);
 
 const PORT = process.env.PORT || 5000;
 

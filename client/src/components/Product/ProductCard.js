@@ -2,23 +2,19 @@ import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, useParams } from "react-router-dom";
 import { getProductsInCategory } from "../../actions/productAction";
-import "./ProductCategory.css";
+import "./ProductCard.css";
 
 const ProductCategory = () => {
 	const dispatch = useDispatch();
 	const { categoryId } = useParams();
 
 	const categoryList = useSelector(state => state.categories);
-	const currCategory = categoryList.filter(
-		category => categoryId === category._id
-	)[0];
+	const productList = useSelector(state => state.products.products);
 
 	useEffect(() => {
 		window.scroll(0, 0);
-		dispatch(getProductsInCategory(currCategory._id));
-	}, [dispatch, currCategory]);
-
-	const productList = useSelector(state => state.products.products);
+		dispatch(getProductsInCategory(categoryId));
+	}, [dispatch, categoryId]);
 
 	return (
 		<div className="prodcate-container">
@@ -49,7 +45,7 @@ const ProductCategory = () => {
 							</div>
 							<div className="content">
 								<Link
-									to={`/products/${currCategory.name}/${product._id}`}
+									to={`/products/${product.category.name}/${product._id}`}
 									className="header"
 								>
 									{product.name}

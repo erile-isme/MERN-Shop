@@ -1,10 +1,16 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Link, Outlet, useNavigate } from "react-router-dom";
 import "./Account.css";
 
 const Account = () => {
 	const navigate = useNavigate();
 	const [state, setState] = useState("Profile");
+
+	useEffect(() => {
+		const location = window.location.pathname.split("/")[2];
+		if (location === "orderhistory") setState("Order History");
+		else if (location === "wishlist") setState("Wish List");
+	}, []);
 
 	return (
 		<div className="ui container account">
@@ -29,9 +35,21 @@ const Account = () => {
 						</div>
 						<div
 							className={`${state === "Order History" ? "active" : ""} item`}
-							onClick={() => setState("Order History")}
+							onClick={() => {
+								setState("Order History");
+								navigate("/account/orderhistory");
+							}}
 						>
-							<Link to="/account/orderhistory">Order History</Link>
+							Order History
+						</div>
+						<div
+							className={`${state === "Wish List" ? "active" : ""} item`}
+							onClick={() => {
+								setState("Wish List");
+								navigate("/account/wishlist");
+							}}
+						>
+							Wish List
 						</div>
 					</div>
 					<h2>Profile Setting</h2>

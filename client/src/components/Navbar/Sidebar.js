@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
-import { NAV_MENU, CATEFGORY_ICONS } from "../../constants/constants.js";
+import { NAV_MENU, CATEFGORY_ICONS } from "../../shared/tools.js";
 import {
 	List,
 	ListItemButton,
@@ -18,11 +18,11 @@ const Sidebar = ({ sideBar, setSideBar }) => {
 	const dispatch = useDispatch();
 	const [open, setOpen] = useState(false);
 
-	const categories = useSelector(state => state.categories);
+	const categories = useSelector(state => state?.categories);
 
 	useEffect(() => {
-		if (!categories) dispatch(getCate());
-	}, [dispatch, categories]);
+		dispatch(getCate());
+	}, [dispatch]);
 
 	return (
 		<div className={`sidebar-menu ${sideBar ? "active" : ""}`}>
@@ -38,7 +38,7 @@ const Sidebar = ({ sideBar, setSideBar }) => {
 							</ListSubheader>
 						}
 					>
-						{NAV_MENU.map((navLink, index) => (
+						{NAV_MENU.map(navLink => (
 							<Link
 								className="link-list"
 								key={navLink.name}

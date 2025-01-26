@@ -25,7 +25,7 @@ export const addItemToCart = async (req, res) => {
 		const existingItem = await Cart.findOneAndUpdate(
 			{
 				user: req.user._id,
-				productId: new mongoose.Types.ObjectId(newItem.productId),
+				productId: newItem.productId,
 				size: newItem.size,
 				color: newItem.color,
 			},

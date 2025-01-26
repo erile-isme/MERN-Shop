@@ -3,7 +3,7 @@ import {
 	FETCH_ALL_HISTORY,
 	ADD_HISTORY,
 	GET_ORDER,
-} from "../constants/actionTypes";
+} from "../shared/actionTypes";
 
 export const fetchAllOrderHistory = () => async dispatch => {
 	try {

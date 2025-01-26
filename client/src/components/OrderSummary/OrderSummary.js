@@ -2,7 +2,7 @@ import React, { useEffect } from "react";
 import { RiCoupon3Line } from "react-icons/ri";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchCart } from "../../actions/cartAction";
-import { TAX } from "../../constants/actionTypes";
+import { TAX } from "../../shared/actionTypes";
 import { Link } from "react-router-dom";
 import { useOrder } from "./OrderProvider";
 import "./OrderSummary.css";
@@ -47,13 +47,12 @@ const OrderSummary = ({ paymentState, selectedShipping, cartUpdated }) => {
 	 * state 1: From Payment for confirm order - recalculate with shipping fee
 	 */
 	useEffect(() => {
-		if (cartUpdated) {
-			console.log("Run order summary");
+		if (paymentState === 0 || cartUpdated) {
 			dispatch(fetchCart()).then(() => {
 				calculateOrder();
 			});
 		}
-	}, [dispatch]);
+	}, [dispatch, paymentState, cartUpdated]);
 
 	return (
 		<>

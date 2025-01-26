@@ -5,7 +5,7 @@ import {
 	REGISTER,
 	LOGIN_ERROR,
 	REGISTER_ERROR,
-} from "../constants/actionTypes";
+} from "../shared/actionTypes";
 
 export const getUser = () => async dispatch => {
 	try {

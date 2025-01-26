@@ -124,3 +124,21 @@ export const addToOrderHistory = product => {
 		},
 	});
 };
+
+//Favorites API
+export const fetchFavorites = () => {
+	checkAndRemoveToken();
+	return API.get("/favorites", {
+		headers: {
+			Authorization: `Bearer ${localStorage.getItem("token")}`,
+		},
+	});
+}
+export const addOrRemoveFavorites = productId => {
+	checkAndRemoveToken();
+	return API.post("/favorites", productId, {
+		headers: {
+			Authorization: `Bearer ${localStorage.getItem("token")}`,
+		},
+	});
+};

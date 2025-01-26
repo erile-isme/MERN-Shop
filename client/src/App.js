@@ -11,7 +11,7 @@ import ProductDetail from "./components/ProductDetail/ProductDetail";
 import Navbar from "./components/Navbar/Navbar";
 import ProdForm from "./components/Form/ProductForm";
 import CateForm from "./components/Form/CategoryForm";
-import ProductCategory from "./components/ProductList/ProductCategory";
+import ProductCategory from "./components/Product/ProductCard";
 import ProductLists from "./components/ProductList/ProductLists";
 import Newsletter from "./components/Newsletter/Newsletter";
 import Footer from "./components/Footer/Footer";
@@ -24,6 +24,7 @@ import OrderHistory from "./components/OrderHistory/OrderHistory";
 import Profile from "./components/Account/Profile";
 import Sidebar from "./components/Navbar/Sidebar";
 import "./index.css";
+import WishList from "./components/WishList/WishList";
 
 const App = () => {
 	const [currId, setCurrId] = useState(null);
@@ -68,6 +69,7 @@ const App = () => {
 								path="orderhistory/:orderHistoryId"
 								element={<OrderHistoryDetail />}
 							/>
+							<Route path="wishlist" element={<WishList />} />
 						</Route>
 						<Route path="/placeorder/:orderId" element={<PlaceOrder />} />
 					</Route>

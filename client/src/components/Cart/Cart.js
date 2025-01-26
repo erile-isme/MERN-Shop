@@ -9,6 +9,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { OrderProvider } from "../OrderSummary/OrderProvider";
 import { FaPlus, FaMinus } from "react-icons/fa6";
 import { MdClose } from "react-icons/md";
+import { fetchFavorites } from "../../actions/favoriteAction";
 import OrderSummary from "../OrderSummary/OrderSummary";
 import Loading from "../Loading/Loading";
 import "./Cart.css";
@@ -19,13 +20,14 @@ const Cart = () => {
 	const [cartUpdated, setCartUpdated] = useState(false);
 	const [isLoading, setIsLoading] = useState(false);
 
-	const cartList = useSelector(state => state.cart);
+	const cartList = useSelector(state => state?.cart);
+	const favorites = useSelector(state => state?.favorites);
 
 	useEffect(() => {
 		window.scroll(0, 0);
 		if (localStorage.getItem("token")) {
-			console.log("run");
 			dispatch(fetchCart());
+			dispatch(fetchFavorites());
 			if (cartUpdated) {
 				setIsLoading(false);
 				setCartUpdated(false);
@@ -105,7 +107,7 @@ const Cart = () => {
 											</div>
 											<div className="item-content">
 												<p>{item.color ? `Color: ${item.color}` : ""}</p>
-												<p>{item.type ? `Type: ${item.type}` : ""}</p>
+												{/* <p>{item.type ? `Type: ${item.type}` : ""}</p> */}
 												<p>{item.size ? `Size: ${item.size}` : ""}</p>
 												<h3>CAD $ {item.price}</h3>
 												<div className="quantity">
@@ -145,12 +147,12 @@ const Cart = () => {
 								<OrderSummary paymentState={0} cartUpdated={cartUpdated} />
 							</OrderProvider>
 							<button className="checkout-button">
-								<Link to="/payment" className="payment-link">
+								<Link to="/payment">
 									<h4>CHECKOUT</h4>
 								</Link>
 							</button>
 							<button className="shopping-button">
-								<Link to="/" className="shopping-link">
+								<Link to="/">
 									<h4>CONTINUE SHOPPING</h4>
 								</Link>
 							</button>
@@ -159,6 +161,39 @@ const Cart = () => {
 				) : (
 					<h4>Your cart is currently empty</h4>
 				)}
+			</div>
+			<div className="favorites-content">
+				<h1>YOUR FAVORITES</h1>
+				<div className="favorites-cards">
+					{favorites &&
+						favorites.length > 0 &&
+						favorites.map(item => (
+							<div key={item._id} className="ui card favorites">
+								<div>
+									<img
+										className="img-favorite"
+										src={`${process.env.REACT_APP_PROD}/${item.img[0]}`}
+										alt={item.name}
+									/>
+								</div>
+								<div className="content">
+									<Link
+										to={`/products/${item.category.name}/${item._id}`}
+										className="header"
+									>
+										{item.name}
+									</Link>
+									<div className="meta">
+										<span className="date">Women</span>
+									</div>
+									<div className="description">{item.description.features}</div>
+								</div>
+								<div className="extra content prodcate">
+									<h3>CAD $ {item.price}</h3>
+								</div>
+							</div>
+						))}
+				</div>
 			</div>
 		</div>
 	);
