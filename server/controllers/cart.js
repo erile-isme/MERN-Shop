@@ -5,7 +5,7 @@ export const fetchCart = async (req, res) => {
 	try {
 		const cart = await Cart.find({
 			user: req.user._id,
-		});
+		}).populate("categoryId", "name");
 
 		res.status(200).json({
 			message: "Fetch cart successfully",
@@ -19,7 +19,6 @@ export const fetchCart = async (req, res) => {
 export const addItemToCart = async (req, res) => {
 	const newItem = req.body;
 	newItem.productId = new mongoose.Types.ObjectId(newItem.productId);
-	let cartItem = null;
 
 	try {
 		const existingItem = await Cart.findOneAndUpdate(
@@ -38,22 +37,22 @@ export const addItemToCart = async (req, res) => {
 		);
 
 		if (existingItem) {
-			console.log(existingItem);
 			res.status(200).json({
 				message: "Cart item added and updated successfully",
 				userCart: existingItem,
 			});
 		} else {
 			//If item doesn't exit in the cart
-			cartItem = new Cart({
+			const cartItem = new Cart({
 				user: req.user._id,
 				quantity: newItem.quantity,
 				color: newItem.color,
 				size: newItem.size,
+				productId: newItem.productId,
 				name: newItem.name,
 				price: newItem.price,
 				img: newItem.img,
-				productId: newItem.productId,
+				categoryId: newItem.categoryId,
 			});
 
 			await cartItem.save();
@@ -63,7 +62,6 @@ export const addItemToCart = async (req, res) => {
 				userCart: cartItem,
 			});
 		}
-		
 	} catch (error) {
 		console.error(error);
 		res
@@ -79,7 +77,7 @@ export const updateCartItem = async (req, res) => {
 		const updatedItem = await Cart.findOneAndUpdate(
 			{
 				user: req.user._id,
-				productId: new mongoose.Types.ObjectId(productId),
+				product: new mongoose.Types.ObjectId(productId),
 				size: size,
 				color: color,
 			},
@@ -104,19 +102,14 @@ export const updateCartItem = async (req, res) => {
 };
 
 export const removeItemFromCart = async (req, res) => {
-	const { productId, size, color } = req.body;
-	const cartId = new mongoose.Types.ObjectId(productId);
+	const { removedId } = req.body;
+	const itemId = new mongoose.Types.ObjectId(removedId);
 
 	try {
-		const removedItem = await Cart.findOneAndDelete({
-			user: req.user._id,
-			productId: cartId,
-			size: size,
-			color: color,
-		});
+		const removedItem = await Cart.findByIdAndDelete(itemId);
 
 		if (!removedItem)
-			return res.status(404).send(`Item with id ${cartId} not found`);
+			return res.status(404).send(`Item with id ${itemId} not found`);
 		res.status(200).json({
 			message: "Item removed from cart successfully",
 			userCart: removedItem,

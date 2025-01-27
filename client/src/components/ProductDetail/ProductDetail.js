@@ -42,15 +42,25 @@ const ProductDetail = () => {
 		if (localStorage.getItem("token")) dispatch(fetchFavorites());
 	}, [dispatch, productId]);
 
-	const addToCart = ({ id, quantity, size, name, color, price, img }) => {
+	const addToCart = ({
+		id,
+		quantity,
+		size,
+		color,
+		name,
+		price,
+		img,
+		categoryId,
+	}) => {
 		const cartItem = {
 			productId: id,
-			name,
 			quantity,
-			price,
-			img,
 			size: size ? size : null,
 			color: color ? color : null,
+			name,
+			price,
+			img,
+			categoryId,
 		};
 		console.log(cartItem);
 		if (!localStorage.getItem("token")) {
@@ -302,10 +312,11 @@ const ProductDetail = () => {
 										id: product._id,
 										quantity,
 										size: product.size[size],
-										color: product.colorName[colorIndex],
+										color: product.color[colorIndex],
 										name: product.name,
 										price: product.price,
 										img: product.img[0],
+										categoryId: product.category._id,
 									});
 								}}
 							>

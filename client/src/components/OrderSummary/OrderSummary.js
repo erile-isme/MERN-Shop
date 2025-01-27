@@ -52,6 +52,7 @@ const OrderSummary = ({ paymentState, selectedShipping, cartUpdated }) => {
 				calculateOrder();
 			});
 		}
+		// eslint-disable-next-line
 	}, [dispatch, paymentState, cartUpdated]);
 
 	return (
@@ -62,9 +63,13 @@ const OrderSummary = ({ paymentState, selectedShipping, cartUpdated }) => {
 						<tr>
 							<th colSpan="2" className="summary-title">
 								<h3>Order Summary | {cartList.length} ITEMS</h3>
-								<Link to="/cart">
-									<h3>EDIT</h3>
-								</Link>
+								{window.location.pathname === "/cart" ? (
+									<></>
+								) : (
+									<Link to="/cart">
+										<h3>EDIT</h3>
+									</Link>
+								)}
 							</th>
 							<th colSpan="1" className="summary-title"></th>
 						</tr>

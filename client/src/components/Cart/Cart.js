@@ -41,7 +41,7 @@ const Cart = () => {
 		if (newQuantity > 0) {
 			dispatch(
 				updateCartItem({
-					productId: item.productId,
+					productId: item.product._id,
 					quantity: newQuantity,
 					color,
 					size,
@@ -51,14 +51,8 @@ const Cart = () => {
 		}
 	};
 
-	const removeCartItem = (productId, size, color) => {
-		dispatch(
-			removeItemFromCart({
-				productId,
-				size,
-				color,
-			})
-		).then(() => {
+	const removeCartItem = itemId => {
+		dispatch(removeItemFromCart({ removedId: itemId })).then(() => {
 			setCartUpdated(true);
 			setIsLoading(false);
 		});
@@ -91,16 +85,18 @@ const Cart = () => {
 										</div>
 										<div className="thirteen wide column">
 											<div className="item-title">
-												<h2>{item.name.toUpperCase()}</h2>
+												<Link
+													to={`/products/${
+														item.categoryId.name
+													}/${item.productId.toString()}`}
+												>
+													<h2>{item.name.toUpperCase()}</h2>
+												</Link>
 												<MdClose
 													className="item-icon"
 													onClick={() => {
 														setIsLoading(true);
-														removeCartItem(
-															item.productId,
-															item.size,
-															item.color
-														);
+														removeCartItem(item._id);
 														setCartUpdated(true);
 													}}
 												/>

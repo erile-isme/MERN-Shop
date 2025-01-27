@@ -10,7 +10,11 @@ const cartSchema = mongoose.Schema({
 	img: { type: String },
 	productId: {
 		type: mongoose.Schema.Types.ObjectId,
-		ref: "Product",
+		required: true,
+	},
+	categoryId: {
+		type: mongoose.Schema.Types.ObjectId,
+		ref: "Category",
 		required: true,
 	},
 });

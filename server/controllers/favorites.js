@@ -6,7 +6,7 @@ export const getFavorites = async (req, res) => {
 		const allfavorites = await Favorites.findOne({
 			user: req.user._id,
 		}).populate("favorites.product");
-		console.log(allfavorites);
+		// console.log(allfavorites);
 
 		res.status(200).json({
 			message: "Fetch user favorites successfully",
