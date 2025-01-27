@@ -61,7 +61,7 @@ export const updateCartItem = cartItem => {
 };
 export const removeItemFromCart = removedId => {
 	checkAndRemoveToken();
-	return API.patch("/cart/delete", removedId, {
+	return API.delete(`/cart/delete/${removedId}`, {
 		headers: {
 			Authorization: `Bearer ${localStorage.getItem("token")}`,
 		},

@@ -15,9 +15,9 @@ const ProductLists = () => {
 	useEffect(() => {
 		dispatch(fetchAllProducts());
 		if (token) dispatch(fetchFavorites());
-		if (favoriteUpdated) {
-			window.location.reload();
-		}
+		// if (favoriteUpdated) {
+		// 	window.location.reload();
+		// }
 	}, [dispatch, token, favoriteUpdated]);
 
 	return productLists && !productLists.length ? (

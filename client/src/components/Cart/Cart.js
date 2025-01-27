@@ -37,11 +37,11 @@ const Cart = () => {
 		}
 	}, [dispatch, navigate, cartUpdated]);
 
-	const handleUpdateQuantity = (item, newQuantity, color, size) => {
+	const handleUpdateQuantity = (productId, newQuantity, color, size) => {
 		if (newQuantity > 0) {
 			dispatch(
 				updateCartItem({
-					productId: item.product._id,
+					productId,
 					quantity: newQuantity,
 					color,
 					size,
@@ -52,7 +52,7 @@ const Cart = () => {
 	};
 
 	const removeCartItem = itemId => {
-		dispatch(removeItemFromCart({ removedId: itemId })).then(() => {
+		dispatch(removeItemFromCart(itemId)).then(() => {
 			setCartUpdated(true);
 			setIsLoading(false);
 		});
@@ -96,7 +96,7 @@ const Cart = () => {
 													className="item-icon"
 													onClick={() => {
 														setIsLoading(true);
-														removeCartItem(item._id);
+														removeCartItem(item._id.toString());
 														setCartUpdated(true);
 													}}
 												/>
@@ -110,7 +110,7 @@ const Cart = () => {
 														className="quantity-icon"
 														onClick={() =>
 															handleUpdateQuantity(
-																item,
+																item.productId,
 																item.quantity - 1,
 																item.color,
 																item.size
@@ -122,7 +122,7 @@ const Cart = () => {
 														className="quantity-icon"
 														onClick={() =>
 															handleUpdateQuantity(
-																item,
+																item.productId,
 																item.quantity + 1,
 																item.color,
 																item.size

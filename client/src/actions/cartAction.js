@@ -57,7 +57,6 @@ export const updateCartItem = cartItem => async dispatch => {
 };
 
 export const removeItemFromCart = removedItem => async dispatch => {
-	console.log(removedItem);
 	try {
 		const { data } = await api.removeItemFromCart(removedItem);
 		dispatch({ type: REMOVE_CART, payload: data.userCart });

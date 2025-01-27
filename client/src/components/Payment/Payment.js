@@ -55,10 +55,10 @@ const Payment = () => {
 	};
 
 	useEffect(() => {
+		window.scrollTo(0, 0);
 		dispatch(fetchCart());
 		dispatch(getUser());
 		if (orderPlaced && orderHistory?.newOrderHistory) {
-			console.log("ORDER PLACED SUCCESFULLY");
 			setIsLoading(false);
 			navigate(`/placeorder/${orderHistory.newOrderHistory._id.toString()}`);
 		}

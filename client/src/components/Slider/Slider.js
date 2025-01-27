@@ -71,7 +71,7 @@ const CarouselSlider = () => {
 									{p.description.features}
 								</div>
 								<Link to={`/products/${p.category.name}/${p._id}`}>
-									<button>ENJOY NOW</button>
+									<button>SHOP NOW</button>
 								</Link>
 							</div>
 						</div>

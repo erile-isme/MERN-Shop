@@ -13,7 +13,7 @@ import {
 	Select,
 } from "@mui/material";
 import { getProduct } from "../../actions/productAction";
-import { addItemToCart } from "../../actions/cartAction";
+import { addItemToCart, fetchCart } from "../../actions/cartAction";
 import "./ProductDetail.css";
 import Loading from "../Loading/Loading";
 import AddedItemReview from "../Cart/AddedItemReview";
@@ -66,10 +66,12 @@ const ProductDetail = () => {
 		if (!localStorage.getItem("token")) {
 			navigate(`/login?redirect=${window.location.pathname}`);
 		} else {
-			dispatch(addItemToCart(cartItem));
-			setIsLoading(false);
-			setItemAdded(true);
-			setCartItem(cartItem);
+			dispatch(addItemToCart(cartItem)).then(() => {
+				setIsLoading(false);
+				setItemAdded(true);
+				setCartItem(cartItem);
+				dispatch(fetchCart());
+			});
 		}
 	};
 

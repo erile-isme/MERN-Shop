@@ -10,6 +10,7 @@ const OrderHistory = () => {
 	console.log(orderHistory);
 
 	useEffect(() => {
+		window.scrollTo(0, 0);
 		dispatch(fetchAllOrderHistory());
 	}, [dispatch]);
 

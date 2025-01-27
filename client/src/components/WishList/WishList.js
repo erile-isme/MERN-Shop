@@ -9,22 +9,24 @@ const WishList = () => {
 	const wishlist = useSelector(state => state?.favorites);
 
 	useEffect(() => {
+		window.scrollTo(0, 0);
 		if (localStorage.getItem("token")) dispatch(fetchFavorites());
 	}, [dispatch]);
 
-	return (
-		wishlist &&
-		wishlist.length > 0 && (
-			<div className="ui container wishlist-container">
-				<h1>WISH LIST</h1>
-				<div className="wishlist-content">
-					<p>{wishlist.length} Item(s)</p>
-					{wishlist.map(product => (
-						<ProductBand key={product._id} product={product} />
-					))}
-				</div>
+	return wishlist && wishlist.length > 0 ? (
+		<div className="ui container wishlist-container">
+			<h1>WISH LIST</h1>
+			<div className="wishlist-content">
+				<p>{wishlist.length} Item(s)</p>
+				{wishlist.map(product => (
+					<ProductBand key={product._id} product={product} />
+				))}
 			</div>
-		)
+		</div>
+	) : (
+		<div className="ui container wishlist-container">
+			No products to display
+		</div>
 	);
 };
 

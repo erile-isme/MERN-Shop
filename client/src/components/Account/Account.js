@@ -7,6 +7,7 @@ const Account = () => {
 	const [state, setState] = useState("Profile");
 
 	useEffect(() => {
+		window.scrollTo(0, 0);
 		const location = window.location.pathname.split("/")[2];
 		if (location === "orderhistory") setState("Order History");
 		else if (location === "wishlist") setState("Wish List");

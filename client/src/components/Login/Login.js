@@ -36,7 +36,6 @@ const Login = () => {
 		if (user.isAuthenticated) {
 			localStorage.setItem("token", user.token);
 			localStorage.setItem("tokenExpiration", Date.now() + 60 * 60 * 1000); //Token valid for 1 hour
-			alert("Login successfully");
 			const redirectUrl =
 				new URLSearchParams(location.search).get("redirect") || "/";
 			navigate(redirectUrl, { replace: true });

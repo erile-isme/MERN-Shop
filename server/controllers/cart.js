@@ -77,7 +77,7 @@ export const updateCartItem = async (req, res) => {
 		const updatedItem = await Cart.findOneAndUpdate(
 			{
 				user: req.user._id,
-				product: new mongoose.Types.ObjectId(productId),
+				productId: new mongoose.Types.ObjectId(productId),
 				size: size,
 				color: color,
 			},
@@ -102,7 +102,7 @@ export const updateCartItem = async (req, res) => {
 };
 
 export const removeItemFromCart = async (req, res) => {
-	const { removedId } = req.body;
+	const { removedId } = req.params;
 	const itemId = new mongoose.Types.ObjectId(removedId);
 
 	try {

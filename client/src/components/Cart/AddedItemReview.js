@@ -9,11 +9,11 @@ const AddedItemReview = ({ isItemAdded, setItemAdded, cartItem }) => {
 	const dispatch = useDispatch();
 	const navigate = useNavigate();
 	const cartList = useSelector(state => state.cart);
-	// const subtotal = cartList.map(item => total += item.price)
+	const subtotal = cartList.reduce((total, item) => total + item.price, 0);
 
 	useEffect(() => {
-		if (!cartList) dispatch(fetchCart());
-	});
+		dispatch(fetchCart());
+	}, [dispatch]);
 
 	return (
 		isItemAdded && (
@@ -21,13 +21,13 @@ const AddedItemReview = ({ isItemAdded, setItemAdded, cartItem }) => {
 				<div className="popup-content">
 					<div className="popup-title">
 						<p>{cartItem.quantity} added to your cart</p>
-						<MdClose />
+						<MdClose onClick={() => setItemAdded(false)} />
 					</div>
 					<div className="ui divider"></div>
 					<div className="popup-info">
 						<div className="popup-total">
 							<strong>Subtotal | {cartList.length} item(s)</strong>
-							<strong>CAD $ 5.00</strong>
+							<strong>CAD $ {subtotal}</strong>
 						</div>
 						<p id="addedItemName">
 							You just added <strong>{cartItem.name}</strong> to your cart!

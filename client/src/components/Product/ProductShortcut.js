@@ -4,7 +4,7 @@ import { Card } from "@mui/material";
 import { MdOutlineFavorite } from "react-icons/md";
 import { useDispatch } from "react-redux";
 import { addOrRemoveFavorites } from "../../actions/favoriteAction";
-import SearchOutlinedIcon from "@mui/icons-material/SearchOutlined";
+import { MdShoppingCart } from "react-icons/md";
 import FavoriteBorderOutlinedIcon from "@mui/icons-material/FavoriteBorderOutlined";
 import "./ProductShortcut.css";
 
@@ -43,7 +43,7 @@ const Product = ({ product, favorites, setFavoriteUpdated }) => {
 									navigate(`/products/${product.category.name}/${product._id}`)
 								}
 							>
-								<SearchOutlinedIcon />
+								<MdShoppingCart />
 							</div>
 						</div>
 						<div className="fav-icon">
