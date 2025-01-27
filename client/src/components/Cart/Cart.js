@@ -107,7 +107,6 @@ const Cart = () => {
 											</div>
 											<div className="item-content">
 												<p>{item.color ? `Color: ${item.color}` : ""}</p>
-												{/* <p>{item.type ? `Type: ${item.type}` : ""}</p> */}
 												<p>{item.size ? `Size: ${item.size}` : ""}</p>
 												<h3>CAD $ {item.price}</h3>
 												<div className="quantity">

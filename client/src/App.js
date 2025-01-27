@@ -23,8 +23,8 @@ import OrderHistoryDetail from "./components/OrderHistory/OrderHistoryDetail";
 import OrderHistory from "./components/OrderHistory/OrderHistory";
 import Profile from "./components/Account/Profile";
 import Sidebar from "./components/Navbar/Sidebar";
-import "./index.css";
 import WishList from "./components/WishList/WishList";
+import "./index.css";
 
 const App = () => {
 	const [currId, setCurrId] = useState(null);
