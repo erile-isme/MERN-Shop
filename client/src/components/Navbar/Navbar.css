@@ -1,4 +1,4 @@
-/********** NAVBAR ***********/
+/************* NAVBAR ***************/
 .navbar-container {
   height: 4rem;
   width: 100%;
@@ -52,7 +52,7 @@
   cursor: pointer;
 }
 
-/********** SIDEBAR **********/
+/************** SIDEBAR ***************/
 .sidebar-menu {
   display: flex;
   flex-direction: column;
