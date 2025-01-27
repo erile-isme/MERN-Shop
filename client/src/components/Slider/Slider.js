@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { fetchSlider } from "../../actions/productAction";
+import { Link } from "react-router-dom";
 import NavigateBeforeRoundedIcon from "@mui/icons-material/NavigateBeforeRounded";
 import NavigateNextRoundedIcon from "@mui/icons-material/NavigateNextRounded";
 import "./Slider.css";
-import { Link } from "react-router-dom";
 
 const CarouselSlider = () => {
 	const dispatch = useDispatch();

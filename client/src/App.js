@@ -1,18 +1,17 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Route, BrowserRouter, Routes } from "react-router-dom";
 import { OrderProvider } from "./components/OrderSummary/OrderProvider";
 import Home from "./components/Home/Home";
 import Cart from "./components/Cart/Cart";
 import Payment from "./components/Payment/Payment";
 import Login from "./components/Login/Login";
-// import Sale from "./components/Sale/Sale";
 import NotFound from "./components/NotFound/NotFound";
 import ProductDetail from "./components/ProductDetail/ProductDetail";
 import Navbar from "./components/Navbar/Navbar";
 import ProdForm from "./components/Form/ProductForm";
 import CateForm from "./components/Form/CategoryForm";
-import ProductCategory from "./components/Product/ProductCard";
 import ProductLists from "./components/ProductList/ProductLists";
+import ProductCategory from "./components/Category/ProductCategory";
 import Newsletter from "./components/Newsletter/Newsletter";
 import Footer from "./components/Footer/Footer";
 import Copyright from "./components/Copyright/Copyright";
@@ -25,20 +24,23 @@ import Profile from "./components/Account/Profile";
 import Sidebar from "./components/Navbar/Sidebar";
 import WishList from "./components/WishList/WishList";
 import "./index.css";
+// import Sale from "./components/Sale/Sale";
 
 const App = () => {
 	const [currId, setCurrId] = useState(null);
 	const [sideBar, setSideBar] = useState(false);
+
+	useEffect(() => {
+		window.scrollTo(0, 0);
+	});
 
 	return (
 		<div>
 			<div className={`overlay ${sideBar ? "active" : ""}`}></div>
 			<BrowserRouter>
 				<Navbar sideBar={sideBar} setSideBar={setSideBar} />
-				{sideBar ? (
+				{sideBar && (
 					<Sidebar sideBar={sideBar} setSideBar={() => setSideBar(!sideBar)} />
-				) : (
-					<></>
 				)}
 				<Routes>
 					{/** Public routes */}

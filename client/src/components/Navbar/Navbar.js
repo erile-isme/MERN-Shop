@@ -56,8 +56,28 @@ const Navbar = ({ sideBar, setSideBar }) => {
 					</div>
 					{token ? (
 						<div className="profile-icon">
+							{/* <div className="dropdown">
+								<button
+									className="btn btn-secondary dropdown-toggle"
+									type="button"
+									data-bs-toggle="dropdown"
+									aria-expanded="false"
+								>
+									Dropdown button
+								</button>
+								<ul className="dropdown-menu">
+									<li>Action</li>
+									<li>Another action</li>
+									<li>Something else here</li>
+								</ul>
+							</div> */}
 							<Dropdown
-								trigger={<IoPerson className="icon" />}
+								trigger={
+									<span className="dropdown span">
+										<IoPerson className="icon" />
+										{currentUser && <p>Hello {currentUser?.name}</p>}
+									</span>
+								}
 								pointing="top left"
 								icon={null}
 							>
@@ -90,7 +110,7 @@ const Navbar = ({ sideBar, setSideBar }) => {
 									</DropdownItem>
 								</DropdownMenu>
 							</Dropdown>
-							<p>Hello {currentUser?.name}</p>
+							{/* <p>Hello {currentUser?.name}</p> */}
 						</div>
 					) : (
 						<div onClick={() => navigate("/login")}>

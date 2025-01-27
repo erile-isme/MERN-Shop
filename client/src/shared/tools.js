@@ -51,7 +51,7 @@ export const CATEFGORY_ICONS = [
 
 export const successMessage = (message, position) =>
 	toast.success(message, {
-		position: position,
+		position: position || "bottom-left",
 		autoClose: 2000,
 		hideProgressBar: true,
 		closeOnClick: true,
@@ -60,7 +60,7 @@ export const successMessage = (message, position) =>
 
 export const errorMessage = (error, position) =>
 	toast.error(error, {
-		position: position,
+		position: position || "bottom-left",
 		autoClose: 2000,
 		hideProgressBar: true,
 		closeOnClick: true,

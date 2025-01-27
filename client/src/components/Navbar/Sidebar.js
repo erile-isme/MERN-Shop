@@ -66,6 +66,7 @@ const Sidebar = ({ sideBar, setSideBar }) => {
 							>
 								{categories.map((category, index) => (
 									<Link
+										key={index}
 										className="link-list"
 										to={`/categories/${category._id}`}
 									>

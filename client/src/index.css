@@ -6,7 +6,7 @@
   box-sizing: border-box;
   list-style: none;
   text-decoration: none;
-  font-family: 'Yrsa', serif;
+  /* font-family: 'Yrsa', serif; */
   font-size: 18px;
 }
 
@@ -37,13 +37,15 @@ html {
 body {
   line-height: 1.7;
 }
-
-.hyperlink-item a {
+a {
+  text-decoration: none;
+}
+/* .hyperlink-item a {
   color: black;
 }
 .hyperlink-item:hover {
   text-decoration: underline;
-}
+} */
 p {
   font-size: 18px;
   margin: 0;

@@ -13,6 +13,7 @@ import { fetchFavorites } from "../../actions/favoriteAction";
 import OrderSummary from "../OrderSummary/OrderSummary";
 import Loading from "../Loading/Loading";
 import "./Cart.css";
+import ProductCard from "../Product/ProductCard";
 
 const Cart = () => {
 	const dispatch = useDispatch();
@@ -157,36 +158,13 @@ const Cart = () => {
 					<h4>Your cart is currently empty</h4>
 				)}
 			</div>
-			<div className="favorites-content">
+			<div className="ui container favorites-content">
 				<h1>YOUR FAVORITES</h1>
-				<div className="favorites-cards">
+				<div className="ui grid favorites-cards">
 					{favorites &&
 						favorites.length > 0 &&
 						favorites.map(item => (
-							<div key={item._id} className="ui card favorites">
-								<div>
-									<img
-										className="img-favorite"
-										src={`${process.env.REACT_APP_PROD}/${item.img[0]}`}
-										alt={item.name}
-									/>
-								</div>
-								<div className="content">
-									<Link
-										to={`/products/${item.category.name}/${item._id}`}
-										className="header"
-									>
-										{item.name}
-									</Link>
-									<div className="meta">
-										<span className="date">Women</span>
-									</div>
-									<div className="description">{item.description.features}</div>
-								</div>
-								<div className="extra content prodcate">
-									<h3>CAD $ {item.price}</h3>
-								</div>
-							</div>
+							<ProductCard key={item._id} product={item} />
 						))}
 				</div>
 			</div>

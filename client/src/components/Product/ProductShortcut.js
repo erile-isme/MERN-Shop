@@ -8,7 +8,7 @@ import { MdShoppingCart } from "react-icons/md";
 import FavoriteBorderOutlinedIcon from "@mui/icons-material/FavoriteBorderOutlined";
 import "./ProductShortcut.css";
 
-const Product = ({ product, favorites, setFavoriteUpdated }) => {
+const ProductShortcut = ({ product, favorites, setFavoriteUpdated }) => {
 	const dispatch = useDispatch();
 	const navigate = useNavigate();
 	const [isFavorite, setIsFavorite] = useState(false);
@@ -65,4 +65,4 @@ const Product = ({ product, favorites, setFavoriteUpdated }) => {
 	);
 };
 
-export default Product;
+export default ProductShortcut;

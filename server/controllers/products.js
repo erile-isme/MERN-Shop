@@ -75,8 +75,9 @@ export const uploadPhotos = async (req, res) => {
 
 export const fetchAllProducts = async (req, res) => {
 	try {
-		const product = await Product.find().populate("category");
-		res.status(200).json(product);
+		const products = await Product.find().populate("category");
+
+		res.status(200).json(products);
 	} catch (error) {
 		res.status(400).json({ message: error });
 	}
@@ -91,9 +92,10 @@ export const fetchProductsInCategory = async (req, res) => {
 
 	try {
 		const product = await Product.find({ category: parsedCateId }).populate(
-			"category"
+			"category",
+			"name"
 		);
-		// console.log(product);
+
 		res.status(200).json(product);
 	} catch (error) {
 		res.status(400).json({ message: error });
@@ -102,7 +104,10 @@ export const fetchProductsInCategory = async (req, res) => {
 
 export const fetchSlider = async (req, res) => {
 	try {
-		const products = await Product.find({ isSlider: true });
+		const products = await Product.find({ isSlider: true }).populate(
+			"category",
+			"name"
+		);
 
 		if (products.length === 0) {
 			return res

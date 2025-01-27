@@ -9,7 +9,10 @@ const AddedItemReview = ({ isItemAdded, setItemAdded, cartItem }) => {
 	const dispatch = useDispatch();
 	const navigate = useNavigate();
 	const cartList = useSelector(state => state.cart);
-	const subtotal = cartList.reduce((total, item) => total + item.price, 0);
+	const subtotal = cartList.reduce(
+		(total, item) => total + item.price * item.quantity,
+		0
+	);
 
 	useEffect(() => {
 		dispatch(fetchCart());
@@ -27,7 +30,7 @@ const AddedItemReview = ({ isItemAdded, setItemAdded, cartItem }) => {
 					<div className="popup-info">
 						<div className="popup-total">
 							<strong>Subtotal | {cartList.length} item(s)</strong>
-							<strong>CAD $ {subtotal}</strong>
+							<strong>CAD $ {Math.round(subtotal * 100) / 100}</strong>
 						</div>
 						<p id="addedItemName">
 							You just added <strong>{cartItem.name}</strong> to your cart!

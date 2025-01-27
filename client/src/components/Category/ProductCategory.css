@@ -1,0 +1,14 @@
+.prodcate-container {
+    margin: 5rem 6rem;
+    display: flex;
+    flex-direction: column;
+}
+.ui.pointing.secondary.menu.prodcate {
+    font-size: 20px;
+    justify-content: space-evenly;
+    text-align: center;
+}
+.ui.grid.prodcate {
+    gap: 1rem;
+    margin: 0 auto;
+}

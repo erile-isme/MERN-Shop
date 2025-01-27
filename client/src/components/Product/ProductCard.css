@@ -1,29 +1,13 @@
-.prodcate-container {
-    margin: 5rem 6rem;
-    display: flex;
-    flex-direction: column;
-}
-.ui.pointing.secondary.menu.prodcate {
-    font-size: 20px;
-    justify-content: space-evenly;
-    text-align: center;
-}
-.ui.grid.prodcate {
-    gap: 1rem;
-    margin: 0 auto;
-    margin-left: 5rem;
-	justify-content: left;
-}
 .ui.card:first-child, .ui.card:last-child {
     margin-top: auto;
     margin-bottom: auto;
 }
 
-.extra.content.prodcate {
+.extra.content.prodcard {
     color: var(--color-black);
 }
 
-.img-prodcate {
+.img-prodcard {
     width: 290px;
     object-fit: cover;
     height: 450px;

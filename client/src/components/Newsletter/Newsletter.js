@@ -1,6 +1,7 @@
 import React, { useEffect, useRef, useState } from "react";
 import emailjs from "emailjs-com";
 import "./Newsletter.css";
+import { errorMessage } from "../../shared/tools";
 
 const Newsletter = () => {
 	const form = useRef();
@@ -23,6 +24,7 @@ const Newsletter = () => {
 				},
 				error => {
 					console.error("Error:", error);
+					errorMessage("Error!");
 				}
 			);
 
