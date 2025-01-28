@@ -33,7 +33,7 @@ export const addOrRemoveFavorites = async (req, res) => {
 				"favorites.product": productIdToModify,
 			});
 
-			console.log("EXISTING FAV: ", existingFav);
+			// console.log("EXISTING FAV: ", existingFav);
 			//And already have this existing favorite -> remove it from the array
 			if (existingFav) {
 				const removedFav = await Favorites.findOneAndUpdate(
@@ -46,7 +46,7 @@ export const addOrRemoveFavorites = async (req, res) => {
 					{ new: true }
 				);
 
-				console.log("REMOVE FAV: ", removedFav);
+				// console.log("REMOVE FAV: ", removedFav);
 				res.status(200).json({
 					message: "Remove favorite successfully",
 					removedFav: removedFav,
@@ -64,7 +64,7 @@ export const addOrRemoveFavorites = async (req, res) => {
 					{ new: true }
 				);
 
-				console.log("ADDED FAV: ", addedFav);
+				// console.log("ADDED FAV: ", addedFav);
 				res.status(201).json({
 					message: "Added new favorite successfully",
 					addedFav: addedFav,

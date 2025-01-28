@@ -14,10 +14,11 @@ const ProductLists = () => {
 
 	useEffect(() => {
 		dispatch(fetchAllProducts());
-		if (token) dispatch(fetchFavorites());
-		// if (favoriteUpdated) {
-		// 	window.location.reload();
-		// }
+		console.log(favoriteUpdated);
+		if (token || favoriteUpdated) {
+			dispatch(fetchFavorites());
+			setFavoriteUpdated(false);
+		}
 	}, [dispatch, token, favoriteUpdated]);
 
 	return productLists && !productLists.length ? (

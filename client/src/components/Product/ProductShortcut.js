@@ -22,8 +22,9 @@ const ProductShortcut = ({ product, favorites, setFavoriteUpdated }) => {
 			navigate(`/login?redirect=${window.location.pathname}`);
 			return;
 		}
-		dispatch(addOrRemoveFavorites({ productId }));
-		setFavoriteUpdated(true);
+		dispatch(addOrRemoveFavorites({ productId })).then(() =>
+			setFavoriteUpdated(true)
+		);
 	};
 
 	return (
