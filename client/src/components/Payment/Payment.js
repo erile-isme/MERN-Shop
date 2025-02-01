@@ -10,6 +10,8 @@ import Loading from "../Loading/Loading";
 import OrderSummary from "../OrderSummary/OrderSummary";
 import "./Payment.css";
 import ProductBand from "../Product/ProductBand";
+import { errorMessage } from "../../shared/tools";
+import { ToastContainer } from "react-toastify";
 
 const Payment = () => {
 	const dispatch = useDispatch();
@@ -19,6 +21,12 @@ const Payment = () => {
 	const [selectedShipping, setSelectedShipping] = useState("ship");
 	const [isLoading, setIsLoading] = useState(false);
 	const [orderPlaced, setOrderPlaced] = useState(false);
+
+	const [city, setCity] = useState("");
+	const [store, setStore] = useState(false);
+	const [storeLocation, setStoreLocation] = useState("");
+	const [selectStore, setSelectStore] = useState(false);
+
 	const { totalBeforeTax, tax, orderTotal, shippingFee } = useOrder();
 
 	const cartList = useSelector(state => state.cart);
@@ -40,6 +48,8 @@ const Payment = () => {
 	//Handle place order and navigate to Place Order Confirmation page in useEffect
 	const handlePlaceOrder = async () => {
 		setIsLoading(true);
+		const storeAddress = selectedShipping === "ship" ? null : storeLocation;
+
 		dispatch(
 			addToOrderHistory({
 				orderItems: cartList,
@@ -48,6 +58,8 @@ const Payment = () => {
 				totalBeforeTax,
 				tax,
 				orderTotal,
+				shippingMethod: selectedShipping,
+				storeLocation: storeAddress,
 				shippingFee,
 			})
 		);
@@ -67,6 +79,7 @@ const Payment = () => {
 	return (
 		<div className="ui container checkout-container">
 			{/* Breadccrumbs for UX */}
+			<ToastContainer />
 			<div className="ui breadcrumb">
 				<a className="section" href="/">
 					Home
@@ -144,16 +157,79 @@ const Payment = () => {
 										<h4>Pick up</h4>
 										<p>
 											Available Pickup:{" "}
-											{selectedShipping === "pickup"
+											{selectedShipping === "pickup" && store
 												? deliveryDate
 												: "Estimated"}
 										</p>
 									</div>
 								</div>
+								{selectedShipping === "pickup" && (
+									<div>
+										<div className="ui divider"></div>
+										<div className="find-store">
+											<h2>FIND A STORE</h2>
+											<div>
+												<h3>CITY LOCATION</h3>
+												<div className="city-location">
+													<input
+														type="text"
+														placeholder="Your city"
+														required
+														onClick={() => setStore(false)}
+														onChange={e => setCity(e.target.value)}
+													/>
+													<div
+														className="find-button"
+														onClick={() => {
+															if (store !== "") setStore(true);
+															else errorMessage("Please enter the city name!");
+														}}
+													>
+														Find a store
+													</div>
+												</div>
+											</div>
+											{store && (
+												<div className="ui grid store-location">
+													<div className="twelve wide column">
+														<h3>STORE A</h3>
+														<p>Shopping Center A, 234 Abc Street, {city}</p>
+														<h3>STORE HOURS</h3>
+														<pre>
+															Mon 9:00AM - 8:00PM <br />
+															Tue 9:00AM - 8:00PM <br />
+															Wed 9:00AM - 8:00PM <br />
+															Thu 9:00AM - 8:00PM <br />
+															Fri 9:00AM - 8:00PM <br />
+															Sat 9:00AM - 8:00PM <br />
+															Sun 9:00AM - 6:00PM
+														</pre>
+													</div>
+													<div className="four wide column">
+														<div
+															className={`select-button ${
+																selectStore ? "active" : ""
+															}`}
+															onClick={() => {
+																setStoreLocation(
+																	`Store A, Shopping Center A, 234 Abc Street, ${city}`
+																);
+																setSelectStore(true);
+															}}
+														>
+															{selectStore ? "Selected" : "Select"}
+														</div>
+													</div>
+												</div>
+											)}
+										</div>
+									</div>
+								)}
 							</div>
 							<div className="ui divider"></div>
 							{currUser && (
 								<div className="delivery-address">
+									<h2>SHIPPING ADDRESS</h2>
 									<div className="ui grid">
 										<div className="three wide column">
 											<p>{currUser.name}</p>
@@ -164,11 +240,13 @@ const Payment = () => {
 											<p>{currUser.phone}</p>
 										</div>
 										<div className="three wide column">
-											<div className="ui vertical animated button" tabIndex="0">
-												<div className="hidden content">
-													<FaCheck />
-												</div>
-												<div className="visible content">Selected</div>
+											<div
+												className={`select-button active`}
+												onClick={() => {
+													// setSelectStore(true);
+												}}
+											>
+												Selected
 											</div>
 										</div>
 									</div>

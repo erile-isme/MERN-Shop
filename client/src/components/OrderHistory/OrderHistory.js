@@ -37,7 +37,11 @@ const OrderHistory = () => {
 							<span>
 								<p>Order Number: {order.orderNumber}</p>
 								<p>Order status: {order.orderStatus}</p>
-								<p>Estimated delivery time: {order.deliveredBy}</p>
+								<p>
+									Estimated{" "}
+									{order.shippingMethod === "ship" ? "delivery" : "pick up"}{" "}
+									time: {order.deliveredBy}
+								</p>
 							</span>
 						</div>
 					))}

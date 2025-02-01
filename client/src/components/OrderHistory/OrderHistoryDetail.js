@@ -27,8 +27,21 @@ const OrderHistoryDetail = () => {
 					<h3>DATE OF ORDER: {order.dateOfOrder}</h3>
 					<p>Order number #: {order.orderNumber}</p>
 					<p>Order Status: {order.orderStatus}</p>
-					<p>Delivered By: {order.deliveredBy}</p>
-					<p>Shipping fee: CAD ${order.shippingFee}</p>
+					<p>
+						Order type:{" "}
+						{order.shippingMethod === "ship" ? "Ship To Address" : "Pick up"}
+					</p>
+					<p>
+						{order.shippingMethod === "ship"
+							? "Delivered By: "
+							: "Ready to Pick up By: "}
+						{order.deliveredBy}
+					</p>
+					{order.shippingMethod === "ship" ? (
+						<p>Shipping fee: CAD ${order.shippingFee}</p>
+					) : (
+						<p>Pick up Store Location: {order.storeLocation}</p>
+					)}
 					<p></p>
 				</div>
 				<div className="ui divider"></div>
@@ -56,7 +69,7 @@ const OrderHistoryDetail = () => {
 					<h3>ORDER SUMMARY</h3>
 					{order.orderItems &&
 						order.orderItems.length > 0 &&
-						order.orderItems.map((item, index) => (
+						order.orderItems.map(item => (
 							<ProductBand key={item._id} product={item} />
 						))}
 					<div className="ui divider"></div>

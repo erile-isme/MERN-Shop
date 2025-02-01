@@ -1,7 +1,8 @@
 import React, { useEffect, useRef, useState } from "react";
+import { errorMessage } from "../../shared/tools";
 import emailjs from "emailjs-com";
 import "./Newsletter.css";
-import { errorMessage } from "../../shared/tools";
+import { ToastContainer } from "react-toastify";
 
 const Newsletter = () => {
 	const form = useRef();
@@ -37,6 +38,7 @@ const Newsletter = () => {
 
 	return (
 		<div className="newsletter-container">
+			<ToastContainer />
 			<div className="newsletter-body">
 				<div className="newsletter-title">Newsletter.</div>
 				<div className="newsletter-description">

@@ -58,7 +58,7 @@ export const successMessage = (message, position) =>
 		theme: "dark",
 	});
 
-export const errorMessage = (error, position) =>
+export const errorMessage = (error, position) => {
 	toast.error(error, {
 		position: position || "bottom-left",
 		autoClose: 2000,
@@ -66,3 +66,4 @@ export const errorMessage = (error, position) =>
 		closeOnClick: true,
 		theme: "dark",
 	});
+};

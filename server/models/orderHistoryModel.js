@@ -5,6 +5,8 @@ const orderHistorySchema = mongoose.Schema({
 	dateOfOrder: { type: String },
 	orderNumber: { type: String, unique: true },
 	orderStatus: { type: String, required: true },
+	shippingMethod: { type: String, required: true },
+	storeLocation: { type: String },
 	deliveredBy: { type: String },
 	orderItems: [
 		{
