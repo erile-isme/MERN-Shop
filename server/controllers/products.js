@@ -149,3 +149,22 @@ export const getProduct = async (req, res) => {
 
 	res.status(200).json(product);
 };
+
+export const findProduct = async (req, res) => {
+	const { name } = req.query;
+
+	if (!name) {
+		return res.status(400).json({ message: "Search term required" });
+	}
+
+	try {
+		const products = await Product.find({
+			name: { $regex: name, $options: "i" },
+		}).populate("category", "name");
+		console.log(products);
+
+		res.json(products);
+	} catch (error) {
+		res.status(500).json({ message: "Server error", error });
+	}
+};

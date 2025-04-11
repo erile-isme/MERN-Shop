@@ -1,6 +1,6 @@
 import React from "react";
 import Category from "../Category/Category";
-import ProductLists from "../ProductList/ProductLists";
+import ProductLists from "../ProductList/ProductListHome";
 import Slider from "../Slider/Slider";
 
 const Home = () => {

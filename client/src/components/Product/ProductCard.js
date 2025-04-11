@@ -3,13 +3,9 @@ import { Link } from "react-router-dom";
 import "./ProductCard.css";
 
 const ProductCard = ({ product }) => {
-	// const dispatch = useDispatch();
-
 	useEffect(() => {
 		window.scroll(0, 0);
 	}, []);
-
-	console.log(product);
 
 	return product ? (
 		<div className="ui card">
@@ -27,9 +23,6 @@ const ProductCard = ({ product }) => {
 				>
 					{product.name}
 				</Link>
-				{/* <div className="meta">
-									<span className="date">Women</span>
-								</div> */}
 				<div className="description">{product.description.features}</div>
 			</div>
 			<div className="extra content prodcard">

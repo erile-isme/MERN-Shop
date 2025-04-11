@@ -10,7 +10,8 @@ import ProductDetail from "./components/ProductDetail/ProductDetail";
 import Navbar from "./components/Navbar/Navbar";
 import ProdForm from "./components/Form/ProductForm";
 import CateForm from "./components/Form/CategoryForm";
-import ProductLists from "./components/ProductList/ProductLists";
+// import ProductListHome from "./components/ProductList/ProductListHome";
+import ProductListGeneral from "./components/ProductList/ProductListGeneral";
 import ProductCategory from "./components/Category/ProductCategory";
 import Newsletter from "./components/Newsletter/Newsletter";
 import Footer from "./components/Footer/Footer";
@@ -24,11 +25,13 @@ import Profile from "./components/Account/Profile";
 import Sidebar from "./components/Navbar/Sidebar";
 import WishList from "./components/WishList/WishList";
 import "./index.css";
+import ProductSearch from "./components/Search/ProductSearch";
 // import Sale from "./components/Sale/Sale";
 
 const App = () => {
 	const [currId, setCurrId] = useState(null);
 	const [sideBar, setSideBar] = useState(false);
+	const [openSearch, setOpenSearch] = useState(false);
 
 	useEffect(() => {
 		window.scrollTo(0, 0);
@@ -36,9 +39,14 @@ const App = () => {
 
 	return (
 		<div>
-			<div className={`overlay ${sideBar ? "active" : ""}`}></div>
+			<div className={`overlay ${sideBar || openSearch ? "active" : ""}`}></div>
 			<BrowserRouter>
-				<Navbar sideBar={sideBar} setSideBar={setSideBar} />
+				<Navbar
+					sideBar={sideBar}
+					setSideBar={setSideBar}
+					openSearch={openSearch}
+					setOpenSearch={setOpenSearch}
+				/>
 				{sideBar && (
 					<Sidebar sideBar={sideBar} setSideBar={() => setSideBar(!sideBar)} />
 				)}
@@ -49,7 +57,8 @@ const App = () => {
 						path="/products/:category/:productId"
 						element={<ProductDetail />}
 					/>
-					<Route path="/products" element={<ProductLists />} />
+					<Route path="/products" element={<ProductListGeneral />} />
+					<Route path="/products/search" element={<ProductSearch />} />
 					<Route path="/categories/:categoryId" element={<ProductCategory />} />
 					<Route path="/login" element={<Login />} />
 

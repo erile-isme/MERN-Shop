@@ -5,6 +5,7 @@ export const FETCH_ALL = "FETCH_ALL";
 export const FETCH_SLIDER = "FETCH_SLIDER";
 export const CREATEPROD = "CREATEPROD";
 export const GETPROD = "GETPROD";
+export const FINDPROD = "FINDPROD";
 export const GETPROD_CATE = "GETPROD_CATE";
 
 //Category

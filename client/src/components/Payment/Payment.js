@@ -4,7 +4,6 @@ import { useNavigate } from "react-router-dom";
 import { addToOrderHistory } from "../../actions/orderHistoryAction";
 import { fetchCart } from "../../actions/cartAction";
 import { getUser } from "../../actions/userAction";
-import { FaCheck } from "react-icons/fa";
 import { useOrder } from "../OrderSummary/OrderProvider";
 import Loading from "../Loading/Loading";
 import OrderSummary from "../OrderSummary/OrderSummary";

@@ -3,6 +3,7 @@ import {
 	FETCH_ALL,
 	CREATEPROD,
 	GETPROD,
+	FINDPROD,
 	GETPROD_CATE,
 	FETCH_SLIDER,
 } from "../shared/actionTypes";
@@ -42,6 +43,16 @@ export const getProduct = id => async dispatch => {
 	try {
 		const { data } = await api.getProduct(id);
 		dispatch({ type: GETPROD, payload: data });
+	} catch (error) {
+		console.log(error);
+	}
+};
+
+export const findProduct = productName => async dispatch => {
+	try {
+		const { data } = await api.findProduct(productName);
+		console.log(data);
+		dispatch({ type: FINDPROD, payload: data });
 	} catch (error) {
 		console.log(error);
 	}

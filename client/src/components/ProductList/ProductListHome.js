@@ -3,9 +3,9 @@ import { useDispatch, useSelector } from "react-redux";
 import { fetchAllProducts } from "../../actions/productAction";
 import { fetchFavorites } from "../../actions/favoriteAction";
 import ProductShortcut from "../Product/ProductShortcut";
-import "./ProductLists.css";
+import "./ProductListHome.css";
 
-const ProductLists = () => {
+const ProductListHome = () => {
 	const dispatch = useDispatch();
 	const [favoriteUpdated, setFavoriteUpdated] = useState(false);
 	const productLists = useSelector(state => state?.products.products);
@@ -41,4 +41,4 @@ const ProductLists = () => {
 	);
 };
 
-export default ProductLists;
+export default ProductListHome;

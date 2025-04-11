@@ -9,6 +9,6 @@
 
 .img-prodcard {
     width: 290px;
-    object-fit: cover;
     height: 450px;
+    object-fit: cover;
 }

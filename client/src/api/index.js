@@ -23,6 +23,8 @@ export const fetchProd = () => API.get("/products");
 export const fetchSlider = () => API.get("/products/slider");
 export const createProd = product => API.post("/products/uploads", product);
 export const getProduct = id => API.get(`/products/${id}`);
+export const findProduct = productName =>
+	API.get(`/products/search?name=${productName}`);
 export const getProductsInCategory = cateId =>
 	API.get(`/products/categories/${cateId}`);
 export const uploadPhotos = formData =>

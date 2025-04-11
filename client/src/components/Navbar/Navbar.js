@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchCart } from "../../actions/cartAction";
@@ -12,10 +12,9 @@ import Badge from "@mui/material/Badge";
 import Search from "../Search/Search";
 import "./Navbar.css";
 
-const Navbar = ({ sideBar, setSideBar }) => {
+const Navbar = ({ sideBar, setSideBar, openSearch, setOpenSearch }) => {
 	const dispatch = useDispatch();
 	const navigate = useNavigate();
-	const [search, setSearch] = useState(false);
 
 	const token = localStorage.getItem("token");
 	const cartList = useSelector(state => state?.cart);
@@ -41,8 +40,13 @@ const Navbar = ({ sideBar, setSideBar }) => {
 				</div>
 				<div className="navbar-right">
 					<div className="navbar-search">
-						<div>{search && <Search />}</div>
-						<FaSearch className="icon" onClick={() => setSearch(!search)} />
+						{openSearch && (
+							<Search openSearch={openSearch} setOpenSearch={setOpenSearch} />
+						)}
+						<FaSearch
+							className="icon"
+							onClick={() => setOpenSearch(!openSearch)}
+						/>
 					</div>
 					<div onClick={() => navigate("/cart")}>
 						<Badge
@@ -56,21 +60,6 @@ const Navbar = ({ sideBar, setSideBar }) => {
 					</div>
 					{token ? (
 						<div className="profile-icon">
-							{/* <div className="dropdown">
-								<button
-									className="btn btn-secondary dropdown-toggle"
-									type="button"
-									data-bs-toggle="dropdown"
-									aria-expanded="false"
-								>
-									Dropdown button
-								</button>
-								<ul className="dropdown-menu">
-									<li>Action</li>
-									<li>Another action</li>
-									<li>Something else here</li>
-								</ul>
-							</div> */}
 							<Dropdown
 								trigger={
 									<span className="dropdown span">
@@ -110,7 +99,6 @@ const Navbar = ({ sideBar, setSideBar }) => {
 									</DropdownItem>
 								</DropdownMenu>
 							</Dropdown>
-							{/* <p>Hello {currentUser?.name}</p> */}
 						</div>
 					) : (
 						<div onClick={() => navigate("/login")}>

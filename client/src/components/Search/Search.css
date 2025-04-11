@@ -1,0 +1,29 @@
+.search-menu {
+  display: flex;
+  flex-direction: column;
+  position: fixed;
+  gap: 1.5rem;
+  padding: 1rem 1rem 0 3rem;
+  width: 20%;
+  height: 100vh;
+  top: 0;
+  right: -100%;
+  z-index: 998;
+  background-color: var(--color-white);
+  transition: var(--transition);
+}
+.search-menu.active {
+  transition: var(--transition);
+  right: 0;
+}
+.search-title {
+    display: flex;
+    justify-content: space-between;
+}
+.close-button {
+    font-size: 30px;
+    display: flex;
+    position: absolute;
+    top: 1rem;
+    right: 1rem;
+}

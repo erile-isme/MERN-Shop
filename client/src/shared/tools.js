@@ -26,7 +26,7 @@ export const NAV_MENU = [
 		name: "Cart",
 		href: "/cart",
 	},
-	{ icon: <MdInventory />, name: "Products", href: "/products" },
+	{ icon: <MdInventory />, name: "All Products", href: "/products" },
 	// {
 	// 	name: "Add new Product",
 	// 	href: "/addProd",
