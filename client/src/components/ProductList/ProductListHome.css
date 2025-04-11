@@ -3,14 +3,12 @@
   max-width: 95%;
   display: flex;
   flex-direction: column;
-  align-items: center;
-  justify-content: center;
   box-sizing: border-box;
 }
 
 .ui.grid.productlist {
   display: flex;
-  justify-content: left;
+  justify-content: center;
   align-items: center;
   margin: 0 auto; 
 }

@@ -91,7 +91,7 @@ const ProductFilter = ({ allProducts }) => {
 	};
 
 	return (
-		<div className="ui container product-filter">
+		<div className="product-filter">
 			<div className="search-filter">
 				{/** FILTER FOR PRICE */}
 				<FormControl sx={{ m: 0.5, width: 200 }}>
@@ -156,7 +156,12 @@ const ProductFilter = ({ allProducts }) => {
 					</Select>
 				</FormControl>
 				{/** FILTER FOR RESET */}
-				<div className="reset-button" onClick={() => setFilterProducts(allProducts)}>Reset</div>
+				<div
+					className="reset-button"
+					onClick={() => setFilterProducts(allProducts)}
+				>
+					Reset
+				</div>
 			</div>
 
 			{/** Display all searched products using ProductCard */}

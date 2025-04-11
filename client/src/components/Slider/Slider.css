@@ -21,16 +21,6 @@
   margin: auto;
   transition: var(--transition);
 }
-.slider-arrow.left {
-  top: 50%;
-  left: 12%;
-  cursor: pointer;
-}
-.slider-arrow.right {
-  top: 50%;
-  right: 12%;
-  cursor: pointer;
-}
 .slider-arrow.left:hover,
 .slider-arrow.right:hover {
   transform: scale(1.3);

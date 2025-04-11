@@ -1,5 +1,5 @@
-.ui.container.product-filter {
-    margin: 5rem 0 5rem 0;
+.product-filter {
+    margin: 5rem 5rem;
     display: flex;
     flex-direction: column;
     gap: 2rem;
@@ -7,12 +7,15 @@
 .ui.grid.display {
     gap: 1rem;
     margin: 0 0;
+    align-items: center;
+    justify-content: center;
 }
 .search-filter {
     display: flex;
     flex-direction: row;
     gap: 2rem;
     align-items: center;
+    justify-content: center;
 }
 .reset-button {
     border: solid 1px var(--color-black);
