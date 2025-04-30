@@ -18,13 +18,7 @@ const ProductSearch = () => {
 		if (searchTerm) dispatch(findProduct(searchTerm));
 	}, [dispatch, searchTerm]);
 
-	return (
-		<div>
-			{searchedProducts && searchedProducts.length > 0 && (
-				<ProductFilter allProducts={searchedProducts} />
-			)}
-		</div>
-	);
+	return <ProductFilter allProducts={searchedProducts} />;
 };
 
 export default ProductSearch;
