@@ -10,10 +10,6 @@ const ProductSearch = () => {
 	const searchTerm = searchParams.get("name");
 	const searchedProducts = useSelector(state => state?.products?.searchedProducts);
 
-	console.log(searchTerm)
-	console.log(searchedProducts)
-
-	
 	useEffect(() => {
 		if (searchTerm) dispatch(findProduct(searchTerm));
 	}, [dispatch, searchTerm]);

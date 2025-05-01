@@ -6,8 +6,7 @@ import { Link } from "react-router-dom";
 
 const OrderHistory = () => {
 	const dispatch = useDispatch();
-	const orderHistory = useSelector(state => state.orderHistory);
-	console.log(orderHistory);
+	const orderHistory = useSelector(state => state.orderHistory).reverse();
 
 	useEffect(() => {
 		window.scrollTo(0, 0);

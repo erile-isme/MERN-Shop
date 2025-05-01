@@ -7,10 +7,10 @@ import { getUser } from "../../actions/userAction";
 import { useOrder } from "../OrderSummary/OrderProvider";
 import Loading from "../Loading/Loading";
 import OrderSummary from "../OrderSummary/OrderSummary";
-import "./Payment.css";
 import ProductBand from "../Product/ProductBand";
 import { errorMessage } from "../../shared/tools";
 import { ToastContainer } from "react-toastify";
+import "./Payment.css";
 
 const Payment = () => {
 	const dispatch = useDispatch();
@@ -25,6 +25,7 @@ const Payment = () => {
 	const [store, setStore] = useState(false);
 	const [storeLocation, setStoreLocation] = useState("");
 	const [selectStore, setSelectStore] = useState(false);
+	const [address, setAddress] = useState(true);
 
 	const { totalBeforeTax, tax, orderTotal, shippingFee } = useOrder();
 
@@ -137,7 +138,9 @@ const Payment = () => {
 										<h4>Ship To Address</h4>
 										<p>
 											Expected Deliver:{" "}
-											{selectedShipping === "ship" ? deliveryDate : "Estimate"}
+											{selectedShipping === "ship" && address
+												? deliveryDate
+												: "Estimate"}
 										</p>
 									</div>
 								</div>
@@ -180,8 +183,10 @@ const Payment = () => {
 													<div
 														className="find-button"
 														onClick={() => {
-															if (store !== "") setStore(true);
-															else errorMessage("Please enter the city name!");
+															if (city !== "") {
+																setStore(true);
+															} else
+																errorMessage("Please enter the city name!");
 														}}
 													>
 														Find a store
@@ -207,7 +212,7 @@ const Payment = () => {
 													<div className="four wide column">
 														<div
 															className={`select-button ${
-																selectStore ? "active" : ""
+																storeLocation ? "active" : ""
 															}`}
 															onClick={() => {
 																setStoreLocation(
@@ -240,12 +245,14 @@ const Payment = () => {
 										</div>
 										<div className="three wide column">
 											<div
-												className={`select-button active`}
+												className={`select-button ${
+													selectedShipping === "pickup" ? "disabled" : ""
+												}`}
 												onClick={() => {
-													// setSelectStore(true);
+													setAddress(!address);
 												}}
 											>
-												Selected
+												{selectStore || address ? "Selected" : "Select"}
 											</div>
 										</div>
 									</div>

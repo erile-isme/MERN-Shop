@@ -117,6 +117,13 @@ h4:first-child {
     color: var(--color-white);
 }
 
+.select-button.disabled {
+    pointer-events: none;
+    background-color: var(--color-secondary);
+    border: solid var(--color-secondary);
+    opacity: 0.4;
+}
+
 .ui.grid.store-location {
     margin-top: 1rem;
 }

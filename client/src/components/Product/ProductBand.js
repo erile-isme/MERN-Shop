@@ -1,7 +1,9 @@
 import React, { useEffect, useState } from "react";
 import "./ProductBand.css";
+import { useNavigate } from "react-router-dom";
 
 const ProductBand = ({ product }) => {
+	const navigate = useNavigate();
 	const [imgpath, setImgpath] = useState("");
 	const [color, setColor] = useState("");
 	const [size, setSize] = useState("");
@@ -48,7 +50,13 @@ const ProductBand = ({ product }) => {
 					}
 				>
 					<div className="item-title">
-						<h2>{product.name.toUpperCase()}</h2>
+						<a
+							href={() =>
+								navigate(`/products/${product.category.name}/${product._id}`)
+							}
+						>
+							<h2>{product.name.toUpperCase()}</h2>
+						</a>
 					</div>
 					<div className="item-content">
 						<p>{!color ? "" : `Color: ${color}`}</p>
